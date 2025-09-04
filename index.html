@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator</title>
+  <style>
+    :root{
+      --bg: #0f0f13;
+      --panel: #1e1e2d;
+      --display: #0e0e14;
+      --btn: #333155;
+      --btnText: #fff;
+      --opBtn: #f59e0b;
+      --opBtnText: #1b1b1b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 20% 20%, #2a2a2a 0%, #15151b 40%, #0b0b14 100%);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
+      color: #fff;
+    }
+
+    .calculator {
+      width: 360px;
+      background: #0f0f15;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.5);
+    }
+
+    .screen {
+      background: #1a1a26;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      text-align: right;
+      overflow: hidden;
+    }
+
+    .expression {
+      color: #a3a3a3;
+      font-size: 14px;
+      height: 18px;
+      line-height: 18px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .display {
+      font-size: 42px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      min-height: 48px;
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      height: 64px;
+      border: none;
+      border-radius: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      background: var(--btn);
+      color: var(--btnText);
+      transition: transform .05s ease;
+      user-select: none;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn.op { background: var(--opBtn); color: var(--opBtnText); font-weight: 700; }
+
+    .btn.span-2 { grid-column: span 2; }
+
+    @media (max-width: 420px) {
+      .calculator { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator" aria-label="Calculator">
+    <div class="screen" aria-label="Screen">
+      <div id="expression" class="expression" aria-live="polite"></div>
+      <div id="display" class="display">0</div>
+    </div>
+
+    <div class="buttons" aria-label="Calculator buttons">
+      <!-- Row 1 -->
+      <button class="btn" data-action="clear" title="Clear (AC)">AC</button>
+      <button class="btn" data-action="backspace" title="Delete">DEL</button>
+      <button class="btn" data-action="percent" title="Percent">%</button>
+      <button class="btn" data-action="operator" data-value="÷" title="Divide">÷</button>
+
+      <!-- Row 2 -->
+      <button class="btn" data-action="digit" data-value="7" title="7">7</button>
+      <button class="btn" data-action="digit" data-value="8" title="8">8</button>
+      <button class="btn" data-action="digit" data-value="9" title="9">9</button>
+      <button class="btn" data-action="operator" data-value="×" title="Multiply">×</button>
+
+      <!-- Row 3 -->
+      <button class="btn" data-action="digit" data-value="4" title="4">4</button>
+      <button class="btn" data-action="digit" data-value="5" title="5">5</button>
+      <button class="btn" data-action="digit" data-value="6" title="6">6</button>
+      <button class="btn" data-action="operator" data-value="-" title="Subtract">−</button>
+
+      <!-- Row 4 -->
+      <button class="btn" data-action="digit" data-value="1" title="1">1</button>
+      <button class="btn" data-action="digit" data-value="2" title="2">2</button>
+      <button class="btn" data-action="digit" data-value="3" title="3">3</button>
+      <button class="btn" data-action="operator" data-value="+" title="Add">+</button>
+
+      <!-- Row 5: 0 (span 2), ., = -->
+      <button class="btn span-2" data-action="digit" data-value="0" title="0">0</button>
+      <button class="btn" data-action="dot" data-value="." title="Decimal">.</button>
+      <button class="btn" data-action="equals" title="Equals">=</button>
+    </div>
+  </div>
+
+  <script>
+    // Calculator state
+    let displayValue = '0';
+    let total = null;
+    let pendingOp = null;
+    let shouldResetDisplay = false;
+
+    const displayEl = document.getElementById('display');
+    const exprEl = document.getElementById('expression');
+
+    function updateDisplay() {
+      displayEl.textContent = displayValue;
+      // Show a simple expression on top if available
+      if (total != null && pendingOp != null) {
+        exprEl.textContent = `${total} ${pendingOp}`;
+      } else if (pendingOp != null && displayValue !== '0') {
+        exprEl.textContent = `${displayValue} ${pendingOp}`;
+      } else {
+        exprEl.textContent = '';
+      }
+    }
+
+    function inputDigit(d) {
+      if (shouldResetDisplay) {
+        displayValue = d;
+        shouldResetDisplay = false;
+      } else {
+        displayValue = displayValue === '0' ? d : displayValue + d;
+      }
+      updateDisplay();
+    }
+
+    function inputDecimal() {
+      if (shouldResetDisplay) {
+        displayValue = '0.';
+        shouldResetDisplay = false;
+      } else if (!displayValue.includes('.')) {
+        displayValue += '.';
+      }
+      updateDisplay();
+    }
+
+    function operate(a, b, op) {
+      switch (op) {
+        case '+': return a + b;
+        case '−':
+        case '-': return a - b;
+        case '×':
+        case '*': return a * b;
+        case '÷':
+        case '/': return b === 0 ? NaN : a / b;
+        default: return b;
+      }
+    }
+
+    function handleOperator(op) {
+      const current = parseFloat(displayValue);
+      if (Number.isNaN(current)) {
+        // ignore invalid
+        return;
+      }
+      if (total == null) {
+        total = current;
+      } else if (pendingOp) {
+        total = operate(total, current, pendingOp);
+        if (!Number.isFinite(total)) {
+          // Division by zero or overflow
+          clearAll();
+          displayValue = 'Error';
+          updateDisplay();
+          return;
+        }
+      }
+      pendingOp = op;
+      shouldResetDisplay = true;
+      updateDisplay();
+    }
+
+    function equals() {
+      const current = parseFloat(displayValue);
+      if (pendingOp != null && total != null) {
+        total = operate(total, current, pendingOp);
+        if (!Number.isFinite(total)) {
+          clearAll();
+          displayValue = 'Error';
+          updateDisplay();
+          return;
+        }
+        displayValue = String(total);
+        // Reset for new calculation
+        total = null;
+        pendingOp = null;
+        shouldResetDisplay = true;
+        updateDisplay();
+      }
+    }
+
+    function clearAll() {
+      displayValue = '0';
+      total = null;
+      pendingOp = null;
+      shouldResetDisplay = false;
+      updateDisplay();
+    }
+
+    function backspace() {
+      if (shouldResetDisplay) return;
+      if (displayValue.length > 1) {
+        displayValue = displayValue.slice(0, -1);
+      } else {
+        displayValue = '0';
+      }
+      updateDisplay();
+    }
+
+    function percent() {
+      const current = parseFloat(displayValue);
+      if (!Number.isNaN(current)) {
+        displayValue = String(current / 100);
+        updateDisplay();
+      }
+    }
+
+    function dotOrZero() {
+      // For safety, if needed
+      inputDecimal();
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      const key = e.key;
+      if (/\d/.test(key)) {
+        inputDigit(key);
+        e.preventDefault();
+      } else if (key === '.') {
+        inputDecimal();
+        e.preventDefault();
+      } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        const map = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+        handleOperator(map[key] || key);
+        e.preventDefault();
+      } else if (key === 'Enter' || key === '=') {
+        equals();
+        e.preventDefault();
+      } else if (key === 'Backspace') {
+        backspace();
+        e.preventDefault();
+      } else if (key === '%') {
+        percent();
+        e.preventDefault();
+      } else if (key === 'Escape') {
+        clearAll();
+        e.preventDefault();
+      }
+    });
+
+    // Button interactions
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.getAttribute('data-action');
+        const value = btn.getAttribute('data-value');
+        if (action === 'digit') {
+          inputDigit(value);
+        } else if (action === 'dot') {
+          inputDecimal();
+        } else if (action === 'operator') {
+          handleOperator(value);
+        } else if (action === 'equals') {
+          equals();
+        } else if (action === 'clear') {
+          clearAll();
+        } else if (action === 'backspace') {
+          backspace();
+        } else if (action === 'percent') {
+          percent();
+        }
+      });
+    });
+
+    // Initialize display
+    updateDisplay();
+  </script>
+</body>
+</html>
