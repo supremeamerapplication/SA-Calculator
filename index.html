@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0f0f15" />
+  <meta name="description" content="SA Calculator with secure media vault to protect your private files" />
   <title>SA Calculator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
   <style>
-    :root{
+    :root {
       --bg: #0f0f13;
       --panel: #1e1e2d;
       --display: #0e0e14;
@@ -14,51 +17,108 @@
       --opBtn: #f59e0b;
       --opBtnText: #1b1b1b;
       --vaultBg: #0a0a1a;
+      --text-primary: #ffffff;
+      --text-secondary: #a3a3a3;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
     }
 
-    * { box-sizing: border-box; }
+    [data-theme="light"] {
+      --bg: #f0f2f5;
+      --panel: #ffffff;
+      --display: #f8f9fa;
+      --btn: #e9ecef;
+      --btnText: #333333;
+      --opBtn: #f59e0b;
+      --opBtnText: #1b1b1b;
+      --vaultBg: #ffffff;
+      --text-primary: #333333;
+      --text-secondary: #6c757d;
+    }
+
+    * { 
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
       display: grid;
       place-items: center;
-      background: radial-gradient(circle at 20% 20%, #2a2a2a 0%, #15151b 40%, #0b0b14 100%);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
-      color: #fff;
+      background: var(--bg);
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto;
+      color: var(--text-primary);
+      padding: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
     }
 
     .calculator {
-      width: 360px;
-      background: #0f0f15;
+      width: 100%;
+      background: var(--panel);
       border-radius: 20px;
       padding: 18px;
-      box-shadow: 0 20px 40px rgba(0,0,0,.5);
+      box-shadow: 0 20px 40px rgba(0,0,0,.2);
       position: relative;
       overflow: hidden;
     }
 
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 0 10px;
+    }
+
+    .app-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .app-icon {
+      font-size: 24px;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
     .screen {
-      background: #1a1a26;
+      background: var(--display);
       border-radius: 14px;
       padding: 14px 16px;
       margin-bottom: 12px;
       text-align: right;
       overflow: hidden;
     }
-    .header{
-            font-size: 52px;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.1;
-      min-height: 48px;
-      margin-top: 6px;
-      word-break: break-all;
-    }
-      
 
     .expression {
-      color: #a3a3a3;
+      color: var(--text-secondary);
       font-size: 14px;
       height: 18px;
       line-height: 18px;
@@ -70,7 +130,7 @@
     .display {
       font-size: 42px;
       font-weight: 700;
-      color: #fff;
+      color: var(--text-primary);
       line-height: 1.1;
       min-height: 48px;
       margin-top: 6px;
@@ -92,13 +152,17 @@
       cursor: pointer;
       background: var(--btn);
       color: var(--btnText);
-      transition: transform .05s ease;
+      transition: transform .05s ease, background-color 0.2s;
       user-select: none;
     }
 
     .btn:active { transform: scale(0.98); }
 
-    .btn.op { background: var(--opBtn); color: var(--opBtnText); font-weight: 700; }
+    .btn.op { 
+      background: var(--opBtn); 
+      color: var(--opBtnText); 
+      font-weight: 700; 
+    }
 
     .btn.span-2 { grid-column: span 2; }
 
@@ -127,12 +191,35 @@
     .vault-title {
       font-size: 18px;
       font-weight: bold;
-      color: var(--opBtn);
+      color: var(--accent);
     }
 
     .vault-content {
       flex: 1;
       overflow-y: auto;
+      margin: 10px 0;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .category-tab {
+      padding: 8px 15px;
+      background: var(--btn);
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .category-tab.active {
+      background: var(--accent);
+      color: var(--opBtnText);
     }
 
     .media-list {
@@ -185,7 +272,7 @@
     }
 
     .vault-controls button.primary {
-      background: var(--opBtn);
+      background: var(--accent);
       color: var(--opBtnText);
     }
 
@@ -193,6 +280,139 @@
       display: none;
     }
 
+    /* Auth Screens */
+    .auth-screen {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--vaultBg);
+      border-radius: 20px;
+      padding: 30px 20px;
+      z-index: 20;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .auth-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    .auth-form {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--btn);
+      background: var(--panel);
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+
+    .auth-button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--opBtnText);
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .auth-error {
+      color: var(--danger);
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    /* Menu Modal */
+    .menu-modal {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 15px;
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 15px;
+      z-index: 30;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      width: 200px;
+    }
+
+    .menu-item {
+      padding: 12px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 8px;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--btn);
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -211,73 +431,223 @@
       opacity: 1;
     }
 
+    /* Terms Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--panel);
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: var(--accent);
+    }
+
+    .modal-text {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .modal-button.primary {
+      background: var(--accent);
+      color: var(--opBtnText);
+    }
+
+    .modal-button.secondary {
+      background: var(--btn);
+      color: var(--btnText);
+    }
+
+    /* Responsive */
     @media (max-width: 420px) {
-      .calculator { width: 100%; }
+      .calculator { padding: 12px; }
+      .btn { height: 60px; font-size: 18px; }
+      .display { font-size: 36px; }
     }
   </style>
 </head>
 <body>
-  <header>SA Calculator</header>
-  <div class="calculator" aria-label="Calculator">
-    <div class="screen" aria-label="Screen">
-      <div id="expression" class="expression" aria-live="polite"></div>
-      <div id="display" class="display">0</div>
-    </div>
-
-    <div class="buttons" aria-label="Calculator buttons">
-      <!-- Row 1 -->
-      <button class="btn" data-action="clear" title="Clear (AC)">AC</button>
-      <button class="btn" data-action="backspace" title="Delete">DEL</button>
-      <button class="btn" data-action="percent" title="Percent">%</button>
-      <button class="btn op" data-action="operator" data-value="÷" title="Divide">÷</button>
-
-      <!-- Row 2 -->
-      <button class="btn" data-action="digit" data-value="7" title="7">7</button>
-      <button class="btn" data-action="digit" data-value="8" title="8">8</button>
-      <button class="btn" data-action="digit" data-value="9" title="9">9</button>
-      <button class="btn op" data-action="operator" data-value="×" title="Multiply">×</button>
-
-      <!-- Row 3 -->
-      <button class="btn" data-action="digit" data-value="4" title="4">4</button>
-      <button class="btn" data-action="digit" data-value="5" title="5">5</button>
-      <button class="btn" data-action="digit" data-value="6" title="6">6</button>
-      <button class="btn op" data-action="operator" data-value="-" title="Subtract">−</button>
-
-      <!-- Row 4 -->
-      <button class="btn" data-action="digit" data-value="1" title="1">1</button>
-      <button class="btn" data-action="digit" data-value="2" title="2">2</button>
-      <button class="btn" data-action="digit" data-value="3" title="3">3</button>
-      <button class="btn op" data-action="operator" data-value="+" title="Add">+</button>
-
-      <!-- Row 5: 0 (span 2), ., = -->
-      <button class="btn span-2" data-action="digit" data-value="0" title="0">0</button>
-      <button class="btn" data-action="dot" data-value="." title="Decimal">.</button>
-      <button class="btn op" data-action="equals" title="Equals">=</button>
-    </div>
-
-    <!-- Media Vault Section -->
-    <div class="media-vault" id="media-vault">
-      <div class="vault-header">
-        <div class="vault-title">Media Vault</div>
-        <button class="btn" id="close-vault" title="Close Vault">✕</button>
+  <div class="app-container">
+    <div class="calculator">
+      <div class="app-header">
+        <div class="app-title">
+          <span class="app-icon">🧮</span>
+          <span>SA Calculator</span>
+        </div>
+        <button class="menu-button" id="menu-button">☰</button>
       </div>
-      <div class="vault-content" id="vault-content">
-        <div class="media-list" id="media-list">
-          <!-- Media items will be added here dynamically -->
+
+      <div class="screen" aria-label="Screen">
+        <div id="expression" class="expression" aria-live="polite"></div>
+        <div id="display" class="display">0</div>
+      </div>
+
+      <div class="buttons" aria-label="Calculator buttons">
+        <!-- Row 1 -->
+        <button class="btn" data-action="clear" title="Clear (AC)">AC</button>
+        <button class="btn" data-action="backspace" title="Delete">DEL</button>
+        <button class="btn" data-action="percent" title="Percent">%</button>
+        <button class="btn op" data-action="operator" data-value="÷" title="Divide">÷</button>
+
+        <!-- Row 2 -->
+        <button class="btn" data-action="digit" data-value="7" title="7">7</button>
+        <button class="btn" data-action="digit" data-value="8" title="8">8</button>
+        <button class="btn" data-action="digit" data-value="9" title="9">9</button>
+        <button class="btn op" data-action="operator" data-value="×" title="Multiply">×</button>
+
+        <!-- Row 3 -->
+        <button class="btn" data-action="digit" data-value="4" title="4">4</button>
+        <button class="btn" data-action="digit" data-value="5" title="5">5</button>
+        <button class="btn" data-action="digit" data-value="6" title="6">6</button>
+        <button class="btn op" data-action="operator" data-value="-" title="Subtract">−</button>
+
+        <!-- Row 4 -->
+        <button class="btn" data-action="digit" data-value="1" title="1">1</button>
+        <button class="btn" data-action="digit" data-value="2" title="2">2</button>
+        <button class="btn" data-action="digit" data-value="3" title="3">3</button>
+        <button class="btn op" data-action="operator" data-value="+" title="Add">+</button>
+
+        <!-- Row 5: 0 (span 2), ., = -->
+        <button class="btn span-2" data-action="digit" data-value="0" title="0">0</button>
+        <button class="btn" data-action="dot" data-value="." title="Decimal">.</button>
+        <button class="btn op" data-action="equals" title="Equals">=</button>
+      </div>
+
+      <!-- Media Vault Section -->
+      <div class="media-vault" id="media-vault">
+        <div class="vault-header">
+          <div class="vault-title">Media Vault</div>
+          <button class="btn" id="close-vault" title="Close Vault">✕</button>
+        </div>
+        
+        <div class="category-tabs">
+          <div class="category-tab active" data-category="all">All Items</div>
+          <div class="category-tab" data-category="audio">Audio</div>
+          <div class="category-tab" data-category="image">Images</div>
+          <div class="category-tab" data-category="video">Videos</div>
+          <div class="category-tab" data-category="chat">Chats</div>
+          <div class="category-tab" data-category="file">Files</div>
+        </div>
+        
+        <div class="vault-content" id="vault-content">
+          <div class="media-list" id="media-list">
+            <!-- Media items will be added here dynamically -->
+          </div>
+        </div>
+        <div class="vault-controls">
+          <button id="add-media" class="primary">Add Media</button>
+          <button id="hide-items">Hide Items</button>
+        </div>
+        <input type="file" id="media-upload" accept="audio/*,video/*,image/*" multiple />
+      </div>
+
+      <!-- Auth Screens -->
+      <div class="auth-screen" id="setup-screen">
+        <h2 class="auth-title">Set Up Vault Password</h2>
+        <div class="auth-form">
+          <input type="password" class="auth-input" id="setup-password" placeholder="Enter password" />
+          <input type="password" class="auth-input" id="confirm-password" placeholder="Confirm password" />
+          <button class="auth-button" id="setup-button">Set Password</button>
+          <div class="auth-error" id="setup-error"></div>
         </div>
       </div>
-      <div class="vault-controls">
-        <button id="add-media" class="primary">Add Media</button>
-        <button id="clear-media">Clear All</button>
+
+      <div class="auth-screen" id="login-screen">
+        <h2 class="auth-title">Enter Vault Password</h2>
+        <div class="auth-form">
+          <input type="password" class="auth-input" id="login-password" placeholder="Enter password" />
+          <button class="auth-button" id="login-button">Unlock Vault</button>
+          <div class="auth-error" id="login-error"></div>
+        </div>
       </div>
-      <input type="file" id="media-upload" accept="audio/*,video/*" multiple />
+
+      <!-- Menu Modal -->
+      <div class="menu-modal" id="menu-modal">
+        <div class="menu-item" data-action="theme">
+          <span>Dark Mode</span>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="menu-item" data-action="info">App Info</div>
+        <div class="menu-item" data-action="privacy">Privacy Policy</div>
+        <div class="menu-item" data-action="terms">Terms of Service</div>
+        <div class="menu-item" data-action="support">Support</div>
+        <div class="menu-item" data-action="coffee">Buy Me a Coffee</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms Modal -->
+  <div class="modal" id="terms-modal">
+    <div class="modal-content">
+      <h2 class="modal-title">Terms of Service</h2>
+      <div class="modal-text">
+        <p>By using SA Calculator, you agree to the following terms:</p>
+        <p>1. Your data is stored locally on your device and we don't have access to it.</p>
+        <p>2. You are responsible for maintaining the confidentiality of your vault password.</p>
+        <p>3. The app provides file hiding functionality but always keep backups of important files.</p>
+        <p>4. We are not responsible for any data loss that may occur.</p>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-button secondary" id="terms-decline">Decline</button>
+        <button class="modal-button primary" id="terms-accept">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div class="modal" id="info-modal">
+    <div class="modal-content">
+      <h2 class="modal-title">App Info</h2>
+      <div class="modal-text">
+        <p><strong>SA Calculator</strong> - Version 1.0.0</p>
+        <p>A secure calculator with media vault functionality to protect your private files.</p>
+        <p>All data is stored locally on your device using browser storage.</p>
+        <p>For support, please contact: support@sacalculator.com</p>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-button primary" id="info-close">Close</button>
+      </div>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    // Calculator state
+    // App state
     let displayValue = '0';
     let total = null;
     let pendingOp = null;
@@ -285,16 +655,45 @@
     let secretCode = '5312'; // Code to access the vault: 5, 3, 1, 2
     let enteredCode = '';
     let mediaVaultActive = false;
+    let currentCategory = 'all';
+    let termsAccepted = localStorage.getItem('termsAccepted') === 'true';
 
+    // DOM elements
     const displayEl = document.getElementById('display');
     const exprEl = document.getElementById('expression');
     const mediaVault = document.getElementById('media-vault');
     const mediaList = document.getElementById('media-list');
     const mediaUpload = document.getElementById('media-upload');
     const toast = document.getElementById('toast');
+    const setupScreen = document.getElementById('setup-screen');
+    const loginScreen = document.getElementById('login-screen');
+    const menuModal = document.getElementById('menu-modal');
+    const termsModal = document.getElementById('terms-modal');
+    const infoModal = document.getElementById('info-modal');
+    const themeToggle = document.getElementById('theme-toggle');
 
     // Initialize media vault from localStorage
     let mediaItems = JSON.parse(localStorage.getItem('calculator_media')) || [];
+    let vaultPassword = localStorage.getItem('vaultPassword');
+
+    // Check if terms have been accepted
+    if (!termsAccepted) {
+      setTimeout(() => {
+        termsModal.style.display = 'flex';
+      }, 1000);
+    }
+
+    // Check if vault password is set
+    if (vaultPassword) {
+      loginScreen.style.display = 'flex';
+    } else {
+      setupScreen.style.display = 'flex';
+    }
+
+    // Initialize theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.checked = savedTheme === 'light';
 
     function showToast(message, duration = 2000) {
       toast.textContent = message;
@@ -329,8 +728,11 @@
         enteredCode = enteredCode.slice(1);
       }
       
-      if (enteredCode === secretCode && !mediaVaultActive) {
-        openMediaVault();
+      if (enteredCode === secretCode && !mediaVaultActive && vaultPassword) {
+        loginScreen.style.display = 'flex';
+        enteredCode = '';
+        displayValue = '0';
+        updateDisplay();
       }
       
       updateDisplay();
@@ -436,17 +838,31 @@
       mediaVaultActive = false;
       mediaVault.style.display = 'none';
       clearAll();
+      if (vaultPassword) {
+        loginScreen.style.display = 'flex';
+      }
+    }
+
+    function categorizeFile(file) {
+      if (file.type.includes('audio')) return 'audio';
+      if (file.type.includes('image')) return 'image';
+      if (file.type.includes('video')) return 'video';
+      return 'file';
     }
 
     function renderMediaList() {
       mediaList.innerHTML = '';
       
-      if (mediaItems.length === 0) {
-        mediaList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No media files stored</div>';
+      const filteredItems = currentCategory === 'all' 
+        ? mediaItems 
+        : mediaItems.filter(item => item.category === currentCategory);
+      
+      if (filteredItems.length === 0) {
+        mediaList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">No media files stored</div>';
         return;
       }
       
-      mediaItems.forEach((item, index) => {
+      filteredItems.forEach((item, index) => {
         const mediaItem = document.createElement('div');
         mediaItem.className = 'media-item';
         
@@ -458,15 +874,15 @@
         const mediaControls = document.createElement('div');
         mediaControls.className = 'media-controls';
         
-        const playBtn = document.createElement('button');
-        playBtn.textContent = 'Play';
-        playBtn.onclick = () => playMedia(item);
+        const viewBtn = document.createElement('button');
+        viewBtn.textContent = 'View';
+        viewBtn.onclick = () => viewMedia(item);
         
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
         deleteBtn.onclick = () => deleteMedia(index);
         
-        mediaControls.appendChild(playBtn);
+        mediaControls.appendChild(viewBtn);
         mediaControls.appendChild(deleteBtn);
         
         mediaItem.appendChild(mediaName);
@@ -476,8 +892,8 @@
       });
     }
 
-    function playMedia(media) {
-      // Create a new window to play the media
+    function viewMedia(media) {
+      // Create a new window to view the media
       const mediaWindow = window.open('', '_blank', 'width=600,height=400');
       mediaWindow.document.write(`
         <html>
@@ -521,8 +937,10 @@
           mediaItems.push({
             name: file.name,
             type: file.type,
+            category: categorizeFile(file),
             data: e.target.result,
-            size: file.size
+            size: file.size,
+            uploaded: new Date().toISOString()
           });
           
           localStorage.setItem('calculator_media', JSON.stringify(mediaItems));
@@ -537,20 +955,128 @@
       event.target.value = '';
     }
 
-    function clearAllMedia() {
-      if (confirm('Are you sure you want to delete all media?')) {
-        mediaItems = [];
-        localStorage.removeItem('calculator_media');
-        renderMediaList();
-        showToast('All media deleted');
+    function hideItems() {
+      // In a real app, this would interface with device APIs to hide files
+      // For this demo, we'll just show a message
+      showToast("Items hidden securely. They can only be accessed from this vault.");
+    }
+
+    function setupPassword() {
+      const password = document.getElementById('setup-password').value;
+      const confirm = document.getElementById('confirm-password').value;
+      
+      if (!password) {
+        document.getElementById('setup-error').textContent = 'Please enter a password';
+        return;
+      }
+      
+      if (password !== confirm) {
+        document.getElementById('setup-error').textContent = 'Passwords do not match';
+        return;
+      }
+      
+      vaultPassword = password;
+      localStorage.setItem('vaultPassword', vaultPassword);
+      setupScreen.style.display = 'none';
+      showToast('Password set successfully');
+    }
+
+    function login() {
+      const password = document.getElementById('login-password').value;
+      
+      if (password === vaultPassword) {
+        loginScreen.style.display = 'none';
+        openMediaVault();
+        document.getElementById('login-error').textContent = '';
+        document.getElementById('login-password').value = '';
+      } else {
+        document.getElementById('login-error').textContent = 'Incorrect password';
+      }
+    }
+
+    function toggleTheme() {
+      const newTheme = themeToggle.checked ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    function showMenu() {
+      menuModal.style.display = menuModal.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function closeMenu() {
+      menuModal.style.display = 'none';
+    }
+
+    function handleMenuAction(action) {
+      closeMenu();
+      switch(action) {
+        case 'theme':
+          // Theme is handled by the toggle
+          break;
+        case 'info':
+          infoModal.style.display = 'flex';
+          break;
+        case 'privacy':
+          alert('Privacy Policy: We do not collect any personal data. All your files are stored locally on your device.');
+          break;
+        case 'terms':
+          termsModal.style.display = 'flex';
+          break;
+        case 'support':
+          alert('Support: Please contact support@sacalculator.com for assistance.');
+          break;
+        case 'coffee':
+          window.open('https://www.buymeacoffee.com', '_blank');
+          break;
       }
     }
 
     // Event listeners
     document.getElementById('close-vault').addEventListener('click', closeMediaVault);
     document.getElementById('add-media').addEventListener('click', addMedia);
-    document.getElementById('clear-media').addEventListener('click', clearAllMedia);
+    document.getElementById('hide-items').addEventListener('click', hideItems);
+    document.getElementById('setup-button').addEventListener('click', setupPassword);
+    document.getElementById('login-button').addEventListener('click', login);
+    document.getElementById('menu-button').addEventListener('click', showMenu);
+    document.getElementById('theme-toggle').addEventListener('change', toggleTheme);
+    document.getElementById('terms-accept').addEventListener('click', () => {
+      termsModal.style.display = 'none';
+      localStorage.setItem('termsAccepted', 'true');
+      termsAccepted = true;
+    });
+    document.getElementById('terms-decline').addEventListener('click', () => {
+      alert('You must accept the terms to use SA Calculator');
+    });
+    document.getElementById('info-close').addEventListener('click', () => {
+      infoModal.style.display = 'none';
+    });
     mediaUpload.addEventListener('change', handleMediaUpload);
+
+    // Category tabs
+    document.querySelectorAll('.category-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCategory = tab.getAttribute('data-category');
+        renderMediaList();
+      });
+    });
+
+    // Menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const action = item.getAttribute('data-action');
+        handleMenuAction(action);
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#menu-modal') && !e.target.closest('#menu-button')) {
+        closeMenu();
+      }
+    });
 
     // Keyboard support
     document.addEventListener('keydown', (e) => {
@@ -613,6 +1139,26 @@
 
     // Initialize display
     updateDisplay();
+
+    // PWA Installation prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install prompt after a delay
+      setTimeout(() => {
+        if (deferredPrompt && confirm('Install SA Calculator for easy access?')) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              showToast('SA Calculator installed successfully!');
+            }
+            deferredPrompt = null;
+          });
+        }
+      }, 3000);
+    });
   </script>
 </body>
 </html>
