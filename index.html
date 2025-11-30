@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Quotes</title>
+    <title>Supreme Motive - Life Quotes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,75 +13,175 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #f5f7fa;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --text: #333;
+            --text-light: #7f8c8d;
+        }
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--light);
+            color: var(--text);
             line-height: 1.6;
-            padding: 20px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
+        /* Header & Navigation */
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .category {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 15px 0;
         }
 
-        .category:hover {
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+
+        .categories-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0 20px;
+            scrollbar-width: thin;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .categories-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .category-card {
+            min-width: 180px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .category.active {
-            background-color: #3498db;
+        .category-card.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .active .category-icon {
             color: white;
         }
 
         .category-name {
             font-weight: 600;
+            margin-bottom: 5px;
         }
 
         .category-count {
-            background-color: #ecf0f1;
-            color: #2c3e50;
-            padding: 3px 8px;
+            background-color: var(--light);
+            color: var(--text);
+            padding: 3px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
@@ -91,243 +192,661 @@
             color: white;
         }
 
-        .quote-display {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* Quote Display */
+        .quote-section {
+            padding: 40px 0;
+        }
+
+        .quote-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .quote-text {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-style: italic;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 20px;
+            color: var(--secondary);
             line-height: 1.8;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .quote-text::before, .quote-text::after {
+            content: '"';
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .quote-text::before {
+            top: -20px;
+            left: -20px;
+        }
+
+        .quote-text::after {
+            bottom: -40px;
+            right: -20px;
         }
 
         .quote-category {
-            text-align: center;
-            color: #7f8c8d;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
         }
 
-        .actions {
+        .quote-actions {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-bottom: 30px;
         }
 
-        button {
-            background-color: #3498db;
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .action-btn.like {
+            color: var(--accent);
+        }
+
+        .action-btn.save {
+            color: var(--success);
+        }
+
+        .quote-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Featured App */
+        .featured-app {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            max-width: 800px;
+            margin: 40px auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .app-rating {
+            color: #ffc107;
+            margin-bottom: 5px;
+        }
+
+        .app-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .install-btn {
+            background-color: var(--success);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
-            cursor: pointer;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        .new-quote-btn {
-            background-color: #2ecc71;
-        }
-
-        .new-quote-btn:hover {
+        .install-btn:hover {
             background-color: #27ae60;
         }
 
+        /* Category Page Styles */
+        .category-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .category-description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .quote-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .quote-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .quote-item-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .quote-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .quote-item-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quote-item-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
         footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
             text-align: center;
             margin-top: 40px;
-            color: #7f8c8d;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
             font-size: 0.9rem;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .categories {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
             }
             
             .quote-text {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
+            }
+            
+            .featured-app {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .quotes-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Life Quotes</h1>
-            <p class="subtitle">Inspiration for every moment</p>
-        </header>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-quote-left"></i>
+                    <h1>Supreme Motive</h1>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="favorites.html">Favorites</a>
+                    <a href="about.html">About</a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-        <div class="categories">
-            <div class="category active" data-category="all">
-                <span class="category-name">All Quotes</span>
-                <span class="category-count">807</span>
+    <!-- Main Content - Dynamic based on page -->
+    <main id="main-content">
+        <!-- Home Page Content -->
+        <section class="hero">
+            <div class="container">
+                <h2>Find Your Daily Inspiration</h2>
+                <p>Discover powerful quotes to motivate, inspire, and guide you through life's journey</p>
             </div>
-            <div class="category" data-category="accuracy">
-                <span class="category-name">Accuracy</span>
-                <span class="category-count">143</span>
+        </section>
+
+        <section class="categories-section">
+            <div class="container">
+                <h2 class="section-title">Quote Categories</h2>
+                <div class="categories-container">
+                    <a href="category-action.html" class="category-card">
+                        <i class="fas fa-bolt category-icon"></i>
+                        <div class="category-name">Action</div>
+                        <div class="category-count">24</div>
+                    </a>
+                    <a href="category-accuracy.html" class="category-card">
+                        <i class="fas fa-bullseye category-icon"></i>
+                        <div class="category-name">Accuracy</div>
+                        <div class="category-count">22</div>
+                    </a>
+                    <a href="category-appreciation.html" class="category-card">
+                        <i class="fas fa-heart category-icon"></i>
+                        <div class="category-name">Appreciation</div>
+                        <div class="category-count">21</div>
+                    </a>
+                    <a href="category-attitude.html" class="category-card">
+                        <i class="fas fa-smile category-icon"></i>
+                        <div class="category-name">Attitude</div>
+                        <div class="category-count">23</div>
+                    </a>
+                    <a href="category-being-real.html" class="category-card">
+                        <i class="fas fa-user category-icon"></i>
+                        <div class="category-name">Being Real</div>
+                        <div class="category-count">20</div>
+                    </a>
+                    <a href="category-business.html" class="category-card">
+                        <i class="fas fa-briefcase category-icon"></i>
+                        <div class="category-name">Business</div>
+                        <div class="category-count">25</div>
+                    </a>
+                    <a href="category-change.html" class="category-card">
+                        <i class="fas fa-sync category-icon"></i>
+                        <div class="category-name">Change</div>
+                        <div class="category-count">26</div>
+                    </a>
+                </div>
             </div>
-            <div class="category" data-category="action">
-                <span class="category-name">Action</span>
-                <span class="category-count">74</span>
+        </section>
+
+        <section class="quote-section">
+            <div class="container">
+                <div class="quote-card">
+                    <p class="quote-text">Your words are useless without actions.</p>
+                    <div class="quote-category">Action</div>
+                    <div class="quote-actions">
+                        <button class="action-btn like">
+                            <i class="fas fa-heart"></i> Like
+                        </button>
+                        <button class="action-btn save">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                        <button class="action-btn copy" onclick="copyQuote()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="action-btn share" onclick="shareQuote()">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                    <div class="quote-footer">
+                        <p>As you go on with your life you realize that actions really speak louder than words, and that life depends on the choices you make and the actions you take.</p>
+                    </div>
+                </div>
             </div>
-            <div class="category" data-category="appreciation">
-                <span class="category-name">Appreciation</span>
-                <span class="category-count">142</span>
+        </section>
+
+        <section class="container">
+            <div class="featured-app">
+                <div class="app-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="app-info">
+                    <div class="app-name">Mindful Moments</div>
+                    <div class="app-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        4.5
+                    </div>
+                    <div class="app-description">Daily meditation and mindfulness exercises to reduce stress and improve focus.</div>
+                </div>
+                <button class="install-btn">Install</button>
             </div>
-            <div class="category" data-category="attitude">
-                <span class="category-name">Attitude</span>
-                <span class="category-count">45</span>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Supreme Motive</h3>
+                    <p>Your daily dose of inspiration and motivation. Find quotes that resonate with your journey.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="category-action.html">Action</a></li>
+                        <li><a href="category-motivation.html">Motivation</a></li>
+                        <li><a href="category-success.html">Success</a></li>
+                        <li><a href="category-life.html">Life</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="category" data-category="being-real">
-                <span class="category-name">Being Real</span>
-                <span class="category-count">73</span>
-            </div>
-            <div class="category" data-category="business">
-                <span class="category-name">Business</span>
-                <span class="category-count">107</span>
-            </div>
-            <div class="category" data-category="change">
-                <span class="category-name">Change</span>
-                <span class="category-count">321</span>
+            <div class="copyright">
+                &copy; 2023 Supreme Motive. All rights reserved.
             </div>
         </div>
-
-        <div class="quote-display">
-            <p class="quote-text">"Always speak how you feel and never be sorry for being real."</p>
-            <p class="quote-category">Being Real</p>
-        </div>
-
-        <div class="actions">
-            <button class="new-quote-btn">New Quote</button>
-            <button class="share-btn">Share Quote</button>
-        </div>
-
-        <footer>
-            <p>Life Quotes App &copy; 2023 | Find inspiration in every category</p>
-        </footer>
-    </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const categories = document.querySelectorAll('.category');
-            const quoteText = document.querySelector('.quote-text');
-            const quoteCategory = document.querySelector('.quote-category');
-            const newQuoteBtn = document.querySelector('.new-quote-btn');
-            const shareBtn = document.querySelector('.share-btn');
+        // Quote database with 20+ quotes per category
+        const quotesDatabase = {
+            'action': [
+                "Your words are useless without actions.",
+                "The path to success is to take massive, determined action.",
+                "Well done is better than well said.",
+                "Action is the foundational key to all success.",
+                "Inaction breeds doubt and fear. Action breeds confidence and courage.",
+                "The way to get started is to quit talking and begin doing.",
+                "Small deeds done are better than great deeds planned.",
+                "Action may not always bring happiness, but there is no happiness without action.",
+                "The world is moved by action, not by opinion.",
+                "Take action. An inch of movement will bring you closer to your goals than a mile of intention.",
+                "Action is the real measure of intelligence.",
+                "Thinking will not overcome fear but action will.",
+                "Action is the antidote to despair.",
+                "The best time to plant a tree was 20 years ago. The second best time is now.",
+                "Don't wait for the perfect moment. Take the moment and make it perfect.",
+                "The future depends on what you do today.",
+                "Do something today that your future self will thank you for.",
+                "Action is the proper fruit of knowledge.",
+                "Great acts are made up of small deeds.",
+                "The difference between what we do and what we are capable of doing would suffice to solve most of the world's problems.",
+                "Action expresses priorities.",
+                "The superior man is modest in his speech but exceeds in his actions.",
+                "Action without thought is empty. Thought without action is blind.",
+                "The world can only be grasped by action, not by contemplation."
+            ],
+            'accuracy': [
+                "Details matter, it's worth waiting to get it right.",
+                "Precision is not just about numbers, it's about truth.",
+                "In a world of approximation, accuracy becomes a superpower.",
+                "Accuracy builds credibility.",
+                "The quality of a person's life is in direct proportion to their commitment to excellence.",
+                "Accuracy is the twin brother of honesty; inaccuracy, of dishonesty.",
+                "It takes less time to do a thing right than to explain why you did it wrong.",
+                "The bitterness of poor quality remains long after the sweetness of low price is forgotten.",
+                "Have no fear of perfection - you'll never reach it.",
+                "Quality is not an act, it is a habit.",
+                "Accuracy is to a newspaper what virtue is to a lady.",
+                "The right to be heard does not automatically include the right to be taken seriously.",
+                "The greatest ideas are the simplest.",
+                "Truth never damages a cause that is just.",
+                "Facts do not cease to exist because they are ignored.",
+                "In a time of deceit, telling the truth is a revolutionary act.",
+                "The truth is more important than the facts.",
+                "Accuracy is the foundation of all business.",
+                "Without accuracy, there can be no true knowledge.",
+                "The first step to knowledge is to know that we are ignorant.",
+                "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge.",
+                "A little inaccuracy saves a world of explanation.",
+                "The man who is too old to learn was probably always too old to learn.",
+                "Accuracy of observation is the equivalent of accuracy of thinking."
+            ],
+            'appreciation': [
+                "Appreciation is a wonderful thing. It makes what is excellent in others belong to us as well.",
+                "The roots of all goodness lie in the soil of appreciation for goodness.",
+                "Feeling gratitude and not expressing it is like wrapping a present and not giving it.",
+                "As we express our gratitude, we must never forget that the highest appreciation is not to utter words, but to live by them.",
+                "Gratitude makes sense of our past, brings peace for today, and creates a vision for tomorrow.",
+                "Appreciation can make a day, even change a life. Your willingness to put it into words is all that is necessary.",
+                "The deepest craving of human nature is the need to be appreciated.",
+                "We often take for granted the very things that most deserve our gratitude.",
+                "Gratitude is the healthiest of all human emotions.",
+                "Appreciate what you have before it becomes what you had.",
+                "Enjoy the little things, for one day you may look back and realize they were the big things.",
+                "Be thankful for what you have; you'll end up having more.",
+                "Gratitude turns what we have into enough.",
+                "Acknowledging the good that you already have in your life is the foundation for all abundance.",
+                "When I started counting my blessings, my whole life turned around.",
+                "Gratitude is not only the greatest of virtues, but the parent of all others.",
+                "The more grateful I am, the more beauty I see.",
+                "Gratitude is the wine for the soul. Go on. Get drunk.",
+                "Gratitude is the memory of the heart.",
+                "Thankfulness is the beginning of gratitude. Gratitude is the completion of thankfulness.",
+                "Gratitude is the sign of noble souls.",
+                "We must find time to stop and thank the people who make a difference in our lives.",
+                "Gratitude is the fairest blossom which springs from the soul.",
+                "Appreciation is the highest form of prayer, for it acknowledges the presence of good wherever you shine the light of your thankful thoughts."
+            ]
+            // Additional categories would be added here
+        };
 
-            // Sample quotes database
-            const quotes = {
-                'all': [
-                    { text: "Always speak how you feel and never be sorry for being real.", category: "Being Real" },
-                    { text: "The only way to do great work is to love what you do.", category: "Action" },
-                    { text: "In the middle of difficulty lies opportunity.", category: "Change" },
-                    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", category: "Business" },
-                    { text: "The journey of a thousand miles begins with one step.", category: "Action" },
-                    { text: "What you get by achieving your goals is not as important as what you become by achieving your goals.", category: "Accuracy" },
-                    { text: "Life is 10% what happens to you and 90% how you react to it.", category: "Attitude" },
-                    { text: "Gratitude makes sense of our past, brings peace for today, and creates a vision for tomorrow.", category: "Appreciation" }
-                ],
-                'accuracy': [
-                    { text: "Details matter, it's worth waiting to get it right.", category: "Accuracy" },
-                    { text: "Precision is not just about numbers, it's about truth.", category: "Accuracy" },
-                    { text: "In a world of approximation, accuracy becomes a superpower.", category: "Accuracy" }
-                ],
-                'action': [
-                    { text: "The path to success is to take massive, determined action.", category: "Action" },
-                    { text: "Well done is better than well said.", category: "Action" },
-                    { text: "Action is the foundational key to all success.", category: "Action" }
-                ],
-                'appreciation': [
-                    { text: "Appreciation is a wonderful thing. It makes what is excellent in others belong to us as well.", category: "Appreciation" },
-                    { text: "The roots of all goodness lie in the soil of appreciation for goodness.", category: "Appreciation" },
-                    { text: "Feeling gratitude and not expressing it is like wrapping a present and not giving it.", category: "Appreciation" }
-                ],
-                'attitude': [
-                    { text: "Your attitude, not your aptitude, will determine your altitude.", category: "Attitude" },
-                    { text: "The only disability in life is a bad attitude.", category: "Attitude" },
-                    { text: "A positive attitude causes a chain reaction of positive thoughts, events and outcomes.", category: "Attitude" }
-                ],
-                'being-real': [
-                    { text: "Always speak how you feel and never be sorry for being real.", category: "Being Real" },
-                    { text: "Be yourself; everyone else is already taken.", category: "Being Real" },
-                    { text: "Authenticity is the daily practice of letting go of who we think we're supposed to be and embracing who we are.", category: "Being Real" }
-                ],
-                'business': [
-                    { text: "The biggest risk is not taking any risk.", category: "Business" },
-                    { text: "Your most unhappy customers are your greatest source of learning.", category: "Business" },
-                    { text: "It's not about ideas. It's about making ideas happen.", category: "Business" }
-                ],
-                'change': [
-                    { text: "Change is the only constant in life.", category: "Change" },
-                    { text: "Progress is impossible without change.", category: "Change" },
-                    { text: "If you don't like something, change it. If you can't change it, change your attitude.", category: "Change" }
-                ]
-            };
+        // Function to load category page
+        function loadCategoryPage(category) {
+            const mainContent = document.getElementById('main-content');
+            
+            // Create category header
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="container">
+                    <h1 class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)} Quotes</h1>
+                    <p class="category-description">Discover powerful ${category} quotes to inspire and motivate you</p>
+                </div>
+            `;
+            
+            // Create quotes grid
+            const quotesGrid = document.createElement('div');
+            quotesGrid.className = 'container';
+            quotesGrid.innerHTML = `
+                <div class="quotes-grid" id="quotes-grid">
+                    ${quotesDatabase[category].map(quote => `
+                        <div class="quote-item">
+                            <p class="quote-item-text">"${quote}"</p>
+                            <div class="quote-item-actions">
+                                <button class="quote-item-btn" onclick="copyQuoteText('${quote}')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <button class="quote-item-btn" onclick="shareQuoteText('${quote}', '${category}')">
+                                    <i class="fas fa-share-alt"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Clear main content and add new elements
+            mainContent.innerHTML = '';
+            mainContent.appendChild(categoryHeader);
+            mainContent.appendChild(quotesGrid);
+        }
 
-            let currentCategory = 'all';
+        // Copy quote functionality
+        function copyQuote() {
+            const quoteText = document.querySelector('.quote-text').textContent;
+            navigator.clipboard.writeText(quoteText).then(() => {
+                alert('Quote copied to clipboard!');
+            });
+        }
 
-            // Category selection
-            categories.forEach(category => {
-                category.addEventListener('click', function() {
-                    categories.forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = this.getAttribute('data-category');
-                    displayRandomQuote(currentCategory);
+        function copyQuoteText(quoteText) {
+            navigator.clipboard.writeText(quoteText).then(() => {
+                alert('Quote copied to clipboard!');
+            });
+        }
+
+        // Share quote functionality
+        function shareQuote() {
+            const quoteText = document.querySelector('.quote-text').textContent;
+            const category = document.querySelector('.quote-category').textContent;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Supreme Motive Quote',
+                    text: `${quoteText} - ${category}`,
+                    url: window.location.href
                 });
-            });
-
-            // New quote button
-            newQuoteBtn.addEventListener('click', function() {
-                displayRandomQuote(currentCategory);
-            });
-
-            // Share button
-            shareBtn.addEventListener('click', function() {
-                const textToShare = `"${quoteText.textContent}" - ${quoteCategory.textContent}`;
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'Life Quote',
-                        text: textToShare
-                    });
-                } else {
-                    // Fallback for browsers that don't support Web Share API
-                    navigator.clipboard.writeText(textToShare).then(() => {
-                        alert('Quote copied to clipboard!');
-                    });
-                }
-            });
-
-            // Function to display a random quote
-            function displayRandomQuote(category) {
-                const categoryQuotes = quotes[category];
-                const randomIndex = Math.floor(Math.random() * categoryQuotes.length);
-                const randomQuote = categoryQuotes[randomIndex];
-                
-                quoteText.textContent = `"${randomQuote.text}"`;
-                quoteCategory.textContent = randomQuote.category;
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const shareText = `${quoteText} - ${category}\n\nShared via Supreme Motive`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Quote copied to clipboard! Share it wherever you like.');
+                });
             }
+        }
 
-            // Initialize with a random quote
-            displayRandomQuote(currentCategory);
+        function shareQuoteText(quoteText, category) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Supreme Motive Quote',
+                    text: `${quoteText} - ${category.charAt(0).toUpperCase() + category.slice(1)}`,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const shareText = `${quoteText} - ${category.charAt(0).toUpperCase() + category.slice(1)}\n\nShared via Supreme Motive`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Quote copied to clipboard! Share it wherever you like.');
+                });
+            }
+        }
+
+        // Check if we're on a category page and load appropriate content
+        document.addEventListener('DOMContentLoaded', function() {
+            const path = window.location.pathname;
+            const categoryMatch = path.match(/category-(\w+)\.html/);
+            
+            if (categoryMatch) {
+                const category = categoryMatch[1];
+                if (quotesDatabase[category]) {
+                    loadCategoryPage(category);
+                }
+            }
         });
     </script>
 </body>
