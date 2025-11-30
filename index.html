@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supreme Motive - Life Quotes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Life Quotes</title>
     <style>
         * {
             margin: 0;
@@ -12,373 +11,160 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        :root {
-            --primary: #6C63FF;
-            --secondary: #4A44C6;
-            --accent: #FF6584;
-            --light: #F5F5F7;
-            --dark: #2D2B55;
-            --gray: #8A8AA3;
-        }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--dark);
-            min-height: 100vh;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo i {
-            font-size: 28px;
-            color: var(--primary);
-        }
-        
-        .logo h1 {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 50px;
-            padding: 8px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            width: 300px;
-        }
-        
-        .search-bar input {
-            border: none;
-            outline: none;
-            padding: 8px;
-            width: 100%;
-            font-size: 14px;
-        }
-        
-        .search-bar i {
-            color: var(--gray);
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .user-actions button {
-            background: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            color: var(--dark);
-            transition: all 0.3s ease;
-        }
-        
-        .user-actions button:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .main-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-        }
-        
-        .sidebar {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            height: fit-content;
-        }
-        
-        .sidebar h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .sidebar h2 i {
-            color: var(--primary);
-        }
-        
-        .category-list {
-            list-style: none;
-        }
-        
-        .category-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .category-item:hover {
-            color: var(--primary);
-        }
-        
-        .category-item.active {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .category-count {
-            background: var(--light);
-            color: var(--dark);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .content-area {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .quote-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quote-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--accent));
-        }
-        
-        .quote-text {
-            font-size: 20px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: var(--dark);
-            font-weight: 500;
-        }
-        
-        .quote-author {
-            font-size: 16px;
-            color: var(--gray);
-            font-style: italic;
-            margin-bottom: 25px;
-        }
-        
-        .quote-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--light);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .action-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .action-btn.like {
-            color: var(--accent);
-        }
-        
-        .action-btn.like:hover {
-            background: var(--accent);
-            color: white;
-        }
-        
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             text-align: center;
-            transition: transform 0.3s ease;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        
-        .stat-1 .stat-icon {
-            background: rgba(108, 99, 255, 0.1);
-            color: var(--primary);
-        }
-        
-        .stat-2 .stat-icon {
-            background: rgba(255, 101, 132, 0.1);
-            color: var(--accent);
-        }
-        
-        .stat-3 .stat-icon {
-            background: rgba(74, 68, 198, 0.1);
-            color: var(--secondary);
-        }
-        
-        .stat-4 .stat-icon {
-            background: rgba(45, 43, 85, 0.1);
-            color: var(--dark);
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--gray);
-        }
-        
-        .app-promo {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .promo-text h3 {
-            font-size: 22px;
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        
-        .promo-text p {
-            margin-bottom: 20px;
-            opacity: 0.9;
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
         }
-        
-        .install-btn {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        .install-btn:hover {
-            transform: translateY(-3px);
+
+        .category:hover {
+            transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .rating {
+
+        .category.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .category-name {
+            font-weight: 600;
+        }
+
+        .category-count {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .active .category-count {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .quote-display {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            min-height: 200px;
             display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
+            flex-direction: column;
+            justify-content: center;
         }
-        
-        .stars {
-            color: #FFC107;
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.8;
         }
-        
+
+        .quote-category {
+            text-align: center;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .new-quote-btn {
+            background-color: #2ecc71;
+        }
+
+        .new-quote-btn:hover {
+            background-color: #27ae60;
+        }
+
         footer {
             text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
-            color: var(--gray);
-            font-size: 14px;
-            border-top: 1px solid #f0f0f0;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
         }
-        
-        @media (max-width: 900px) {
-            .main-content {
-                grid-template-columns: 1fr;
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
             
-            .sidebar {
-                display: none;
-            }
-            
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .search-bar {
-                width: 100%;
+            .quote-text {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -386,161 +172,162 @@
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-quote-left"></i>
-                <h1>Supreme Motive</h1>
-            </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search quotes...">
-            </div>
-            <div class="user-actions">
-                <button><i class="fas fa-heart"></i></button>
-                <button><i class="fas fa-user"></i></button>
-                <button><i class="fas fa-cog"></i></button>
-            </div>
+            <h1>Life Quotes</h1>
+            <p class="subtitle">Inspiration for every moment</p>
         </header>
-        
-        <div class="main-content">
-            <div class="sidebar">
-                <h2><i class="fas fa-list"></i> Categories</h2>
-                <ul class="category-list">
-                    <li class="category-item active">
-                        <span>Accuracy</span>
-                        <span class="category-count">143</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Action</span>
-                        <span class="category-count">74</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Appreciation</span>
-                        <span class="category-count">142</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Attitude</span>
-                        <span class="category-count">45</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Being Real</span>
-                        <span class="category-count">73</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Business</span>
-                        <span class="category-count">107</span>
-                    </li>
-                    <li class="category-item">
-                        <span>Change</span>
-                        <span class="category-count">321</span>
-                    </li>
-                </ul>
+
+        <div class="categories">
+            <div class="category active" data-category="all">
+                <span class="category-name">All Quotes</span>
+                <span class="category-count">807</span>
             </div>
-            
-            <div class="content-area">
-                <div class="quote-card">
-                    <p class="quote-text">"Always speak how you feel and never be sorry for being real."</p>
-                    <p class="quote-author">- Anonymous</p>
-                    <div class="quote-actions">
-                        <button class="action-btn like"><i class="fas fa-heart"></i> Like</button>
-                        <button class="action-btn"><i class="fas fa-save"></i> Save</button>
-                        <button class="action-btn"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="action-btn"><i class="fas fa-share-alt"></i> Share</button>
-                    </div>
-                </div>
-                
-                <div class="quote-card">
-                    <p class="quote-text">"Your words are useless without actions. As you go on with your life you realize that actions really speak louder than words, and that life depends on what you do, not what you say."</p>
-                    <p class="quote-author">- Life Quotes</p>
-                    <div class="quote-actions">
-                        <button class="action-btn like"><i class="fas fa-heart"></i> Like</button>
-                        <button class="action-btn"><i class="fas fa-save"></i> Save</button>
-                        <button class="action-btn"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="action-btn"><i class="fas fa-share-alt"></i> Share</button>
-                    </div>
-                </div>
-                
-                <div class="stats-section">
-                    <div class="stat-card stat-1">
-                        <div class="stat-icon">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                        <div class="stat-value">143</div>
-                        <div class="stat-label">Accuracy Quotes</div>
-                    </div>
-                    
-                    <div class="stat-card stat-2">
-                        <div class="stat-icon">
-                            <i class="fas fa-running"></i>
-                        </div>
-                        <div class="stat-value">74</div>
-                        <div class="stat-label">Action Quotes</div>
-                    </div>
-                    
-                    <div class="stat-card stat-3">
-                        <div class="stat-icon">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <div class="stat-value">142</div>
-                        <div class="stat-label">Appreciation Quotes</div>
-                    </div>
-                    
-                    <div class="stat-card stat-4">
-                        <div class="stat-icon">
-                            <i class="fas fa-sync-alt"></i>
-                        </div>
-                        <div class="stat-value">321</div>
-                        <div class="stat-label">Change Quotes</div>
-                    </div>
-                </div>
-                
-                <div class="app-promo">
-                    <div class="promo-text">
-                        <h3>Supreme Motive App</h3>
-                        <p>Get daily motivation and inspiration right on your phone</p>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span>4.1 ★</span>
-                        </div>
-                    </div>
-                    <button class="install-btn">
-                        <i class="fas fa-download"></i> Install
-                    </button>
-                </div>
+            <div class="category" data-category="accuracy">
+                <span class="category-name">Accuracy</span>
+                <span class="category-count">143</span>
+            </div>
+            <div class="category" data-category="action">
+                <span class="category-name">Action</span>
+                <span class="category-count">74</span>
+            </div>
+            <div class="category" data-category="appreciation">
+                <span class="category-name">Appreciation</span>
+                <span class="category-count">142</span>
+            </div>
+            <div class="category" data-category="attitude">
+                <span class="category-name">Attitude</span>
+                <span class="category-count">45</span>
+            </div>
+            <div class="category" data-category="being-real">
+                <span class="category-name">Being Real</span>
+                <span class="category-count">73</span>
+            </div>
+            <div class="category" data-category="business">
+                <span class="category-name">Business</span>
+                <span class="category-count">107</span>
+            </div>
+            <div class="category" data-category="change">
+                <span class="category-name">Change</span>
+                <span class="category-count">321</span>
             </div>
         </div>
-        
+
+        <div class="quote-display">
+            <p class="quote-text">"Always speak how you feel and never be sorry for being real."</p>
+            <p class="quote-category">Being Real</p>
+        </div>
+
+        <div class="actions">
+            <button class="new-quote-btn">New Quote</button>
+            <button class="share-btn">Share Quote</button>
+        </div>
+
         <footer>
-            <p>© 2023 Supreme Motive. All rights reserved.</p>
+            <p>Life Quotes App &copy; 2023 | Find inspiration in every category</p>
         </footer>
     </div>
 
     <script>
-        // Add interactivity to category items
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.category-item').forEach(i => {
-                    i.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const categories = document.querySelectorAll('.category');
+            const quoteText = document.querySelector('.quote-text');
+            const quoteCategory = document.querySelector('.quote-category');
+            const newQuoteBtn = document.querySelector('.new-quote-btn');
+            const shareBtn = document.querySelector('.share-btn');
+
+            // Sample quotes database
+            const quotes = {
+                'all': [
+                    { text: "Always speak how you feel and never be sorry for being real.", category: "Being Real" },
+                    { text: "The only way to do great work is to love what you do.", category: "Action" },
+                    { text: "In the middle of difficulty lies opportunity.", category: "Change" },
+                    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", category: "Business" },
+                    { text: "The journey of a thousand miles begins with one step.", category: "Action" },
+                    { text: "What you get by achieving your goals is not as important as what you become by achieving your goals.", category: "Accuracy" },
+                    { text: "Life is 10% what happens to you and 90% how you react to it.", category: "Attitude" },
+                    { text: "Gratitude makes sense of our past, brings peace for today, and creates a vision for tomorrow.", category: "Appreciation" }
+                ],
+                'accuracy': [
+                    { text: "Details matter, it's worth waiting to get it right.", category: "Accuracy" },
+                    { text: "Precision is not just about numbers, it's about truth.", category: "Accuracy" },
+                    { text: "In a world of approximation, accuracy becomes a superpower.", category: "Accuracy" }
+                ],
+                'action': [
+                    { text: "The path to success is to take massive, determined action.", category: "Action" },
+                    { text: "Well done is better than well said.", category: "Action" },
+                    { text: "Action is the foundational key to all success.", category: "Action" }
+                ],
+                'appreciation': [
+                    { text: "Appreciation is a wonderful thing. It makes what is excellent in others belong to us as well.", category: "Appreciation" },
+                    { text: "The roots of all goodness lie in the soil of appreciation for goodness.", category: "Appreciation" },
+                    { text: "Feeling gratitude and not expressing it is like wrapping a present and not giving it.", category: "Appreciation" }
+                ],
+                'attitude': [
+                    { text: "Your attitude, not your aptitude, will determine your altitude.", category: "Attitude" },
+                    { text: "The only disability in life is a bad attitude.", category: "Attitude" },
+                    { text: "A positive attitude causes a chain reaction of positive thoughts, events and outcomes.", category: "Attitude" }
+                ],
+                'being-real': [
+                    { text: "Always speak how you feel and never be sorry for being real.", category: "Being Real" },
+                    { text: "Be yourself; everyone else is already taken.", category: "Being Real" },
+                    { text: "Authenticity is the daily practice of letting go of who we think we're supposed to be and embracing who we are.", category: "Being Real" }
+                ],
+                'business': [
+                    { text: "The biggest risk is not taking any risk.", category: "Business" },
+                    { text: "Your most unhappy customers are your greatest source of learning.", category: "Business" },
+                    { text: "It's not about ideas. It's about making ideas happen.", category: "Business" }
+                ],
+                'change': [
+                    { text: "Change is the only constant in life.", category: "Change" },
+                    { text: "Progress is impossible without change.", category: "Change" },
+                    { text: "If you don't like something, change it. If you can't change it, change your attitude.", category: "Change" }
+                ]
+            };
+
+            let currentCategory = 'all';
+
+            // Category selection
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    categories.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-category');
+                    displayRandomQuote(currentCategory);
                 });
-                this.classList.add('active');
             });
-        });
-        
-        // Add like functionality
-        document.querySelectorAll('.action-btn.like').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.classList.toggle('liked');
-                if(this.classList.contains('liked')) {
-                    this.innerHTML = '<i class="fas fa-heart"></i> Liked';
+
+            // New quote button
+            newQuoteBtn.addEventListener('click', function() {
+                displayRandomQuote(currentCategory);
+            });
+
+            // Share button
+            shareBtn.addEventListener('click', function() {
+                const textToShare = `"${quoteText.textContent}" - ${quoteCategory.textContent}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Life Quote',
+                        text: textToShare
+                    });
                 } else {
-                    this.innerHTML = '<i class="fas fa-heart"></i> Like';
+                    // Fallback for browsers that don't support Web Share API
+                    navigator.clipboard.writeText(textToShare).then(() => {
+                        alert('Quote copied to clipboard!');
+                    });
                 }
             });
+
+            // Function to display a random quote
+            function displayRandomQuote(category) {
+                const categoryQuotes = quotes[category];
+                const randomIndex = Math.floor(Math.random() * categoryQuotes.length);
+                const randomQuote = categoryQuotes[randomIndex];
+                
+                quoteText.textContent = `"${randomQuote.text}"`;
+                quoteCategory.textContent = randomQuote.category;
+            }
+
+            // Initialize with a random quote
+            displayRandomQuote(currentCategory);
         });
     </script>
 </body>
