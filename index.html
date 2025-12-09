@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supreme Motive - Life Quotes</title>
+    <title>Trading Platform | Professional Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,840 +14,1080 @@
         }
 
         :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --light: #f5f7fa;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --text: #333;
-            --text-light: #7f8c8d;
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --green: #10b981;
+            --red: #ef4444;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--text);
+            background-color: #f1f5f9;
+            color: var(--dark-text);
             line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 70px 1fr;
+            min-height: 100vh;
         }
 
-        /* Header & Navigation */
+        /* Header Styles */
         header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
+            grid-column: 1 / -1;
+            background-color: var(--card-bg);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 0 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo h1 {
-            color: var(--secondary);
-            font-size: 1.8rem;
             font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
         .logo i {
-            color: var(--accent);
-            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .balance {
+            background-color: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem 0;
+            overflow-y: auto;
         }
 
         .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 60px 0 40px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Categories Section */
-        .categories-section {
-            padding: 40px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--secondary);
-            font-size: 1.8rem;
-        }
-
-        .categories-container {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 10px 0 20px;
-            scrollbar-width: thin;
-        }
-
-        .categories-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .categories-container::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .category-card {
-            min-width: 180px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-card.active {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .category-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .active .category-icon {
-            color: white;
-        }
-
-        .category-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .category-count {
-            background-color: var(--light);
-            color: var(--text);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .active .category-count {
-            background-color: rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-
-        /* Quote Display */
-        .quote-section {
-            padding: 40px 0;
-        }
-
-        .quote-card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .quote-text {
-            font-size: 1.8rem;
-            font-style: italic;
-            color: var(--secondary);
-            line-height: 1.8;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .quote-text::before, .quote-text::after {
-            content: '"';
-            font-size: 3rem;
-            color: var(--primary);
-            opacity: 0.3;
-            position: absolute;
-        }
-
-        .quote-text::before {
-            top: -20px;
-            left: -20px;
-        }
-
-        .quote-text::after {
-            bottom: -40px;
-            right: -20px;
-        }
-
-        .quote-category {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        .quote-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: color 0.3s;
-            padding: 8px 15px;
-            border-radius: 5px;
-        }
-
-        .action-btn:hover {
-            color: var(--primary);
-            background-color: rgba(52, 152, 219, 0.1);
-        }
-
-        .action-btn.like {
-            color: var(--accent);
-        }
-
-        .action-btn.save {
-            color: var(--success);
-        }
-
-        .quote-footer {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        /* Featured App */
-        .featured-app {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            padding: 25px;
-            max-width: 800px;
-            margin: 40px auto;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .app-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .app-info {
-            flex: 1;
-        }
-
-        .app-name {
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .app-rating {
-            color: #ffc107;
-            margin-bottom: 5px;
-        }
-
-        .app-description {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .install-btn {
-            background-color: var(--success);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .install-btn:hover {
-            background-color: #27ae60;
-        }
-
-        /* Category Page Styles */
-        .category-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .category-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .category-description {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-
-        .quotes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px 0;
-        }
-
-        .quote-item {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .quote-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .quote-item-text {
-            font-size: 1.2rem;
-            font-style: italic;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
-        .quote-item-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .quote-item-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .quote-item-btn:hover {
-            color: var(--primary);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--secondary);
-            color: white;
-            padding: 40px 0;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
             list-style: none;
         }
 
-        .footer-links li {
-            margin-bottom: 10px;
+        .nav-links li {
+            padding: 0.8rem 1.5rem;
+            margin-bottom: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            color: var(--light-text);
         }
 
-        .footer-links a {
-            color: #bdc3c7;
-            text-decoration: none;
-            transition: color 0.3s;
+        .nav-links li:hover, .nav-links li.active {
+            background-color: var(--light-bg);
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
         }
 
-        .footer-links a:hover {
+        .nav-links li i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Market Data Table */
+        .market-data {
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .symbol {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .positive {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .negative {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        /* Trading Panel */
+        .trading-panel {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .chart-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .order-form-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        /* Trading Form */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-buy {
+            background-color: var(--green);
             color: white;
         }
 
-        .copyright {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #bdc3c7;
-            font-size: 0.9rem;
+        .btn-sell {
+            background-color: var(--red);
+            color: white;
         }
 
-        /* Responsive Design */
+        .btn-secondary {
+            background-color: var(--light-bg);
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        /* Positions & Orders */
+        .positions, .orders {
+            margin-top: 2rem;
+        }
+
+        .positions-table, .orders-table {
+            overflow-x: auto;
+        }
+
+        /* Chart */
+        #priceChart {
+            height: 300px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .asset-info h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .current-price {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .price-up {
+            color: var(--green);
+        }
+
+        .price-down {
+            color: var(--red);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .trading-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 70px auto 1fr;
             }
             
-            .nav-links {
-                gap: 15px;
+            .sidebar {
+                display: none;
             }
             
-            .hero h2 {
-                font-size: 2rem;
-            }
-            
-            .quote-text {
-                font-size: 1.4rem;
-            }
-            
-            .featured-app {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .quotes-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-quote-left"></i>
-                    <h1>Supreme Motive</h1>
-                </a>
-                <div class="nav-links">
-                    <a href="index.html" class="active">Home</a>
-                    <a href="categories.html">Categories</a>
-                    <a href="favorites.html">Favorites</a>
-                    <a href="about.html">About</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content - Dynamic based on page -->
-    <main id="main-content">
-        <!-- Home Page Content -->
-        <section class="hero">
-            <div class="container">
-                <h2>Find Your Daily Inspiration</h2>
-                <p>Discover powerful quotes to motivate, inspire, and guide you through life's journey</p>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>TradePro</span>
             </div>
-        </section>
-
-        <section class="categories-section">
-            <div class="container">
-                <h2 class="section-title">Quote Categories</h2>
-                <div class="categories-container">
-                    <a href="category-action.html" class="category-card">
-                        <i class="fas fa-bolt category-icon"></i>
-                        <div class="category-name">Action</div>
-                        <div class="category-count">24</div>
-                    </a>
-                    <a href="category-accuracy.html" class="category-card">
-                        <i class="fas fa-bullseye category-icon"></i>
-                        <div class="category-name">Accuracy</div>
-                        <div class="category-count">22</div>
-                    </a>
-                    <a href="category-appreciation.html" class="category-card">
-                        <i class="fas fa-heart category-icon"></i>
-                        <div class="category-name">Appreciation</div>
-                        <div class="category-count">21</div>
-                    </a>
-                    <a href="category-attitude.html" class="category-card">
-                        <i class="fas fa-smile category-icon"></i>
-                        <div class="category-name">Attitude</div>
-                        <div class="category-count">23</div>
-                    </a>
-                    <a href="category-being-real.html" class="category-card">
-                        <i class="fas fa-user category-icon"></i>
-                        <div class="category-name">Being Real</div>
-                        <div class="category-count">20</div>
-                    </a>
-                    <a href="category-business.html" class="category-card">
-                        <i class="fas fa-briefcase category-icon"></i>
-                        <div class="category-name">Business</div>
-                        <div class="category-count">25</div>
-                    </a>
-                    <a href="category-change.html" class="category-card">
-                        <i class="fas fa-sync category-icon"></i>
-                        <div class="category-name">Change</div>
-                        <div class="category-count">26</div>
-                    </a>
+            <div class="user-info">
+                <div class="balance">
+                    <i class="fas fa-wallet"></i>
+                    $<span id="accountBalance">25,430.50</span>
                 </div>
+                <div class="avatar">JD</div>
             </div>
-        </section>
+        </header>
 
-        <section class="quote-section">
-            <div class="container">
-                <div class="quote-card">
-                    <p class="quote-text">Your words are useless without actions.</p>
-                    <div class="quote-category">Action</div>
-                    <div class="quote-actions">
-                        <button class="action-btn like">
-                            <i class="fas fa-heart"></i> Like
-                        </button>
-                        <button class="action-btn save">
-                            <i class="fas fa-bookmark"></i> Save
-                        </button>
-                        <button class="action-btn copy" onclick="copyQuote()">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
-                        <button class="action-btn share" onclick="shareQuote()">
-                            <i class="fas fa-share-alt"></i> Share
-                        </button>
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <ul class="nav-links">
+                <li class="active"><i class="fas fa-home"></i> Dashboard</li>
+                <li><i class="fas fa-chart-bar"></i> Markets</li>
+                <li><i class="fas fa-exchange-alt"></i> Trade</li>
+                <li><i class="fas fa-list"></i> Orders</li>
+                <li><i class="fas fa-history"></i> History</li>
+                <li><i class="fas fa-cog"></i> Settings</li>
+                <li><i class="fas fa-question-circle"></i> Support</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Market Summary Cards -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">
+                        <span>Account Value</span>
+                        <i class="fas fa-wallet"></i>
                     </div>
-                    <div class="quote-footer">
-                        <p>As you go on with your life you realize that actions really speak louder than words, and that life depends on the choices you make and the actions you take.</p>
+                    <div class="card-content">
+                        <h2 id="totalValue">$25,430.50</h2>
+                        <p class="positive">+$342.18 (1.36%) Today</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">
+                        <span>Buying Power</span>
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h2 id="buyingPower">$12,715.25</h2>
+                        <p>Available for trading</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">
+                        <span>Open Positions</span>
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="card-content">
+                        <h2 id="openPositions">3</h2>
+                        <p>Total value: $8,240.75</p>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section class="container">
-            <div class="featured-app">
-                <div class="app-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <div class="app-info">
-                    <div class="app-name">Mindful Moments</div>
-                    <div class="app-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        4.5
-                    </div>
-                    <div class="app-description">Daily meditation and mindfulness exercises to reduce stress and improve focus.</div>
-                </div>
-                <button class="install-btn">Install</button>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Supreme Motive</h3>
-                    <p>Your daily dose of inspiration and motivation. Find quotes that resonate with your journey.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="categories.html">Categories</a></li>
-                        <li><a href="favorites.html">Favorites</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Categories</h3>
-                    <ul class="footer-links">
-                        <li><a href="category-action.html">Action</a></li>
-                        <li><a href="category-motivation.html">Motivation</a></li>
-                        <li><a href="category-success.html">Success</a></li>
-                        <li><a href="category-life.html">Life</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Connect With Us</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-pinterest"></i> Pinterest</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Supreme Motive. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Quote database with 20+ quotes per category
-        const quotesDatabase = {
-            'action': [
-                "Your words are useless without actions.",
-                "The path to success is to take massive, determined action.",
-                "Well done is better than well said.",
-                "Action is the foundational key to all success.",
-                "Inaction breeds doubt and fear. Action breeds confidence and courage.",
-                "The way to get started is to quit talking and begin doing.",
-                "Small deeds done are better than great deeds planned.",
-                "Action may not always bring happiness, but there is no happiness without action.",
-                "The world is moved by action, not by opinion.",
-                "Take action. An inch of movement will bring you closer to your goals than a mile of intention.",
-                "Action is the real measure of intelligence.",
-                "Thinking will not overcome fear but action will.",
-                "Action is the antidote to despair.",
-                "The best time to plant a tree was 20 years ago. The second best time is now.",
-                "Don't wait for the perfect moment. Take the moment and make it perfect.",
-                "The future depends on what you do today.",
-                "Do something today that your future self will thank you for.",
-                "Action is the proper fruit of knowledge.",
-                "Great acts are made up of small deeds.",
-                "The difference between what we do and what we are capable of doing would suffice to solve most of the world's problems.",
-                "Action expresses priorities.",
-                "The superior man is modest in his speech but exceeds in his actions.",
-                "Action without thought is empty. Thought without action is blind.",
-                "The world can only be grasped by action, not by contemplation."
-            ],
-            'accuracy': [
-                "Details matter, it's worth waiting to get it right.",
-                "Precision is not just about numbers, it's about truth.",
-                "In a world of approximation, accuracy becomes a superpower.",
-                "Accuracy builds credibility.",
-                "The quality of a person's life is in direct proportion to their commitment to excellence.",
-                "Accuracy is the twin brother of honesty; inaccuracy, of dishonesty.",
-                "It takes less time to do a thing right than to explain why you did it wrong.",
-                "The bitterness of poor quality remains long after the sweetness of low price is forgotten.",
-                "Have no fear of perfection - you'll never reach it.",
-                "Quality is not an act, it is a habit.",
-                "Accuracy is to a newspaper what virtue is to a lady.",
-                "The right to be heard does not automatically include the right to be taken seriously.",
-                "The greatest ideas are the simplest.",
-                "Truth never damages a cause that is just.",
-                "Facts do not cease to exist because they are ignored.",
-                "In a time of deceit, telling the truth is a revolutionary act.",
-                "The truth is more important than the facts.",
-                "Accuracy is the foundation of all business.",
-                "Without accuracy, there can be no true knowledge.",
-                "The first step to knowledge is to know that we are ignorant.",
-                "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge.",
-                "A little inaccuracy saves a world of explanation.",
-                "The man who is too old to learn was probably always too old to learn.",
-                "Accuracy of observation is the equivalent of accuracy of thinking."
-            ],
-            'appreciation': [
-                "Appreciation is a wonderful thing. It makes what is excellent in others belong to us as well.",
-                "The roots of all goodness lie in the soil of appreciation for goodness.",
-                "Feeling gratitude and not expressing it is like wrapping a present and not giving it.",
-                "As we express our gratitude, we must never forget that the highest appreciation is not to utter words, but to live by them.",
-                "Gratitude makes sense of our past, brings peace for today, and creates a vision for tomorrow.",
-                "Appreciation can make a day, even change a life. Your willingness to put it into words is all that is necessary.",
-                "The deepest craving of human nature is the need to be appreciated.",
-                "We often take for granted the very things that most deserve our gratitude.",
-                "Gratitude is the healthiest of all human emotions.",
-                "Appreciate what you have before it becomes what you had.",
-                "Enjoy the little things, for one day you may look back and realize they were the big things.",
-                "Be thankful for what you have; you'll end up having more.",
-                "Gratitude turns what we have into enough.",
-                "Acknowledging the good that you already have in your life is the foundation for all abundance.",
-                "When I started counting my blessings, my whole life turned around.",
-                "Gratitude is not only the greatest of virtues, but the parent of all others.",
-                "The more grateful I am, the more beauty I see.",
-                "Gratitude is the wine for the soul. Go on. Get drunk.",
-                "Gratitude is the memory of the heart.",
-                "Thankfulness is the beginning of gratitude. Gratitude is the completion of thankfulness.",
-                "Gratitude is the sign of noble souls.",
-                "We must find time to stop and thank the people who make a difference in our lives.",
-                "Gratitude is the fairest blossom which springs from the soul.",
-                "Appreciation is the highest form of prayer, for it acknowledges the presence of good wherever you shine the light of your thankful thoughts."
-            ]
-            // Additional categories would be added here
-        };
-
-        // Function to load category page
-        function loadCategoryPage(category) {
-            const mainContent = document.getElementById('main-content');
-            
-            // Create category header
-            const categoryHeader = document.createElement('div');
-            categoryHeader.className = 'category-header';
-            categoryHeader.innerHTML = `
-                <div class="container">
-                    <h1 class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)} Quotes</h1>
-                    <p class="category-description">Discover powerful ${category} quotes to inspire and motivate you</p>
-                </div>
-            `;
-            
-            // Create quotes grid
-            const quotesGrid = document.createElement('div');
-            quotesGrid.className = 'container';
-            quotesGrid.innerHTML = `
-                <div class="quotes-grid" id="quotes-grid">
-                    ${quotesDatabase[category].map(quote => `
-                        <div class="quote-item">
-                            <p class="quote-item-text">"${quote}"</p>
-                            <div class="quote-item-actions">
-                                <button class="quote-item-btn" onclick="copyQuoteText('${quote}')">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                                <button class="quote-item-btn" onclick="shareQuoteText('${quote}', '${category}')">
-                                    <i class="fas fa-share-alt"></i> Share
-                                </button>
-                            </div>
+            <!-- Trading Panel -->
+            <div class="trading-panel">
+                <!-- Chart -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="asset-info">
+                            <h3>AAPL - Apple Inc.</h3>
+                            <div class="current-price price-up" id="currentPrice">$172.35 <span class="positive">+1.24%</span></div>
                         </div>
-                    `).join('')}
+                        <div class="timeframe-selector">
+                            <select id="timeframe">
+                                <option>1D</option>
+                                <option>1W</option>
+                                <option>1M</option>
+                                <option>3M</option>
+                                <option>1Y</option>
+                            </select>
+                        </div>
+                    </div>
+                    <canvas id="priceChart"></canvas>
                 </div>
-            `;
-            
-            // Clear main content and add new elements
-            mainContent.innerHTML = '';
-            mainContent.appendChild(categoryHeader);
-            mainContent.appendChild(quotesGrid);
+
+                <!-- Order Form -->
+                <div class="order-form-container">
+                    <div class="card-title">
+                        <span>Trade Apple (AAPL)</span>
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderType">Order Type</label>
+                        <select id="orderType">
+                            <option value="market">Market</option>
+                            <option value="limit">Limit</option>
+                            <option value="stop">Stop</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" value="10" min="1">
+                    </div>
+
+                    <div class="form-group" id="limitPriceGroup" style="display: none;">
+                        <label for="limitPrice">Limit Price ($)</label>
+                        <input type="number" id="limitPrice" step="0.01" placeholder="Enter limit price">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Estimated Cost</label>
+                        <div id="estimatedCost">$1,723.50</div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-buy" id="buyBtn">Buy AAPL</button>
+                        <button class="btn btn-sell" id="sellBtn">Sell AAPL</button>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Data Table -->
+            <div class="market-data">
+                <div class="card">
+                    <div class="card-title">
+                        <span>Market Watch</span>
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="table-container">
+                        <table id="marketTable">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Change</th>
+                                    <th>Change %</th>
+                                    <th>Volume</th>
+                                    <th>Market Cap</th>
+                                </tr>
+                            </thead>
+                            <tbody id="marketTableBody">
+                                <!-- Market data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Positions & Orders -->
+            <div class="positions">
+                <div class="card">
+                    <div class="card-title">
+                        <span>Open Positions</span>
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="positions-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Quantity</th>
+                                    <th>Avg. Price</th>
+                                    <th>Current Price</th>
+                                    <th>Market Value</th>
+                                    <th>P/L</th>
+                                    <th>P/L %</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="positionsBody">
+                                <!-- Positions will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="orders">
+                <div class="card">
+                    <div class="card-title">
+                        <span>Recent Orders</span>
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Symbol</th>
+                                    <th>Side</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersBody">
+                                <!-- Orders will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Chart
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        let priceChart;
+        
+        // Sample market data
+        const marketData = [
+            { symbol: "AAPL", name: "Apple Inc.", price: 172.35, change: 2.11, changePercent: 1.24, volume: "45.2M", marketCap: "2.71T" },
+            { symbol: "MSFT", name: "Microsoft Corp.", price: 330.12, change: -1.25, changePercent: -0.38, volume: "28.7M", marketCap: "2.46T" },
+            { symbol: "GOOGL", name: "Alphabet Inc.", price: 138.45, change: 0.85, changePercent: 0.62, volume: "32.1M", marketCap: "1.74T" },
+            { symbol: "AMZN", name: "Amazon.com Inc.", price: 178.21, change: 3.42, changePercent: 1.96, volume: "52.3M", marketCap: "1.83T" },
+            { symbol: "TSLA", name: "Tesla Inc.", price: 245.33, change: -5.21, changePercent: -2.08, volume: "102.5M", marketCap: "778.9B" },
+            { symbol: "META", name: "Meta Platforms Inc.", price: 310.25, change: 4.12, changePercent: 1.35, volume: "18.9M", marketCap: "796.3B" },
+            { symbol: "NVDA", name: "NVIDIA Corp.", price: 950.02, change: 25.45, changePercent: 2.75, volume: "48.7M", marketCap: "2.34T" },
+            { symbol: "JPM", name: "JPMorgan Chase & Co.", price: 195.67, change: 0.45, changePercent: 0.23, volume: "12.3M", marketCap: "562.4B" }
+        ];
+
+        // Sample positions data
+        const positions = [
+            { symbol: "AAPL", quantity: 15, avgPrice: 168.50, currentPrice: 172.35, pl: 57.75, plPercent: 2.29 },
+            { symbol: "MSFT", quantity: 8, avgPrice: 325.80, currentPrice: 330.12, pl: 34.56, plPercent: 1.33 },
+            { symbol: "GOOGL", quantity: 12, avgPrice: 136.20, currentPrice: 138.45, pl: 27.00, plPercent: 1.65 }
+        ];
+
+        // Sample orders data
+        const orders = [
+            { datetime: "2023-10-15 10:30:22", symbol: "AAPL", side: "BUY", quantity: 10, price: 171.25, status: "FILLED" },
+            { datetime: "2023-10-14 14:22:10", symbol: "MSFT", side: "BUY", quantity: 5, price: 328.50, status: "FILLED" },
+            { datetime: "2023-10-13 09:15:45", symbol: "TSLA", side: "SELL", quantity: 8, price: 250.75, status: "FILLED" },
+            { datetime: "2023-10-12 16:05:33", symbol: "AMZN", side: "BUY", quantity: 6, price: 175.80, status: "CANCELLED" }
+        ];
+
+        // DOM elements
+        const accountBalanceEl = document.getElementById('accountBalance');
+        const totalValueEl = document.getElementById('totalValue');
+        const buyingPowerEl = document.getElementById('buyingPower');
+        const openPositionsEl = document.getElementById('openPositions');
+        const currentPriceEl = document.getElementById('currentPrice');
+        const marketTableBody = document.getElementById('marketTableBody');
+        const positionsBody = document.getElementById('positionsBody');
+        const ordersBody = document.getElementById('ordersBody');
+        const orderTypeSelect = document.getElementById('orderType');
+        const quantityInput = document.getElementById('quantity');
+        const limitPriceGroup = document.getElementById('limitPriceGroup');
+        const limitPriceInput = document.getElementById('limitPrice');
+        const estimatedCostEl = document.getElementById('estimatedCost');
+        const buyBtn = document.getElementById('buyBtn');
+        const sellBtn = document.getElementById('sellBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Account state
+        let accountBalance = 25430.50;
+        let buyingPower = 12715.25;
+        let totalValue = 25430.50;
+        let openPositionsCount = positions.length;
+        
+        // Current trading asset
+        let currentAsset = marketData[0]; // AAPL
+
+        // Initialize the platform
+        function initPlatform() {
+            renderMarketData();
+            renderPositions();
+            renderOrders();
+            updateAccountSummary();
+            initChart();
+            setupEventListeners();
         }
 
-        // Copy quote functionality
-        function copyQuote() {
-            const quoteText = document.querySelector('.quote-text').textContent;
-            navigator.clipboard.writeText(quoteText).then(() => {
-                alert('Quote copied to clipboard!');
+        // Render market data table
+        function renderMarketData() {
+            marketTableBody.innerHTML = '';
+            
+            marketData.forEach(asset => {
+                const changeClass = asset.change >= 0 ? 'positive' : 'negative';
+                const changePercentClass = asset.changePercent >= 0 ? 'positive' : 'negative';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="symbol">${asset.symbol}</td>
+                    <td>${asset.name}</td>
+                    <td>$${asset.price.toFixed(2)}</td>
+                    <td class="${changeClass}">${asset.change >= 0 ? '+' : ''}${asset.change.toFixed(2)}</td>
+                    <td class="${changePercentClass}">${asset.changePercent >= 0 ? '+' : ''}${asset.changePercent.toFixed(2)}%</td>
+                    <td>${asset.volume}</td>
+                    <td>${asset.marketCap}</td>
+                `;
+                
+                // Make row clickable to select asset for trading
+                row.addEventListener('click', () => {
+                    selectAsset(asset);
+                });
+                
+                marketTableBody.appendChild(row);
             });
         }
 
-        function copyQuoteText(quoteText) {
-            navigator.clipboard.writeText(quoteText).then(() => {
-                alert('Quote copied to clipboard!');
+        // Render positions table
+        function renderPositions() {
+            positionsBody.innerHTML = '';
+            
+            positions.forEach(position => {
+                const marketValue = position.quantity * position.currentPrice;
+                const plClass = position.pl >= 0 ? 'positive' : 'negative';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="symbol">${position.symbol}</td>
+                    <td>${position.quantity}</td>
+                    <td>$${position.avgPrice.toFixed(2)}</td>
+                    <td>$${position.currentPrice.toFixed(2)}</td>
+                    <td>$${marketValue.toFixed(2)}</td>
+                    <td class="${plClass}">$${position.pl.toFixed(2)}</td>
+                    <td class="${plClass}">${position.plPercent >= 0 ? '+' : ''}${position.plPercent.toFixed(2)}%</td>
+                    <td><button class="btn btn-secondary close-position" data-symbol="${position.symbol}">Close</button></td>
+                `;
+                
+                positionsBody.appendChild(row);
+            });
+            
+            // Add event listeners to close position buttons
+            document.querySelectorAll('.close-position').forEach(button => {
+                button.addEventListener('click', function() {
+                    const symbol = this.getAttribute('data-symbol');
+                    closePosition(symbol);
+                });
             });
         }
 
-        // Share quote functionality
-        function shareQuote() {
-            const quoteText = document.querySelector('.quote-text').textContent;
-            const category = document.querySelector('.quote-category').textContent;
+        // Render orders table
+        function renderOrders() {
+            ordersBody.innerHTML = '';
             
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Supreme Motive Quote',
-                    text: `${quoteText} - ${category}`,
-                    url: window.location.href
-                });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                const shareText = `${quoteText} - ${category}\n\nShared via Supreme Motive`;
-                navigator.clipboard.writeText(shareText).then(() => {
-                    alert('Quote copied to clipboard! Share it wherever you like.');
-                });
-            }
+            orders.forEach(order => {
+                const sideClass = order.side === 'BUY' ? 'positive' : 'negative';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.datetime}</td>
+                    <td class="symbol">${order.symbol}</td>
+                    <td class="${sideClass}">${order.side}</td>
+                    <td>${order.quantity}</td>
+                    <td>$${order.price.toFixed(2)}</td>
+                    <td><span class="${order.status === 'FILLED' ? 'positive' : 'warning'}">${order.status}</span></td>
+                `;
+                
+                ordersBody.appendChild(row);
+            });
         }
 
-        function shareQuoteText(quoteText, category) {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Supreme Motive Quote',
-                    text: `${quoteText} - ${category.charAt(0).toUpperCase() + category.slice(1)}`,
-                    url: window.location.href
-                });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                const shareText = `${quoteText} - ${category.charAt(0).toUpperCase() + category.slice(1)}\n\nShared via Supreme Motive`;
-                navigator.clipboard.writeText(shareText).then(() => {
-                    alert('Quote copied to clipboard! Share it wherever you like.');
-                });
-            }
+        // Update account summary
+        function updateAccountSummary() {
+            accountBalanceEl.textContent = accountBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            totalValueEl.textContent = '$' + totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            buyingPowerEl.textContent = '$' + buyingPower.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            openPositionsEl.textContent = openPositionsCount;
         }
 
-        // Check if we're on a category page and load appropriate content
-        document.addEventListener('DOMContentLoaded', function() {
-            const path = window.location.pathname;
-            const categoryMatch = path.match(/category-(\w+)\.html/);
+        // Initialize price chart
+        function initChart() {
+            // Generate sample price data
+            const dataPoints = 30;
+            let prices = [];
+            let basePrice = currentAsset.price;
             
-            if (categoryMatch) {
-                const category = categoryMatch[1];
-                if (quotesDatabase[category]) {
-                    loadCategoryPage(category);
+            for (let i = 0; i < dataPoints; i++) {
+                // Generate random walk prices
+                const change = (Math.random() - 0.5) * 4;
+                basePrice += change;
+                prices.push(basePrice);
+            }
+            
+            const labels = [];
+            for (let i = dataPoints; i > 0; i--) {
+                labels.push(`T-${i}`);
+            }
+            
+            // Create chart
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `${currentAsset.symbol} Price`,
+                        data: prices,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            position: 'right',
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        }
+                    }
                 }
+            });
+        }
+
+        // Select an asset for trading
+        function selectAsset(asset) {
+            currentAsset = asset;
+            document.querySelector('.asset-info h3').textContent = `${asset.symbol} - ${asset.name}`;
+            
+            // Update current price display
+            const isPositive = asset.change >= 0;
+            currentPriceEl.innerHTML = `$${asset.price.toFixed(2)} <span class="${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${asset.changePercent.toFixed(2)}%</span>`;
+            currentPriceEl.className = `current-price ${isPositive ? 'price-up' : 'price-down'}`;
+            
+            // Update chart with new data
+            updateChart();
+            
+            // Update estimated cost
+            updateEstimatedCost();
+        }
+
+        // Update chart with new data
+        function updateChart() {
+            // Generate new random price data based on current asset
+            const dataPoints = 30;
+            let prices = [];
+            let basePrice = currentAsset.price;
+            
+            for (let i = 0; i < dataPoints; i++) {
+                const change = (Math.random() - 0.5) * 4;
+                basePrice += change;
+                prices.push(basePrice);
             }
-        });
+            
+            // Update chart data
+            priceChart.data.datasets[0].data = prices;
+            priceChart.data.datasets[0].label = `${currentAsset.symbol} Price`;
+            priceChart.update();
+        }
+
+        // Update estimated cost
+        function updateEstimatedCost() {
+            const quantity = parseInt(quantityInput.value) || 0;
+            const estimatedCost = quantity * currentAsset.price;
+            estimatedCostEl.textContent = '$' + estimatedCost.toFixed(2);
+        }
+
+        // Place a buy order
+        function placeBuyOrder() {
+            const quantity = parseInt(quantityInput.value) || 0;
+            const orderType = orderTypeSelect.value;
+            const limitPrice = parseFloat(limitPriceInput.value) || 0;
+            const estimatedCost = quantity * currentAsset.price;
+            
+            if (quantity <= 0) {
+                alert('Please enter a valid quantity');
+                return;
+            }
+            
+            if (estimatedCost > buyingPower) {
+                alert('Insufficient buying power');
+                return;
+            }
+            
+            if (orderType === 'limit' && limitPrice <= 0) {
+                alert('Please enter a valid limit price');
+                return;
+            }
+            
+            // Calculate actual price based on order type
+            let executionPrice = currentAsset.price;
+            if (orderType === 'limit') {
+                // For demo, assume limit order executes if limit price >= current price
+                executionPrice = limitPrice >= currentAsset.price ? currentAsset.price : limitPrice;
+            }
+            
+            const totalCost = quantity * executionPrice;
+            
+            // Update account
+            accountBalance -= totalCost;
+            buyingPower -= totalCost;
+            
+            // Update positions
+            const existingPositionIndex = positions.findIndex(p => p.symbol === currentAsset.symbol);
+            
+            if (existingPositionIndex >= 0) {
+                // Update existing position
+                const position = positions[existingPositionIndex];
+                const newQuantity = position.quantity + quantity;
+                const newAvgPrice = ((position.avgPrice * position.quantity) + (executionPrice * quantity)) / newQuantity;
+                
+                positions[existingPositionIndex].quantity = newQuantity;
+                positions[existingPositionIndex].avgPrice = newAvgPrice;
+                positions[existingPositionIndex].currentPrice = currentAsset.price;
+                positions[existingPositionIndex].pl = (currentAsset.price - newAvgPrice) * newQuantity;
+                positions[existingPositionIndex].plPercent = ((currentAsset.price - newAvgPrice) / newAvgPrice) * 100;
+            } else {
+                // Add new position
+                const pl = (currentAsset.price - executionPrice) * quantity;
+                const plPercent = ((currentAsset.price - executionPrice) / executionPrice) * 100;
+                
+                positions.push({
+                    symbol: currentAsset.symbol,
+                    quantity: quantity,
+                    avgPrice: executionPrice,
+                    currentPrice: currentAsset.price,
+                    pl: pl,
+                    plPercent: plPercent
+                });
+                
+                openPositionsCount++;
+            }
+            
+            // Add to orders history
+            const now = new Date();
+            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            orders.unshift({
+                datetime: orderTime,
+                symbol: currentAsset.symbol,
+                side: 'BUY',
+                quantity: quantity,
+                price: executionPrice,
+                status: 'FILLED'
+            });
+            
+            // Update UI
+            updateAccountSummary();
+            renderPositions();
+            renderOrders();
+            
+            // Show success message
+            alert(`Successfully bought ${quantity} shares of ${currentAsset.symbol} at $${executionPrice.toFixed(2)}`);
+            
+            // Reset form
+            resetOrderForm();
+        }
+
+        // Place a sell order
+        function placeSellOrder() {
+            const quantity = parseInt(quantityInput.value) || 0;
+            const orderType = orderTypeSelect.value;
+            const limitPrice = parseFloat(limitPriceInput.value) || 0;
+            
+            if (quantity <= 0) {
+                alert('Please enter a valid quantity');
+                return;
+            }
+            
+            // Check if we have enough shares to sell
+            const existingPositionIndex = positions.findIndex(p => p.symbol === currentAsset.symbol);
+            
+            if (existingPositionIndex < 0) {
+                alert(`You don't have any ${currentAsset.symbol} shares to sell`);
+                return;
+            }
+            
+            const position = positions[existingPositionIndex];
+            
+            if (position.quantity < quantity) {
+                alert(`You only have ${position.quantity} shares of ${currentAsset.symbol}`);
+                return;
+            }
+            
+            if (orderType === 'limit' && limitPrice <= 0) {
+                alert('Please enter a valid limit price');
+                return;
+            }
+            
+            // Calculate actual price based on order type
+            let executionPrice = currentAsset.price;
+            if (orderType === 'limit') {
+                // For demo, assume limit order executes if limit price <= current price
+                executionPrice = limitPrice <= currentAsset.price ? currentAsset.price : limitPrice;
+            }
+            
+            const totalValue = quantity * executionPrice;
+            
+            // Update account
+            accountBalance += totalValue;
+            buyingPower += totalValue;
+            
+            // Update positions
+            if (position.quantity === quantity) {
+                // Remove position completely
+                positions.splice(existingPositionIndex, 1);
+                openPositionsCount--;
+            } else {
+                // Reduce position size
+                positions[existingPositionIndex].quantity -= quantity;
+                positions[existingPositionIndex].pl = (currentAsset.price - position.avgPrice) * (position.quantity - quantity);
+                positions[existingPositionIndex].plPercent = ((currentAsset.price - position.avgPrice) / position.avgPrice) * 100;
+            }
+            
+            // Add to orders history
+            const now = new Date();
+            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            orders.unshift({
+                datetime: orderTime,
+                symbol: currentAsset.symbol,
+                side: 'SELL',
+                quantity: quantity,
+                price: executionPrice,
+                status: 'FILLED'
+            });
+            
+            // Update UI
+            updateAccountSummary();
+            renderPositions();
+            renderOrders();
+            
+            // Show success message
+            alert(`Successfully sold ${quantity} shares of ${currentAsset.symbol} at $${executionPrice.toFixed(2)}`);
+            
+            // Reset form
+            resetOrderForm();
+        }
+
+        // Close a position
+        function closePosition(symbol) {
+            const positionIndex = positions.findIndex(p => p.symbol === symbol);
+            
+            if (positionIndex < 0) return;
+            
+            const position = positions[positionIndex];
+            const confirmation = confirm(`Are you sure you want to close your ${position.quantity} ${symbol} position?`);
+            
+            if (!confirmation) return;
+            
+            const totalValue = position.quantity * position.currentPrice;
+            
+            // Update account
+            accountBalance += totalValue;
+            buyingPower += totalValue;
+            
+            // Remove position
+            positions.splice(positionIndex, 1);
+            openPositionsCount--;
+            
+            // Add to orders history
+            const now = new Date();
+            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            orders.unshift({
+                datetime: orderTime,
+                symbol: symbol,
+                side: 'SELL',
+                quantity: position.quantity,
+                price: position.currentPrice,
+                status: 'FILLED'
+            });
+            
+            // Update UI
+            updateAccountSummary();
+            renderPositions();
+            renderOrders();
+            
+            alert(`Successfully closed ${position.quantity} ${symbol} position`);
+        }
+
+        // Reset order form
+        function resetOrderForm() {
+            quantityInput.value = 10;
+            limitPriceInput.value = '';
+            updateEstimatedCost();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Order type change
+            orderTypeSelect.addEventListener('change', function() {
+                if (this.value === 'limit' || this.value === 'stop') {
+                    limitPriceGroup.style.display = 'block';
+                } else {
+                    limitPriceGroup.style.display = 'none';
+                }
+            });
+            
+            // Quantity change
+            quantityInput.addEventListener('input', updateEstimatedCost);
+            
+            // Buy button
+            buyBtn.addEventListener('click', placeBuyOrder);
+            
+            // Sell button
+            sellBtn.addEventListener('click', placeSellOrder);
+            
+            // Reset button
+            resetBtn.addEventListener('click', resetOrderForm);
+            
+            // Navigation items
+            document.querySelectorAll('.nav-links li').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    document.querySelectorAll('.nav-links li').forEach(li => {
+                        li.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // In a real app, this would load different views
+                    alert(`Loading ${this.textContent.trim()} view...`);
+                });
+            });
+            
+            // Timeframe selector
+            document.getElementById('timeframe').addEventListener('change', function() {
+                alert(`Switching to ${this.value} timeframe for chart...`);
+                // In a real app, this would update the chart with different timeframe data
+            });
+        }
+
+        // Initialize the platform when page loads
+        document.addEventListener('DOMContentLoaded', initPlatform);
     </script>
 </body>
 </html>
