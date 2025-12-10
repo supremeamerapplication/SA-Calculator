@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Platform | Professional Dashboard</title>
+    <title>Trading Platform | Real-time Trading</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -81,50 +85,79 @@
             color: var(--primary);
         }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            border-radius: 50%;
+        .auth-buttons {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
+            gap: 10px;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            background-color: var(--card-bg);
-            border-right: 1px solid var(--border);
-            padding: 1.5rem 0;
-            overflow-y: auto;
-        }
-
-        .nav-links {
-            list-style: none;
-        }
-
-        .nav-links li {
-            padding: 0.8rem 1.5rem;
-            margin-bottom: 5px;
+        .btn-auth {
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-weight: 600;
             transition: all 0.3s ease;
-            color: var(--light-text);
         }
 
-        .nav-links li:hover, .nav-links li.active {
+        .btn-login {
             background-color: var(--light-bg);
             color: var(--primary);
-            border-right: 3px solid var(--primary);
+            border: 1px solid var(--border);
         }
 
-        .nav-links li i {
-            width: 20px;
-            text-align: center;
+        .btn-signup {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Auth Modal */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .auth-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--light-text);
+            border-bottom: 3px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
         }
 
         /* Main Content */
@@ -148,21 +181,15 @@
             border: 1px solid var(--border);
         }
 
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Market Data Table */
-        .market-data {
+        /* Trading Panel */
+        .trading-panel {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
+        /* Market Data Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -181,11 +208,6 @@
             color: var(--primary);
         }
 
-        .symbol {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
         .positive {
             color: var(--green);
             font-weight: 600;
@@ -196,122 +218,9 @@
             font-weight: 600;
         }
 
-        /* Trading Panel */
-        .trading-panel {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .chart-container {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border);
-        }
-
-        .order-form-container {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border);
-        }
-
-        /* Trading Form */
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark-text);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            background-color: var(--light-bg);
-            color: var(--dark-text);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 1.5rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .btn-buy {
-            background-color: var(--green);
-            color: white;
-        }
-
-        .btn-sell {
-            background-color: var(--red);
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: var(--light-bg);
-            color: var(--primary);
-            border: 1px solid var(--border);
-        }
-
         /* Positions & Orders */
         .positions, .orders {
             margin-top: 2rem;
-        }
-
-        .positions-table, .orders-table {
-            overflow-x: auto;
-        }
-
-        /* Chart */
-        #priceChart {
-            height: 300px;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .asset-info h3 {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .current-price {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .price-up {
-            color: var(--green);
-        }
-
-        .price-down {
-            color: var(--red);
         }
 
         /* Responsive */
@@ -335,22 +244,125 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            border: 3px solid var(--light-bg);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            z-index: 1001;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.success {
+            background-color: var(--green);
+        }
+
+        .notification.error {
+            background-color: var(--red);
+        }
+
+        .notification.info {
+            background-color: var(--primary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Notification System -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-content">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+            
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-buy" style="width: 100%; margin-top: 20px;">Login</button>
+            </form>
+            
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupFullName">Full Name</label>
+                    <input type="text" id="signupFullName" required>
+                </div>
+                <button type="submit" class="btn btn-buy" style="width: 100%; margin-top: 20px;">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <header>
             <div class="logo">
                 <i class="fas fa-chart-line"></i>
-                <span>TradePro</span>
+                <span>TradePro Live</span>
             </div>
             <div class="user-info">
-                <div class="balance">
+                <div class="balance" id="accountBalance">
                     <i class="fas fa-wallet"></i>
-                    $<span id="accountBalance">25,430.50</span>
+                    <span id="balanceAmount">Loading...</span>
                 </div>
-                <div class="avatar">JD</div>
+                <div id="userAvatar" class="avatar" style="display: none;"></div>
+                <div id="authButtons" class="auth-buttons">
+                    <button class="btn-auth btn-login" id="loginBtn">Login</button>
+                    <button class="btn-auth btn-signup" id="signupBtn">Sign Up</button>
+                </div>
             </div>
         </header>
 
@@ -363,381 +375,818 @@
                 <li><i class="fas fa-list"></i> Orders</li>
                 <li><i class="fas fa-history"></i> History</li>
                 <li><i class="fas fa-cog"></i> Settings</li>
-                <li><i class="fas fa-question-circle"></i> Support</li>
+                <li id="logoutBtn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</li>
             </ul>
         </nav>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Market Summary Cards -->
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-title">
-                        <span>Account Value</span>
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="card-content">
-                        <h2 id="totalValue">$25,430.50</h2>
-                        <p class="positive">+$342.18 (1.36%) Today</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-title">
-                        <span>Buying Power</span>
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="card-content">
-                        <h2 id="buyingPower">$12,715.25</h2>
-                        <p>Available for trading</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-title">
-                        <span>Open Positions</span>
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <div class="card-content">
-                        <h2 id="openPositions">3</h2>
-                        <p>Total value: $8,240.75</p>
-                    </div>
-                </div>
-            </div>
+        <main class="main-content" id="mainContent">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-spinner"></div>
 
-            <!-- Trading Panel -->
-            <div class="trading-panel">
-                <!-- Chart -->
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div class="asset-info">
-                            <h3>AAPL - Apple Inc.</h3>
-                            <div class="current-price price-up" id="currentPrice">$172.35 <span class="positive">+1.24%</span></div>
+            <!-- Trading Interface (shown after auth) -->
+            <div id="tradingInterface" style="display: none;">
+                <!-- Market Summary Cards -->
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Account Value</span>
+                            <i class="fas fa-wallet"></i>
                         </div>
-                        <div class="timeframe-selector">
-                            <select id="timeframe">
-                                <option>1D</option>
-                                <option>1W</option>
-                                <option>1M</option>
-                                <option>3M</option>
-                                <option>1Y</option>
+                        <div class="card-content">
+                            <h2 id="totalValue">$0.00</h2>
+                            <p id="dailyChange">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Buying Power</span>
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2 id="buyingPower">$0.00</h2>
+                            <p>Available for trading</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Open Positions</span>
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2 id="openPositions">0</h2>
+                            <p id="positionsValue">Total value: $0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trading Panel -->
+                <div class="trading-panel">
+                    <!-- Chart -->
+                    <div class="chart-container card">
+                        <div class="chart-header">
+                            <div class="asset-info">
+                                <h3 id="selectedSymbol">AAPL - Apple Inc.</h3>
+                                <div class="current-price" id="currentPrice">
+                                    $0.00 <span id="priceChange">+0.00%</span>
+                                </div>
+                            </div>
+                            <div class="timeframe-selector">
+                                <select id="timeframe">
+                                    <option value="1D">1D</option>
+                                    <option value="1W">1W</option>
+                                    <option value="1M">1M</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="priceChart"></canvas>
+                    </div>
+
+                    <!-- Order Form -->
+                    <div class="order-form-container card">
+                        <div class="card-title">
+                            <span>Place Order</span>
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orderSymbol">Symbol</label>
+                            <select id="orderSymbol">
+                                <!-- Symbols will be populated dynamically -->
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="orderType">Order Type</label>
+                            <select id="orderType">
+                                <option value="market">Market</option>
+                                <option value="limit">Limit</option>
+                                <option value="stop">Stop</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderSide">Side</label>
+                            <select id="orderSide">
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderQuantity">Quantity</label>
+                            <input type="number" id="orderQuantity" value="1" min="1">
+                        </div>
+
+                        <div class="form-group" id="limitPriceGroup" style="display: none;">
+                            <label for="limitPrice">Limit Price ($)</label>
+                            <input type="number" id="limitPrice" step="0.01" placeholder="Enter limit price">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estimated Cost</label>
+                            <div id="estimatedCost">$0.00</div>
+                        </div>
+
+                        <div class="btn-group" style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button class="btn btn-buy" id="placeOrderBtn" style="flex: 1;">Place Order</button>
+                            <button class="btn btn-secondary" id="resetOrderBtn" style="flex: 1;">Reset</button>
+                        </div>
                     </div>
-                    <canvas id="priceChart"></canvas>
                 </div>
 
-                <!-- Order Form -->
-                <div class="order-form-container">
-                    <div class="card-title">
-                        <span>Trade Apple (AAPL)</span>
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="orderType">Order Type</label>
-                        <select id="orderType">
-                            <option value="market">Market</option>
-                            <option value="limit">Limit</option>
-                            <option value="stop">Stop</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" value="10" min="1">
-                    </div>
-
-                    <div class="form-group" id="limitPriceGroup" style="display: none;">
-                        <label for="limitPrice">Limit Price ($)</label>
-                        <input type="number" id="limitPrice" step="0.01" placeholder="Enter limit price">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Estimated Cost</label>
-                        <div id="estimatedCost">$1,723.50</div>
-                    </div>
-
-                    <div class="btn-group">
-                        <button class="btn btn-buy" id="buyBtn">Buy AAPL</button>
-                        <button class="btn btn-sell" id="sellBtn">Sell AAPL</button>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                <!-- Market Data -->
+                <div class="market-data">
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Market Watch</span>
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="table-container">
+                            <table id="marketTable">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Price</th>
+                                        <th>Change</th>
+                                        <th>Change %</th>
+                                        <th>Volume</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="marketTableBody">
+                                    <!-- Market data will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Market Data Table -->
-            <div class="market-data">
-                <div class="card">
-                    <div class="card-title">
-                        <span>Market Watch</span>
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="table-container">
-                        <table id="marketTable">
-                            <thead>
-                                <tr>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Change</th>
-                                    <th>Change %</th>
-                                    <th>Volume</th>
-                                    <th>Market Cap</th>
-                                </tr>
-                            </thead>
-                            <tbody id="marketTableBody">
-                                <!-- Market data will be populated by JavaScript -->
-                            </tbody>
-                        </table>
+                <!-- Positions & Orders -->
+                <div class="positions">
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Open Positions</span>
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="positions-table">
+                            <table id="positionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Quantity</th>
+                                        <th>Avg. Price</th>
+                                        <th>Current Price</th>
+                                        <th>Market Value</th>
+                                        <th>P/L</th>
+                                        <th>P/L %</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="positionsBody">
+                                    <!-- Positions will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Positions & Orders -->
-            <div class="positions">
-                <div class="card">
-                    <div class="card-title">
-                        <span>Open Positions</span>
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <div class="positions-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Symbol</th>
-                                    <th>Quantity</th>
-                                    <th>Avg. Price</th>
-                                    <th>Current Price</th>
-                                    <th>Market Value</th>
-                                    <th>P/L</th>
-                                    <th>P/L %</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="positionsBody">
-                                <!-- Positions will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="orders">
-                <div class="card">
-                    <div class="card-title">
-                        <span>Recent Orders</span>
-                        <i class="fas fa-list"></i>
-                    </div>
-                    <div class="orders-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date/Time</th>
-                                    <th>Symbol</th>
-                                    <th>Side</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ordersBody">
-                                <!-- Orders will be populated by JavaScript -->
-                            </tbody>
-                        </table>
+                <div class="orders">
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Recent Orders</span>
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="orders-table">
+                            <table id="ordersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date/Time</th>
+                                        <th>Symbol</th>
+                                        <th>Side</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersBody">
+                                    <!-- Orders will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initialize Chart
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        let priceChart;
+        // Supabase Configuration
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
         
-        // Sample market data
-        const marketData = [
-            { symbol: "AAPL", name: "Apple Inc.", price: 172.35, change: 2.11, changePercent: 1.24, volume: "45.2M", marketCap: "2.71T" },
-            { symbol: "MSFT", name: "Microsoft Corp.", price: 330.12, change: -1.25, changePercent: -0.38, volume: "28.7M", marketCap: "2.46T" },
-            { symbol: "GOOGL", name: "Alphabet Inc.", price: 138.45, change: 0.85, changePercent: 0.62, volume: "32.1M", marketCap: "1.74T" },
-            { symbol: "AMZN", name: "Amazon.com Inc.", price: 178.21, change: 3.42, changePercent: 1.96, volume: "52.3M", marketCap: "1.83T" },
-            { symbol: "TSLA", name: "Tesla Inc.", price: 245.33, change: -5.21, changePercent: -2.08, volume: "102.5M", marketCap: "778.9B" },
-            { symbol: "META", name: "Meta Platforms Inc.", price: 310.25, change: 4.12, changePercent: 1.35, volume: "18.9M", marketCap: "796.3B" },
-            { symbol: "NVDA", name: "NVIDIA Corp.", price: 950.02, change: 25.45, changePercent: 2.75, volume: "48.7M", marketCap: "2.34T" },
-            { symbol: "JPM", name: "JPMorgan Chase & Co.", price: 195.67, change: 0.45, changePercent: 0.23, volume: "12.3M", marketCap: "562.4B" }
-        ];
-
-        // Sample positions data
-        const positions = [
-            { symbol: "AAPL", quantity: 15, avgPrice: 168.50, currentPrice: 172.35, pl: 57.75, plPercent: 2.29 },
-            { symbol: "MSFT", quantity: 8, avgPrice: 325.80, currentPrice: 330.12, pl: 34.56, plPercent: 1.33 },
-            { symbol: "GOOGL", quantity: 12, avgPrice: 136.20, currentPrice: 138.45, pl: 27.00, plPercent: 1.65 }
-        ];
-
-        // Sample orders data
-        const orders = [
-            { datetime: "2023-10-15 10:30:22", symbol: "AAPL", side: "BUY", quantity: 10, price: 171.25, status: "FILLED" },
-            { datetime: "2023-10-14 14:22:10", symbol: "MSFT", side: "BUY", quantity: 5, price: 328.50, status: "FILLED" },
-            { datetime: "2023-10-13 09:15:45", symbol: "TSLA", side: "SELL", quantity: 8, price: 250.75, status: "FILLED" },
-            { datetime: "2023-10-12 16:05:33", symbol: "AMZN", side: "BUY", quantity: 6, price: 175.80, status: "CANCELLED" }
-        ];
-
-        // DOM elements
-        const accountBalanceEl = document.getElementById('accountBalance');
-        const totalValueEl = document.getElementById('totalValue');
-        const buyingPowerEl = document.getElementById('buyingPower');
-        const openPositionsEl = document.getElementById('openPositions');
-        const currentPriceEl = document.getElementById('currentPrice');
-        const marketTableBody = document.getElementById('marketTableBody');
-        const positionsBody = document.getElementById('positionsBody');
-        const ordersBody = document.getElementById('ordersBody');
-        const orderTypeSelect = document.getElementById('orderType');
-        const quantityInput = document.getElementById('quantity');
-        const limitPriceGroup = document.getElementById('limitPriceGroup');
-        const limitPriceInput = document.getElementById('limitPrice');
-        const estimatedCostEl = document.getElementById('estimatedCost');
-        const buyBtn = document.getElementById('buyBtn');
-        const sellBtn = document.getElementById('sellBtn');
-        const resetBtn = document.getElementById('resetBtn');
-
-        // Account state
-        let accountBalance = 25430.50;
-        let buyingPower = 12715.25;
-        let totalValue = 25430.50;
-        let openPositionsCount = positions.length;
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
-        // Current trading asset
-        let currentAsset = marketData[0]; // AAPL
-
-        // Initialize the platform
-        function initPlatform() {
-            renderMarketData();
-            renderPositions();
-            renderOrders();
-            updateAccountSummary();
-            initChart();
+        // Global state
+        let currentUser = null;
+        let accountData = null;
+        let marketData = [];
+        let positions = [];
+        let orders = [];
+        let selectedSymbol = 'AAPL';
+        let chart = null;
+        
+        // DOM Elements
+        const authModal = document.getElementById('authModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const authButtons = document.getElementById('authButtons');
+        const userAvatar = document.getElementById('userAvatar');
+        const mainContent = document.getElementById('mainContent');
+        const loadingState = document.getElementById('loadingState');
+        const tradingInterface = document.getElementById('tradingInterface');
+        const notification = document.getElementById('notification');
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async () => {
             setupEventListeners();
-        }
-
-        // Render market data table
-        function renderMarketData() {
-            marketTableBody.innerHTML = '';
+            await checkAuth();
+            await initializeMarketData();
+            setupWebSocket();
+        });
+        
+        // Check authentication status
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
             
-            marketData.forEach(asset => {
-                const changeClass = asset.change >= 0 ? 'positive' : 'negative';
-                const changePercentClass = asset.changePercent >= 0 ? 'positive' : 'negative';
+            if (session) {
+                currentUser = session.user;
+                showNotification('Welcome back!', 'success');
+                await loadUserData();
+                showTradingInterface();
+            } else {
+                showAuthInterface();
+            }
+        }
+        
+        // Load user data from Supabase
+        async function loadUserData() {
+            try {
+                // Load account data
+                const { data: account, error: accountError } = await supabase
+                    .from('accounts')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
                 
+                if (accountError && accountError.code === 'PGRST116') {
+                    // Create account if doesn't exist
+                    await createUserAccount();
+                    accountData = {
+                        balance: 100000,
+                        buying_power: 100000,
+                        total_value: 100000,
+                        daily_change: 0
+                    };
+                } else {
+                    accountData = account;
+                }
+                
+                // Load positions
+                const { data: positionsData } = await supabase
+                    .from('positions')
+                    .select('*')
+                    .eq('user_id', currentUser.id);
+                
+                positions = positionsData || [];
+                
+                // Load orders
+                const { data: ordersData } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+                
+                orders = ordersData || [];
+                
+                updateUI();
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showNotification('Error loading data', 'error');
+            }
+        }
+        
+        // Create user account in Supabase
+        async function createUserAccount() {
+            const { error } = await supabase
+                .from('accounts')
+                .insert({
+                    user_id: currentUser.id,
+                    balance: 100000,
+                    buying_power: 100000,
+                    total_value: 100000,
+                    daily_change: 0,
+                    created_at: new Date().toISOString()
+                });
+            
+            if (error) {
+                console.error('Error creating account:', error);
+                showNotification('Error creating account', 'error');
+            }
+        }
+        
+        // Initialize market data
+        async function initializeMarketData() {
+            // For demo purposes, we'll use mock data
+            // In production, connect to a real market data API
+            marketData = [
+                { symbol: 'AAPL', name: 'Apple Inc.', price: 172.35, change: 2.11, changePercent: 1.24, volume: '45.2M' },
+                { symbol: 'MSFT', name: 'Microsoft Corp.', price: 330.12, change: -1.25, changePercent: -0.38, volume: '28.7M' },
+                { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 138.45, change: 0.85, changePercent: 0.62, volume: '32.1M' },
+                { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 178.21, change: 3.42, changePercent: 1.96, volume: '52.3M' },
+                { symbol: 'TSLA', name: 'Tesla Inc.', price: 245.33, change: -5.21, changePercent: -2.08, volume: '102.5M' },
+                { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 950.02, change: 25.45, changePercent: 2.75, volume: '48.7M' },
+                { symbol: 'META', name: 'Meta Platforms Inc.', price: 310.25, change: 4.12, changePercent: 1.35, volume: '18.9M' },
+                { symbol: 'JPM', name: 'JPMorgan Chase & Co.', price: 195.67, change: 0.45, changePercent: 0.23, volume: '12.3M' }
+            ];
+            
+            // Populate symbol dropdown
+            const symbolSelect = document.getElementById('orderSymbol');
+            symbolSelect.innerHTML = '';
+            marketData.forEach(stock => {
+                const option = document.createElement('option');
+                option.value = stock.symbol;
+                option.textContent = `${stock.symbol} - ${stock.name}`;
+                symbolSelect.appendChild(option);
+            });
+            
+            updateMarketTable();
+        }
+        
+        // Setup WebSocket for real-time updates
+        function setupWebSocket() {
+            // In production, connect to your WebSocket server
+            // This is a mock implementation for demo purposes
+            
+            // Simulate real-time price updates
+            setInterval(() => {
+                if (currentUser && marketData.length > 0) {
+                    updatePrices();
+                    updateUI();
+                }
+            }, 3000);
+        }
+        
+        // Update stock prices (mock)
+        function updatePrices() {
+            marketData.forEach(stock => {
+                const change = (Math.random() - 0.5) * 2;
+                const newPrice = stock.price + change;
+                stock.change = newPrice - stock.price;
+                stock.changePercent = (stock.change / stock.price) * 100;
+                stock.price = newPrice;
+                
+                // Update positions with current stock
+                positions.forEach(position => {
+                    if (position.symbol === stock.symbol) {
+                        position.current_price = stock.price;
+                        position.unrealized_pl = (stock.price - position.avg_price) * position.quantity;
+                        position.unrealized_pl_percent = ((stock.price - position.avg_price) / position.avg_price) * 100;
+                    }
+                });
+            });
+            
+            updateMarketTable();
+            updatePositionsTable();
+        }
+        
+        // Place order
+        async function placeOrder() {
+            const symbol = document.getElementById('orderSymbol').value;
+            const side = document.getElementById('orderSide').value;
+            const quantity = parseInt(document.getElementById('orderQuantity').value);
+            const orderType = document.getElementById('orderType').value;
+            const limitPrice = parseFloat(document.getElementById('limitPrice').value) || 0;
+            
+            if (!symbol || quantity <= 0) {
+                showNotification('Invalid order parameters', 'error');
+                return;
+            }
+            
+            const stock = marketData.find(s => s.symbol === symbol);
+            if (!stock) {
+                showNotification('Invalid symbol', 'error');
+                return;
+            }
+            
+            // Calculate order price
+            let orderPrice = stock.price;
+            if (orderType === 'limit') {
+                if (limitPrice <= 0) {
+                    showNotification('Please enter a valid limit price', 'error');
+                    return;
+                }
+                orderPrice = limitPrice;
+            }
+            
+            const totalCost = orderPrice * quantity;
+            
+            // Check buying power for buy orders
+            if (side === 'buy' && totalCost > accountData.buying_power) {
+                showNotification('Insufficient buying power', 'error');
+                return;
+            }
+            
+            // Check position for sell orders
+            if (side === 'sell') {
+                const position = positions.find(p => p.symbol === symbol);
+                if (!position || position.quantity < quantity) {
+                    showNotification('Insufficient shares to sell', 'error');
+                    return;
+                }
+            }
+            
+            // Create order in Supabase
+            const order = {
+                user_id: currentUser.id,
+                symbol: symbol,
+                side: side,
+                quantity: quantity,
+                price: orderPrice,
+                order_type: orderType,
+                status: 'filled',
+                total_amount: totalCost,
+                created_at: new Date().toISOString()
+            };
+            
+            const { data, error } = await supabase
+                .from('orders')
+                .insert(order)
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Error placing order:', error);
+                showNotification('Error placing order', 'error');
+                return;
+            }
+            
+            // Update account and positions
+            await executeOrder(order);
+            
+            // Add to orders list
+            orders.unshift(data);
+            
+            // Update UI
+            updateUI();
+            updateOrdersTable();
+            
+            showNotification(`Order ${side.toUpperCase()} ${quantity} ${symbol} at $${orderPrice.toFixed(2)}`, 'success');
+            
+            // Reset order form
+            resetOrderForm();
+        }
+        
+        // Execute order and update positions
+        async function executeOrder(order) {
+            const { symbol, side, quantity, price } = order;
+            
+            if (side === 'buy') {
+                // Update account balance
+                accountData.balance -= price * quantity;
+                accountData.buying_power -= price * quantity;
+                
+                // Update or create position
+                const existingPosition = positions.find(p => p.symbol === symbol);
+                
+                if (existingPosition) {
+                    // Update existing position
+                    const newQuantity = existingPosition.quantity + quantity;
+                    const newAvgPrice = ((existingPosition.avg_price * existingPosition.quantity) + (price * quantity)) / newQuantity;
+                    
+                    existingPosition.quantity = newQuantity;
+                    existingPosition.avg_price = newAvgPrice;
+                    existingPosition.current_price = price;
+                    existingPosition.unrealized_pl = (price - newAvgPrice) * newQuantity;
+                    existingPosition.unrealized_pl_percent = ((price - newAvgPrice) / newAvgPrice) * 100;
+                    
+                    // Update in Supabase
+                    await supabase
+                        .from('positions')
+                        .update({
+                            quantity: newQuantity,
+                            avg_price: newAvgPrice,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', existingPosition.id);
+                } else {
+                    // Create new position
+                    const newPosition = {
+                        user_id: currentUser.id,
+                        symbol: symbol,
+                        quantity: quantity,
+                        avg_price: price,
+                        current_price: price,
+                        unrealized_pl: 0,
+                        unrealized_pl_percent: 0,
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    const { data, error } = await supabase
+                        .from('positions')
+                        .insert(newPosition)
+                        .select()
+                        .single();
+                    
+                    if (!error) {
+                        positions.push(data);
+                    }
+                }
+            } else {
+                // Sell order
+                const position = positions.find(p => p.symbol === symbol);
+                
+                // Update account balance
+                accountData.balance += price * quantity;
+                accountData.buying_power += price * quantity;
+                
+                if (position.quantity === quantity) {
+                    // Remove position
+                    await supabase
+                        .from('positions')
+                        .delete()
+                        .eq('id', position.id);
+                    
+                    positions = positions.filter(p => p.id !== position.id);
+                } else {
+                    // Reduce position
+                    position.quantity -= quantity;
+                    
+                    await supabase
+                        .from('positions')
+                        .update({
+                            quantity: position.quantity,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', position.id);
+                }
+            }
+            
+            // Update account in Supabase
+            await supabase
+                .from('accounts')
+                .update({
+                    balance: accountData.balance,
+                    buying_power: accountData.buying_power,
+                    total_value: calculateTotalValue(),
+                    updated_at: new Date().toISOString()
+                })
+                .eq('user_id', currentUser.id);
+        }
+        
+        // Close position
+        async function closePosition(positionId) {
+            const position = positions.find(p => p.id === positionId);
+            if (!position) return;
+            
+            const stock = marketData.find(s => s.symbol === position.symbol);
+            if (!stock) return;
+            
+            // Create sell order
+            const order = {
+                user_id: currentUser.id,
+                symbol: position.symbol,
+                side: 'sell',
+                quantity: position.quantity,
+                price: stock.price,
+                order_type: 'market',
+                status: 'filled',
+                total_amount: stock.price * position.quantity,
+                created_at: new Date().toISOString()
+            };
+            
+            // Save order
+            const { data, error } = await supabase
+                .from('orders')
+                .insert(order)
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Error closing position:', error);
+                showNotification('Error closing position', 'error');
+                return;
+            }
+            
+            // Execute order
+            await executeOrder(order);
+            
+            // Add to orders list
+            orders.unshift(data);
+            
+            // Update UI
+            updateUI();
+            updateOrdersTable();
+            
+            showNotification(`Closed position ${position.symbol}`, 'success');
+        }
+        
+        // Calculate total account value
+        function calculateTotalValue() {
+            let positionsValue = 0;
+            positions.forEach(position => {
+                positionsValue += position.current_price * position.quantity;
+            });
+            
+            return accountData.balance + positionsValue;
+        }
+        
+        // Update UI with current data
+        function updateUI() {
+            if (!accountData) return;
+            
+            // Update account info
+            document.getElementById('balanceAmount').textContent = `$${accountData.balance.toFixed(2)}`;
+            document.getElementById('totalValue').textContent = `$${calculateTotalValue().toFixed(2)}`;
+            document.getElementById('buyingPower').textContent = `$${accountData.buying_power.toFixed(2)}`;
+            document.getElementById('openPositions').textContent = positions.length;
+            
+            const positionsValue = positions.reduce((sum, pos) => 
+                sum + (pos.current_price * pos.quantity), 0);
+            document.getElementById('positionsValue').textContent = `Total value: $${positionsValue.toFixed(2)}`;
+            
+            // Update selected symbol
+            const stock = marketData.find(s => s.symbol === selectedSymbol);
+            if (stock) {
+                document.getElementById('selectedSymbol').textContent = `${stock.symbol} - ${stock.name}`;
+                document.getElementById('currentPrice').innerHTML = 
+                    `$${stock.price.toFixed(2)} <span class="${stock.change >= 0 ? 'positive' : 'negative'}" id="priceChange">
+                        ${stock.change >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%
+                    </span>`;
+            }
+            
+            updateEstimatedCost();
+            updateMarketTable();
+            updatePositionsTable();
+        }
+        
+        // Update market table
+        function updateMarketTable() {
+            const tbody = document.getElementById('marketTableBody');
+            tbody.innerHTML = '';
+            
+            marketData.forEach(stock => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="symbol">${asset.symbol}</td>
-                    <td>${asset.name}</td>
-                    <td>$${asset.price.toFixed(2)}</td>
-                    <td class="${changeClass}">${asset.change >= 0 ? '+' : ''}${asset.change.toFixed(2)}</td>
-                    <td class="${changePercentClass}">${asset.changePercent >= 0 ? '+' : ''}${asset.changePercent.toFixed(2)}%</td>
-                    <td>${asset.volume}</td>
-                    <td>${asset.marketCap}</td>
+                    <td><strong>${stock.symbol}</strong><br><small>${stock.name}</small></td>
+                    <td>$${stock.price.toFixed(2)}</td>
+                    <td class="${stock.change >= 0 ? 'positive' : 'negative'}">
+                        ${stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)}
+                    </td>
+                    <td class="${stock.changePercent >= 0 ? 'positive' : 'negative'}">
+                        ${stock.changePercent >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%
+                    </td>
+                    <td>${stock.volume}</td>
+                    <td><button class="btn btn-secondary" onclick="selectSymbol('${stock.symbol}')">Trade</button></td>
                 `;
-                
-                // Make row clickable to select asset for trading
-                row.addEventListener('click', () => {
-                    selectAsset(asset);
-                });
-                
-                marketTableBody.appendChild(row);
+                tbody.appendChild(row);
             });
         }
-
-        // Render positions table
-        function renderPositions() {
-            positionsBody.innerHTML = '';
+        
+        // Update positions table
+        function updatePositionsTable() {
+            const tbody = document.getElementById('positionsBody');
+            tbody.innerHTML = '';
             
             positions.forEach(position => {
-                const marketValue = position.quantity * position.currentPrice;
-                const plClass = position.pl >= 0 ? 'positive' : 'negative';
+                const stock = marketData.find(s => s.symbol === position.symbol);
+                if (!stock) return;
+                
+                const marketValue = position.current_price * position.quantity;
+                const plClass = position.unrealized_pl >= 0 ? 'positive' : 'negative';
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="symbol">${position.symbol}</td>
+                    <td><strong>${position.symbol}</strong></td>
                     <td>${position.quantity}</td>
-                    <td>$${position.avgPrice.toFixed(2)}</td>
-                    <td>$${position.currentPrice.toFixed(2)}</td>
+                    <td>$${position.avg_price.toFixed(2)}</td>
+                    <td>$${position.current_price.toFixed(2)}</td>
                     <td>$${marketValue.toFixed(2)}</td>
-                    <td class="${plClass}">$${position.pl.toFixed(2)}</td>
-                    <td class="${plClass}">${position.plPercent >= 0 ? '+' : ''}${position.plPercent.toFixed(2)}%</td>
-                    <td><button class="btn btn-secondary close-position" data-symbol="${position.symbol}">Close</button></td>
+                    <td class="${plClass}">$${position.unrealized_pl.toFixed(2)}</td>
+                    <td class="${plClass}">${position.unrealized_pl_percent >= 0 ? '+' : ''}${position.unrealized_pl_percent.toFixed(2)}%</td>
+                    <td><button class="btn btn-secondary" onclick="closePosition('${position.id}')">Close</button></td>
                 `;
-                
-                positionsBody.appendChild(row);
-            });
-            
-            // Add event listeners to close position buttons
-            document.querySelectorAll('.close-position').forEach(button => {
-                button.addEventListener('click', function() {
-                    const symbol = this.getAttribute('data-symbol');
-                    closePosition(symbol);
-                });
+                tbody.appendChild(row);
             });
         }
-
-        // Render orders table
-        function renderOrders() {
-            ordersBody.innerHTML = '';
+        
+        // Update orders table
+        function updateOrdersTable() {
+            const tbody = document.getElementById('ordersBody');
+            tbody.innerHTML = '';
             
-            orders.forEach(order => {
-                const sideClass = order.side === 'BUY' ? 'positive' : 'negative';
+            orders.slice(0, 10).forEach(order => {
+                const date = new Date(order.created_at);
+                const formattedDate = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+                const sideClass = order.side === 'buy' ? 'positive' : 'negative';
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${order.datetime}</td>
-                    <td class="symbol">${order.symbol}</td>
-                    <td class="${sideClass}">${order.side}</td>
+                    <td>${formattedDate}</td>
+                    <td><strong>${order.symbol}</strong></td>
+                    <td class="${sideClass}">${order.side.toUpperCase()}</td>
                     <td>${order.quantity}</td>
                     <td>$${order.price.toFixed(2)}</td>
-                    <td><span class="${order.status === 'FILLED' ? 'positive' : 'warning'}">${order.status}</span></td>
+                    <td><span class="positive">${order.status}</span></td>
                 `;
-                
-                ordersBody.appendChild(row);
+                tbody.appendChild(row);
             });
         }
-
-        // Update account summary
-        function updateAccountSummary() {
-            accountBalanceEl.textContent = accountBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            totalValueEl.textContent = '$' + totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            buyingPowerEl.textContent = '$' + buyingPower.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            openPositionsEl.textContent = openPositionsCount;
+        
+        // Update estimated cost
+        function updateEstimatedCost() {
+            const symbol = document.getElementById('orderSymbol').value;
+            const quantity = parseInt(document.getElementById('orderQuantity').value) || 0;
+            const side = document.getElementById('orderSide').value;
+            
+            const stock = marketData.find(s => s.symbol === symbol);
+            if (!stock) return;
+            
+            const estimatedCost = stock.price * quantity;
+            document.getElementById('estimatedCost').textContent = 
+                `$${estimatedCost.toFixed(2)} ${side === 'buy' ? 'to buy' : 'from selling'}`;
         }
-
-        // Initialize price chart
-        function initChart() {
-            // Generate sample price data
-            const dataPoints = 30;
-            let prices = [];
-            let basePrice = currentAsset.price;
+        
+        // Select symbol for trading
+        window.selectSymbol = function(symbol) {
+            selectedSymbol = symbol;
+            document.getElementById('orderSymbol').value = symbol;
+            updateUI();
+            updateChart();
+        };
+        
+        // Close position (global function)
+        window.closePosition = async function(positionId) {
+            await closePosition(positionId);
+        };
+        
+        // Reset order form
+        function resetOrderForm() {
+            document.getElementById('orderQuantity').value = '1';
+            document.getElementById('limitPrice').value = '';
+            document.getElementById('orderType').value = 'market';
+            document.getElementById('limitPriceGroup').style.display = 'none';
+            updateEstimatedCost();
+        }
+        
+        // Show trading interface
+        function showTradingInterface() {
+            loadingState.style.display = 'none';
+            tradingInterface.style.display = 'block';
+            authButtons.style.display = 'none';
+            userAvatar.style.display = 'flex';
+            userAvatar.textContent = currentUser.email[0].toUpperCase();
+            logoutBtn.style.display = 'block';
+            updateUI();
+            updateOrdersTable();
+            initializeChart();
+        }
+        
+        // Show auth interface
+        function showAuthInterface() {
+            loadingState.style.display = 'none';
+            tradingInterface.style.display = 'none';
+            authButtons.style.display = 'flex';
+            userAvatar.style.display = 'none';
+            logoutBtn.style.display = 'none';
+        }
+        
+        // Initialize chart
+        function initializeChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
             
-            for (let i = 0; i < dataPoints; i++) {
-                // Generate random walk prices
-                const change = (Math.random() - 0.5) * 4;
-                basePrice += change;
-                prices.push(basePrice);
-            }
-            
+            // Generate sample data
             const labels = [];
-            for (let i = dataPoints; i > 0; i--) {
-                labels.push(`T-${i}`);
+            const data = [];
+            let price = 170;
+            
+            for (let i = 30; i >= 0; i--) {
+                labels.push(`Day ${i}`);
+                price += (Math.random() - 0.5) * 3;
+                data.push(price);
             }
             
-            // Create chart
-            priceChart = new Chart(ctx, {
+            chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: `${currentAsset.symbol} Price`,
-                        data: prices,
+                        label: 'Price',
+                        data: data,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         borderWidth: 2,
@@ -749,345 +1198,172 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            position: 'right',
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            }
-                        }
+                        legend: { display: false }
                     }
                 }
             });
         }
-
-        // Select an asset for trading
-        function selectAsset(asset) {
-            currentAsset = asset;
-            document.querySelector('.asset-info h3').textContent = `${asset.symbol} - ${asset.name}`;
-            
-            // Update current price display
-            const isPositive = asset.change >= 0;
-            currentPriceEl.innerHTML = `$${asset.price.toFixed(2)} <span class="${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${asset.changePercent.toFixed(2)}%</span>`;
-            currentPriceEl.className = `current-price ${isPositive ? 'price-up' : 'price-down'}`;
-            
-            // Update chart with new data
-            updateChart();
-            
-            // Update estimated cost
-            updateEstimatedCost();
-        }
-
-        // Update chart with new data
+        
+        // Update chart
         function updateChart() {
-            // Generate new random price data based on current asset
-            const dataPoints = 30;
-            let prices = [];
-            let basePrice = currentAsset.price;
+            if (!chart) return;
             
-            for (let i = 0; i < dataPoints; i++) {
-                const change = (Math.random() - 0.5) * 4;
-                basePrice += change;
-                prices.push(basePrice);
+            const stock = marketData.find(s => s.symbol === selectedSymbol);
+            if (!stock) return;
+            
+            // Update chart with new data based on selected symbol
+            let price = stock.price - 10;
+            const newData = [];
+            
+            for (let i = 0; i < 31; i++) {
+                price += (Math.random() - 0.5) * 3;
+                newData.push(price);
             }
             
-            // Update chart data
-            priceChart.data.datasets[0].data = prices;
-            priceChart.data.datasets[0].label = `${currentAsset.symbol} Price`;
-            priceChart.update();
+            chart.data.datasets[0].data = newData;
+            chart.update();
         }
-
-        // Update estimated cost
-        function updateEstimatedCost() {
-            const quantity = parseInt(quantityInput.value) || 0;
-            const estimatedCost = quantity * currentAsset.price;
-            estimatedCostEl.textContent = '$' + estimatedCost.toFixed(2);
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
         }
-
-        // Place a buy order
-        function placeBuyOrder() {
-            const quantity = parseInt(quantityInput.value) || 0;
-            const orderType = orderTypeSelect.value;
-            const limitPrice = parseFloat(limitPriceInput.value) || 0;
-            const estimatedCost = quantity * currentAsset.price;
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Auth buttons
+            loginBtn.addEventListener('click', () => {
+                authModal.style.display = 'flex';
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('signupForm').classList.remove('active');
+                document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
+                document.querySelector('.auth-tab[data-tab="signup"]').classList.remove('active');
+            });
             
-            if (quantity <= 0) {
-                alert('Please enter a valid quantity');
-                return;
-            }
+            signupBtn.addEventListener('click', () => {
+                authModal.style.display = 'flex';
+                document.getElementById('signupForm').classList.add('active');
+                document.getElementById('loginForm').classList.remove('active');
+                document.querySelector('.auth-tab[data-tab="signup"]').classList.add('active');
+                document.querySelector('.auth-tab[data-tab="login"]').classList.remove('active');
+            });
             
-            if (estimatedCost > buyingPower) {
-                alert('Insufficient buying power');
-                return;
-            }
+            // Auth tabs
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    
+                    // Update tabs
+                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Update forms
+                    document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                    document.getElementById(`${tabName}Form`).classList.add('active');
+                });
+            });
             
-            if (orderType === 'limit' && limitPrice <= 0) {
-                alert('Please enter a valid limit price');
-                return;
-            }
-            
-            // Calculate actual price based on order type
-            let executionPrice = currentAsset.price;
-            if (orderType === 'limit') {
-                // For demo, assume limit order executes if limit price >= current price
-                executionPrice = limitPrice >= currentAsset.price ? currentAsset.price : limitPrice;
-            }
-            
-            const totalCost = quantity * executionPrice;
-            
-            // Update account
-            accountBalance -= totalCost;
-            buyingPower -= totalCost;
-            
-            // Update positions
-            const existingPositionIndex = positions.findIndex(p => p.symbol === currentAsset.symbol);
-            
-            if (existingPositionIndex >= 0) {
-                // Update existing position
-                const position = positions[existingPositionIndex];
-                const newQuantity = position.quantity + quantity;
-                const newAvgPrice = ((position.avgPrice * position.quantity) + (executionPrice * quantity)) / newQuantity;
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
                 
-                positions[existingPositionIndex].quantity = newQuantity;
-                positions[existingPositionIndex].avgPrice = newAvgPrice;
-                positions[existingPositionIndex].currentPrice = currentAsset.price;
-                positions[existingPositionIndex].pl = (currentAsset.price - newAvgPrice) * newQuantity;
-                positions[existingPositionIndex].plPercent = ((currentAsset.price - newAvgPrice) / newAvgPrice) * 100;
-            } else {
-                // Add new position
-                const pl = (currentAsset.price - executionPrice) * quantity;
-                const plPercent = ((currentAsset.price - executionPrice) / executionPrice) * 100;
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
                 
-                positions.push({
-                    symbol: currentAsset.symbol,
-                    quantity: quantity,
-                    avgPrice: executionPrice,
-                    currentPrice: currentAsset.price,
-                    pl: pl,
-                    plPercent: plPercent
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
                 });
                 
-                openPositionsCount++;
-            }
-            
-            // Add to orders history
-            const now = new Date();
-            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-            
-            orders.unshift({
-                datetime: orderTime,
-                symbol: currentAsset.symbol,
-                side: 'BUY',
-                quantity: quantity,
-                price: executionPrice,
-                status: 'FILLED'
+                if (error) {
+                    showNotification(error.message, 'error');
+                    return;
+                }
+                
+                currentUser = data.user;
+                authModal.style.display = 'none';
+                showNotification('Login successful!', 'success');
+                await loadUserData();
+                showTradingInterface();
             });
             
-            // Update UI
-            updateAccountSummary();
-            renderPositions();
-            renderOrders();
-            
-            // Show success message
-            alert(`Successfully bought ${quantity} shares of ${currentAsset.symbol} at $${executionPrice.toFixed(2)}`);
-            
-            // Reset form
-            resetOrderForm();
-        }
-
-        // Place a sell order
-        function placeSellOrder() {
-            const quantity = parseInt(quantityInput.value) || 0;
-            const orderType = orderTypeSelect.value;
-            const limitPrice = parseFloat(limitPriceInput.value) || 0;
-            
-            if (quantity <= 0) {
-                alert('Please enter a valid quantity');
-                return;
-            }
-            
-            // Check if we have enough shares to sell
-            const existingPositionIndex = positions.findIndex(p => p.symbol === currentAsset.symbol);
-            
-            if (existingPositionIndex < 0) {
-                alert(`You don't have any ${currentAsset.symbol} shares to sell`);
-                return;
-            }
-            
-            const position = positions[existingPositionIndex];
-            
-            if (position.quantity < quantity) {
-                alert(`You only have ${position.quantity} shares of ${currentAsset.symbol}`);
-                return;
-            }
-            
-            if (orderType === 'limit' && limitPrice <= 0) {
-                alert('Please enter a valid limit price');
-                return;
-            }
-            
-            // Calculate actual price based on order type
-            let executionPrice = currentAsset.price;
-            if (orderType === 'limit') {
-                // For demo, assume limit order executes if limit price <= current price
-                executionPrice = limitPrice <= currentAsset.price ? currentAsset.price : limitPrice;
-            }
-            
-            const totalValue = quantity * executionPrice;
-            
-            // Update account
-            accountBalance += totalValue;
-            buyingPower += totalValue;
-            
-            // Update positions
-            if (position.quantity === quantity) {
-                // Remove position completely
-                positions.splice(existingPositionIndex, 1);
-                openPositionsCount--;
-            } else {
-                // Reduce position size
-                positions[existingPositionIndex].quantity -= quantity;
-                positions[existingPositionIndex].pl = (currentAsset.price - position.avgPrice) * (position.quantity - quantity);
-                positions[existingPositionIndex].plPercent = ((currentAsset.price - position.avgPrice) / position.avgPrice) * 100;
-            }
-            
-            // Add to orders history
-            const now = new Date();
-            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-            
-            orders.unshift({
-                datetime: orderTime,
-                symbol: currentAsset.symbol,
-                side: 'SELL',
-                quantity: quantity,
-                price: executionPrice,
-                status: 'FILLED'
+            // Signup form
+            document.getElementById('signupForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const fullName = document.getElementById('signupFullName').value;
+                
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: fullName
+                        }
+                    }
+                });
+                
+                if (error) {
+                    showNotification(error.message, 'error');
+                    return;
+                }
+                
+                showNotification('Account created! Please check your email for verification.', 'success');
+                authModal.style.display = 'none';
             });
             
-            // Update UI
-            updateAccountSummary();
-            renderPositions();
-            renderOrders();
-            
-            // Show success message
-            alert(`Successfully sold ${quantity} shares of ${currentAsset.symbol} at $${executionPrice.toFixed(2)}`);
-            
-            // Reset form
-            resetOrderForm();
-        }
-
-        // Close a position
-        function closePosition(symbol) {
-            const positionIndex = positions.findIndex(p => p.symbol === symbol);
-            
-            if (positionIndex < 0) return;
-            
-            const position = positions[positionIndex];
-            const confirmation = confirm(`Are you sure you want to close your ${position.quantity} ${symbol} position?`);
-            
-            if (!confirmation) return;
-            
-            const totalValue = position.quantity * position.currentPrice;
-            
-            // Update account
-            accountBalance += totalValue;
-            buyingPower += totalValue;
-            
-            // Remove position
-            positions.splice(positionIndex, 1);
-            openPositionsCount--;
-            
-            // Add to orders history
-            const now = new Date();
-            const orderTime = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-            
-            orders.unshift({
-                datetime: orderTime,
-                symbol: symbol,
-                side: 'SELL',
-                quantity: position.quantity,
-                price: position.currentPrice,
-                status: 'FILLED'
+            // Logout
+            logoutBtn.addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                currentUser = null;
+                accountData = null;
+                positions = [];
+                orders = [];
+                showAuthInterface();
+                showNotification('Logged out successfully', 'info');
             });
             
-            // Update UI
-            updateAccountSummary();
-            renderPositions();
-            renderOrders();
-            
-            alert(`Successfully closed ${position.quantity} ${symbol} position`);
-        }
-
-        // Reset order form
-        function resetOrderForm() {
-            quantityInput.value = 10;
-            limitPriceInput.value = '';
-            updateEstimatedCost();
-        }
-
-        // Set up event listeners
-        function setupEventListeners() {
-            // Order type change
-            orderTypeSelect.addEventListener('change', function() {
-                if (this.value === 'limit' || this.value === 'stop') {
-                    limitPriceGroup.style.display = 'block';
-                } else {
-                    limitPriceGroup.style.display = 'none';
+            // Close modal when clicking outside
+            authModal.addEventListener('click', (e) => {
+                if (e.target === authModal) {
+                    authModal.style.display = 'none';
                 }
             });
             
-            // Quantity change
-            quantityInput.addEventListener('input', updateEstimatedCost);
-            
-            // Buy button
-            buyBtn.addEventListener('click', placeBuyOrder);
-            
-            // Sell button
-            sellBtn.addEventListener('click', placeSellOrder);
-            
-            // Reset button
-            resetBtn.addEventListener('click', resetOrderForm);
-            
-            // Navigation items
-            document.querySelectorAll('.nav-links li').forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove active class from all items
-                    document.querySelectorAll('.nav-links li').forEach(li => {
-                        li.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked item
-                    this.classList.add('active');
-                    
-                    // In a real app, this would load different views
-                    alert(`Loading ${this.textContent.trim()} view...`);
-                });
+            // Order form events
+            document.getElementById('orderType').addEventListener('change', function() {
+                if (this.value === 'limit' || this.value === 'stop') {
+                    document.getElementById('limitPriceGroup').style.display = 'block';
+                } else {
+                    document.getElementById('limitPriceGroup').style.display = 'none';
+                }
+                updateEstimatedCost();
             });
+            
+            document.getElementById('orderSymbol').addEventListener('change', updateEstimatedCost);
+            document.getElementById('orderSide').addEventListener('change', updateEstimatedCost);
+            document.getElementById('orderQuantity').addEventListener('input', updateEstimatedCost);
+            document.getElementById('limitPrice').addEventListener('input', updateEstimatedCost);
+            
+            // Place order button
+            document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+                await placeOrder();
+            });
+            
+            // Reset order button
+            document.getElementById('resetOrderBtn').addEventListener('click', resetOrderForm);
             
             // Timeframe selector
-            document.getElementById('timeframe').addEventListener('change', function() {
-                alert(`Switching to ${this.value} timeframe for chart...`);
-                // In a real app, this would update the chart with different timeframe data
-            });
+            document.getElementById('timeframe').addEventListener('change', updateChart);
         }
-
-        // Initialize the platform when page loads
-        document.addEventListener('DOMContentLoaded', initPlatform);
     </script>
 </body>
 </html>
