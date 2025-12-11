@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiBi Catering - Premium Catering Services</title>
+    <meta name="description" content="Professional catering services for weddings, corporate events, and private parties">
+    <meta name="theme-color" content="#e63946">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         :root {
             --primary: #e63946;
             --secondary: #457b9d;
@@ -20,24 +18,137 @@
             --light: #f1faee;
             --dark: #1d3557;
             --gold: #FFD700;
-            --gray: #6c757d;
-            --success: #2a9d8f;
-            --warning: #e9c46a;
-            --danger: #e63946;
+            --gradient-primary: linear-gradient(135deg, #e63946, #ff6b6b);
+            --gradient-dark: linear-gradient(135deg, #1d3557, #457b9d);
+            --gradient-success: linear-gradient(135deg, #2a9d8f, #4ecdc4);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 15px 40px rgba(0,0,0,0.15);
+            --radius-sm: 10px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-fade-in { animation: fadeIn 1s ease-out; }
+        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
+        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
+        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        /* PWA Install Button */
+        .pwa-install-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .pwa-install-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(230, 57, 70, 0.3);
         }
 
         /* Marquee Banner */
         .marquee-banner {
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            background: var(--gradient-primary);
             color: white;
-            padding: 10px 0;
+            padding: 15px 0;
             overflow: hidden;
             position: relative;
             font-weight: 600;
@@ -53,34 +164,34 @@
         .marquee-item {
             display: flex;
             align-items: center;
-            margin: 0 30px;
+            margin: 0 40px;
+            padding: 5px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .marquee-item i {
-            margin-right: 8px;
+            margin-right: 10px;
             color: var(--gold);
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
 
         /* Header & Navigation */
         header {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-md);
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 3px solid var(--primary);
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 5%;
+            padding: 1rem 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -89,12 +200,13 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
         }
 
         .logo-placeholder {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -103,21 +215,28 @@
             font-size: 1.8rem;
             font-weight: bold;
             border: 3px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .logo-placeholder:hover {
+            transform: rotate(360deg) scale(1.1);
         }
 
         .company-name {
-            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--dark));
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
         }
 
@@ -125,121 +244,147 @@
             text-decoration: none;
             color: var(--dark);
             font-weight: 600;
-            font-size: 1rem;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 30px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .nav-links a:hover::before {
+            left: 0;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
-            background: rgba(230, 57, 70, 0.1);
+            color: white;
+            transform: translateY(-2px);
         }
 
         .nav-links a.active {
-            color: var(--primary);
-            background: rgba(230, 57, 70, 0.1);
-        }
-
-        .nav-links a i {
-            margin-right: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
         }
 
         .hamburger {
             display: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--dark);
+            transition: var(--transition);
         }
 
-        /* Buttons */
-        .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #ff6b6b);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.3);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #4ecdc4);
-            color: white;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.3);
-        }
-
-        .btn-whatsapp {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-        }
-
-        .btn-whatsapp:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
+        .hamburger:hover {
             color: var(--primary);
+            transform: rotate(90deg);
         }
 
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 34px;
+            transition: var(--transition);
+        }
+
+        .theme-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .theme-toggle input:checked + .theme-slider {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .theme-toggle input:checked + .theme-slider:before {
+            transform: translateX(30px);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(29, 53, 87, 0.85), rgba(29, 53, 87, 0.95)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070');
+            background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(29, 53, 87, 0.95)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
-            padding: 6rem 5%;
+            padding: 8rem 5%;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite linear;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
         .hero h1 {
-            font-size: 3.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
             margin-bottom: 1.5rem;
             font-weight: 800;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
             background: linear-gradient(to right, #fff, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
         }
 
         .hero p {
             font-size: 1.3rem;
-            max-width: 800px;
             margin: 0 auto 3rem;
             opacity: 0.9;
             line-height: 1.8;
+            animation: slideInUp 1.2s ease-out;
         }
 
         .hero-buttons {
@@ -247,12 +392,14 @@
             gap: 1.5rem;
             justify-content: center;
             margin-top: 2rem;
+            animation: slideInUp 1.4s ease-out;
         }
 
-        /* Catering Services Section */
+        /* Service Categories */
         .services-section {
-            padding: 5rem 5%;
+            padding: 6rem 5%;
             background: white;
+            position: relative;
         }
 
         .section-title {
@@ -261,30 +408,25 @@
         }
 
         .section-title h2 {
-            font-size: 2.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
             color: var(--dark);
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
         }
 
-        .section-title h2:after {
+        .section-title h2::after {
             content: '';
             position: absolute;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            bottom: -10px;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient-primary);
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .section-title p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
+            border-radius: 5px;
+            animation: slideInLeft 1s ease-out;
         }
 
         .services-grid {
@@ -296,225 +438,74 @@
 
         .service-card {
             background: white;
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            transition: all 0.4s ease;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
             position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .service-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transform: translateY(-20px) rotateX(5deg);
+            box-shadow: var(--shadow-lg);
         }
 
-        .service-card:hover .service-image img {
-            transform: scale(1.1);
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
         }
 
         .service-image {
             height: 250px;
             overflow: hidden;
+            position: relative;
         }
 
         .service-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.8s ease;
         }
 
-        .service-content {
+        .service-card:hover .service-image img {
+            transform: scale(1.2) rotate(2deg);
+        }
+
+        .service-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            align-items: flex-end;
             padding: 2rem;
+            opacity: 0;
+            transition: var(--transition);
         }
 
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+        .service-card:hover .service-overlay {
+            opacity: 1;
         }
 
-        .service-title {
-            font-size: 1.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .service-description {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .service-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .service-features li {
-            padding: 0.5rem 0;
-            color: var(--dark);
-        }
-
-        .service-features li i {
-            color: var(--success);
-            margin-right: 10px;
-        }
-
-        /* Share Profile Section */
-        .share-profile {
-            background: linear-gradient(135deg, var(--light), white);
-            padding: 4rem 5%;
-            text-align: center;
-            border-radius: 20px;
-            margin: 4rem 5%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-        }
-
-        .share-options {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 15px;
-            width: 150px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-
-        .share-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .share-btn i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .share-btn.whatsapp i { color: #25D366; }
-        .share-btn.facebook i { color: #1877F2; }
-        .share-btn.twitter i { color: #1DA1F2; }
-        .share-btn.link i { color: var(--primary); }
-
-        /* Booking Section */
-        .booking-section {
-            padding: 5rem 5%;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
-
-        .booking-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-
-        .booking-header {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: white;
-            padding: 2.5rem;
-            text-align: center;
-        }
-
-        .booking-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .booking-steps {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            padding: 3rem;
-            position: relative;
-        }
-
-        .booking-step {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: var(--light);
-            color: var(--dark);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0 auto 1rem;
-            border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .booking-step.active .step-number {
-            background: var(--primary);
-            color: white;
-        }
-
-        .step-content {
-            background: var(--light);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-top: 2rem;
-        }
-
-        .whatsapp-booking {
-            text-align: center;
-            padding: 3rem;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-        }
-
-        .whatsapp-booking h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .whatsapp-booking p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .whatsapp-number {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            background: white;
-            color: #25D366;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-        }
-
-        /* Profile Sharing Modal */
-        .modal {
+        /* Booking Modal */
+        .booking-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -525,24 +516,123 @@
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
             background: white;
+            border-radius: var(--radius-lg);
             padding: 3rem;
-            border-radius: 20px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
+            position: relative;
+            animation: slideInUp 0.5s ease-out;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .share-option:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .share-option i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 5rem 5%;
             text-align: center;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--gray);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 6rem 5%;
+            background: var(--light);
+        }
+
+        .swiper-container {
+            width: 100%;
+            padding: 50px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
         }
 
         /* Footer */
@@ -550,7 +640,18 @@
             background: var(--dark);
             color: white;
             padding: 4rem 5% 2rem;
-            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
         }
 
         .footer-content {
@@ -559,52 +660,157 @@
             gap: 3rem;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        .footer-section h3 {
-            margin-bottom: 1.5rem;
-            color: white;
-            font-size: 1.3rem;
-        }
-
-        .footer-section p, .footer-section a {
-            color: #ccc;
-            margin-bottom: 0.8rem;
-            display: block;
+        /* Buttons */
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
             text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
             color: white;
-            font-size: 1.2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.3);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Toggle Sections */
+        .toggle-section {
+            margin: 2rem 0;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .toggle-header {
+            padding: 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .toggle-header:hover {
+            background: var(--gradient-primary);
+            transform: scale(1.02);
+        }
+
+        .toggle-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .toggle-content.active {
+            padding: 2rem;
+            max-height: 1000px;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gradient-success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
             .hero h1 {
                 font-size: 3rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             }
         }
 
@@ -618,12 +824,15 @@
                 top: 80px;
                 left: -100%;
                 width: 100%;
+                height: calc(100vh - 80px);
                 background: white;
                 flex-direction: column;
                 padding: 2rem;
-                transition: left 0.3s ease;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: var(--shadow-lg);
                 z-index: 999;
+                justify-content: flex-start;
+                gap: 1rem;
             }
             
             .nav-links.active {
@@ -638,23 +847,9 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .booking-steps {
-                flex-direction: column;
-                gap: 2rem;
-            }
-            
-            .share-options {
-                flex-direction: column;
-                align-items: center;
-            }
         }
 
         @media (max-width: 480px) {
-            .logo-container {
-                gap: 10px;
-            }
-            
             .company-name {
                 font-size: 1.5rem;
             }
@@ -667,60 +862,17 @@
                 font-size: 2.2rem;
             }
         }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--accent));
-            border-radius: 5px;
-        }
-
-        /* Loading States */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Hidden Class */
-        .hidden {
-            display: none !important;
-        }
     </style>
 </head>
 <body>
+    <!-- PWA Install Button -->
+    <button id="installBtn" class="pwa-install-btn">
+        <i class="fas fa-download"></i> Install App
+    </button>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
     <!-- Marquee Banner -->
     <div class="marquee-banner">
         <div class="marquee-content">
@@ -729,22 +881,17 @@
             <div class="marquee-item"><i class="fas fa-clock"></i> 24/7 Customer Support Available</div>
             <div class="marquee-item"><i class="fas fa-gift"></i> Special Discount for First Booking</div>
             <div class="marquee-item"><i class="fas fa-check-circle"></i> 100% Satisfaction Guaranteed</div>
-            <div class="marquee-item"><i class="fas fa-users"></i> Serving 500+ Happy Clients Monthly</div>
         </div>
     </div>
 
-    <!-- Header & Navigation -->
+    <!-- Header -->
     <header>
         <nav class="navbar">
-            <div class="logo-container">
-                <div class="logo-placeholder">
+            <div class="logo-container" onclick="showSection('home')">
+                <div class="logo-placeholder animate-pulse">
                     <span>BC</span>
                 </div>
                 <h1 class="company-name">BiBi Catering</h1>
-            </div>
-            
-            <div class="hamburger" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
             </div>
             
             <div class="nav-links">
@@ -758,11 +905,21 @@
                     <i class="fas fa-calendar-check"></i> Book Now
                 </a>
                 <a href="#" onclick="showSection('share')">
-                    <i class="fas fa-share-alt"></i> Share Profile
+                    <i class="fas fa-share-alt"></i> Share
                 </a>
-                <a href="#" onclick="showSection('contact')">
-                    <i class="fas fa-phone-alt"></i> Contact
+                <a href="#" onclick="showSection('about')">
+                    <i class="fas fa-info-circle"></i> About
                 </a>
+                
+                <!-- Theme Toggle -->
+                <label class="theme-toggle">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="theme-slider"></span>
+                </label>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
             </div>
         </nav>
     </header>
@@ -772,16 +929,40 @@
         <!-- Home Section -->
         <section id="home" class="section">
             <div class="hero">
-                <h1 class="fade-in-up">Exquisite Catering for Every Occasion</h1>
-                <p class="fade-in-up">From intimate gatherings to grand celebrations, BiBi Catering delivers exceptional culinary experiences with personalized service and attention to detail.</p>
-                
-                <div class="hero-buttons fade-in-up">
-                    <button class="btn btn-primary" onclick="showSection('services')">
-                        <i class="fas fa-eye"></i> View Our Services
-                    </button>
-                    <button class="btn btn-whatsapp" onclick="startWhatsAppBooking()">
-                        <i class="fab fa-whatsapp"></i> Book via WhatsApp
-                    </button>
+                <div class="hero-content">
+                    <h1>Exquisite Catering Experiences</h1>
+                    <p>Transform your events into unforgettable moments with our premium catering services. From intimate gatherings to grand celebrations, we deliver culinary excellence.</p>
+                    
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary animate-float" onclick="showSection('services')">
+                            <i class="fas fa-eye"></i> Explore Services
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="startWhatsAppBooking()">
+                            <i class="fab fa-whatsapp"></i> Instant Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item animate-slide-up">
+                        <div class="stat-number" id="clientsCount">0</div>
+                        <p>Happy Clients</p>
+                    </div>
+                    <div class="stat-item animate-slide-up" style="animation-delay: 0.2s">
+                        <div class="stat-number" id="eventsCount">0</div>
+                        <p>Events Catered</p>
+                    </div>
+                    <div class="stat-item animate-slide-up" style="animation-delay: 0.4s">
+                        <div class="stat-number" id="serviceCount">0</div>
+                        <p>Services Offered</p>
+                    </div>
+                    <div class="stat-item animate-slide-up" style="animation-delay: 0.6s">
+                        <div class="stat-number" id="ratingCount">0</div>
+                        <p>Average Rating</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -790,146 +971,32 @@
         <section id="services" class="section hidden">
             <div class="services-section">
                 <div class="section-title">
-                    <h2>Our Catering Services</h2>
-                    <p>Explore our wide range of professional catering services tailored to your needs</p>
+                    <h2>Our Premium Services</h2>
+                    <p>Discover our wide range of catering services for every occasion</p>
                 </div>
 
-                <div class="services-grid">
-                    <!-- Wedding Catering -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Wedding Catering">
-                        </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-ring"></i>
-                            </div>
-                            <h3 class="service-title">Wedding Catering</h3>
-                            <p class="service-description">Make your special day unforgettable with our exquisite wedding catering services. Custom menus, elegant presentation, and professional service.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Custom wedding menu design</li>
-                                <li><i class="fas fa-check"></i> Tasting sessions available</li>
-                                <li><i class="fas fa-check"></i> Wedding cake coordination</li>
-                                <li><i class="fas fa-check"></i> Full-service catering staff</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Wedding Catering')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
-                        </div>
-                    </div>
+                <div class="services-grid" id="servicesContainer">
+                    <!-- Services will be loaded from Supabase -->
+                </div>
 
-                    <!-- Corporate Events -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Corporate Events">
-                        </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <h3 class="service-title">Corporate Events</h3>
-                            <p class="service-description">Professional catering for business meetings, conferences, and corporate gatherings. Impress your clients and employees.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Conference catering packages</li>
-                                <li><i class="fas fa-check"></i> Office lunch delivery</li>
-                                <li><i class="fas fa-check"></i> Board meeting services</li>
-                                <li><i class="fas fa-check"></i> Corporate gala dinners</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Corporate Events')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
-                        </div>
+                <!-- Toggle Section for FAQs -->
+                <div class="toggle-section">
+                    <div class="toggle-header" onclick="toggleFAQ()">
+                        <h3>Frequently Asked Questions</h3>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-
-                    <!-- Private Parties -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Private Parties">
+                    <div class="toggle-content" id="faqContent">
+                        <div class="faq-item">
+                            <h4>How far in advance should I book?</h4>
+                            <p>We recommend booking at least 2-4 weeks in advance for optimal planning and menu customization.</p>
                         </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-birthday-cake"></i>
-                            </div>
-                            <h3 class="service-title">Private Parties</h3>
-                            <p class="service-description">Birthdays, anniversaries, or family gatherings - we make every celebration special with delicious food and impeccable service.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Birthday party packages</li>
-                                <li><i class="fas fa-check"></i> Anniversary celebrations</li>
-                                <li><i class="fas fa-check"></i> Family reunion catering</li>
-                                <li><i class="fas fa-check"></i> Themed party menus</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Private Parties')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
+                        <div class="faq-item">
+                            <h4>Do you provide tastings?</h4>
+                            <p>Yes, we offer complimentary tastings for events with 50+ guests.</p>
                         </div>
-                    </div>
-
-                    <!-- Buffet Services -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Buffet Services">
-                        </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <h3 class="service-title">Buffet Services</h3>
-                            <p class="service-description">Perfect for large gatherings with diverse tastes. Our buffet services offer variety and flexibility for all your guests.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Live cooking stations</li>
-                                <li><i class="fas fa-check"></i> International cuisine buffet</li>
-                                <li><i class="fas fa-check"></i> Dessert buffet options</li>
-                                <li><i class="fas fa-check"></i> Dietary requirement accommodations</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Buffet Services')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Premium Dining -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Premium Dining">
-                        </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-crown"></i>
-                            </div>
-                            <h3 class="service-title">Premium Dining</h3>
-                            <p class="service-description">Exclusive fine dining experience with gourmet menus, wine pairing, and personalized table service for the most discerning clients.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Gourmet multi-course meals</li>
-                                <li><i class="fas fa-check"></i> Wine and cocktail pairing</li>
-                                <li><i class="fas fa-check"></i> Private chef services</li>
-                                <li><i class="fas fa-check"></i> Luxury table setup</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Premium Dining')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Food Truck Catering -->
-                    <div class="service-card">
-                        <div class="service-image">
-                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Food Truck">
-                        </div>
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-truck"></i>
-                            </div>
-                            <h3 class="service-title">Food Truck Catering</h3>
-                            <p class="service-description">Fun and casual catering option perfect for outdoor events, festivals, and casual gatherings with unique street food flavors.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check"></i> Mobile food truck service</li>
-                                <li><i class="fas fa-check"></i> Festival and fair catering</li>
-                                <li><i class="fas fa-check"></i> Street food favorites</li>
-                                <li><i class="fas fa-check"></i> Quick service setup</li>
-                            </ul>
-                            <button class="btn btn-whatsapp" onclick="bookService('Food Truck Catering')">
-                                <i class="fab fa-whatsapp"></i> Book Now
-                            </button>
+                        <div class="faq-item">
+                            <h4>What's your cancellation policy?</h4>
+                            <p>Cancellations made 7+ days before the event receive a full refund.</p>
                         </div>
                     </div>
                 </div>
@@ -938,138 +1005,85 @@
 
         <!-- Booking Section -->
         <section id="booking" class="section hidden">
-            <div class="booking-section">
-                <div class="booking-container">
-                    <div class="booking-header">
-                        <h2>Book Your Event</h2>
-                        <p>Simple 3-step process to book our catering services</p>
-                    </div>
-                    
-                    <div class="booking-steps">
-                        <div class="booking-step active">
-                            <div class="step-number">1</div>
-                            <h3>Choose Service</h3>
-                            <p>Select from our range of catering services</p>
-                        </div>
-                        
-                        <div class="booking-step">
-                            <div class="step-number">2</div>
-                            <h3>Customize Menu</h3>
-                            <p>Tailor the menu to your preferences</p>
-                        </div>
-                        
-                        <div class="booking-step">
-                            <div class="step-number">3</div>
-                            <h3>Confirm Booking</h3>
-                            <p>Finalize details and confirm</p>
-                        </div>
-                    </div>
-                    
-                    <div class="whatsapp-booking">
-                        <h3>Book Directly via WhatsApp</h3>
-                        <p>Get instant response, quick quotes, and personalized service</p>
-                        <div class="whatsapp-number">+1 (555) 123-4567</div>
-                        <button class="btn btn-primary" onclick="startWhatsAppBooking()" style="font-size: 1.2rem; padding: 1rem 2.5rem;">
-                            <i class="fab fa-whatsapp"></i> Start WhatsApp Chat
-                        </button>
-                        <p style="margin-top: 1.5rem; font-size: 0.9rem;">Available 24/7 for inquiries and bookings</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Share Profile Section -->
-        <section id="share" class="section hidden">
-            <div class="share-profile">
-                <div class="section-title">
-                    <h2>Share Our Profile</h2>
-                    <p>Help others discover BiBi Catering's exceptional services</p>
-                </div>
-                
-                <div class="share-options">
-                    <div class="share-btn whatsapp" onclick="shareViaWhatsApp()">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp</span>
-                    </div>
-                    
-                    <div class="share-btn facebook" onclick="shareViaFacebook()">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                    </div>
-                    
-                    <div class="share-btn twitter" onclick="shareViaTwitter()">
-                        <i class="fab fa-twitter"></i>
-                        <span>Twitter</span>
-                    </div>
-                    
-                    <div class="share-btn link" onclick="copyProfileLink()">
-                        <i class="fas fa-link"></i>
-                        <span>Copy Link</span>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 3rem;">
-                    <h3>QR Code for Quick Sharing</h3>
-                    <div id="qrcode" style="margin: 2rem auto; width: 200px; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 15px;">
-                        <span>QR Code Generator Placeholder</span>
-                    </div>
-                    <p>Scan to visit our catering profile</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section hidden">
             <div class="services-section">
                 <div class="section-title">
-                    <h2>Contact Us</h2>
-                    <p>Get in touch for inquiries and bookings</p>
+                    <h2>Book Your Event</h2>
+                    <p>Simple steps to book our catering services</p>
                 </div>
-                
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <h3 class="service-title">Phone Support</h3>
-                            <p class="service-description">Call us for immediate assistance</p>
-                            <div class="whatsapp-number" style="background: var(--light); color: var(--dark); margin: 1.5rem 0;">
-                                +1 (555) 123-4567
-                            </div>
-                            <button class="btn btn-primary" onclick="window.location.href='tel:+15551234567'">
-                                <i class="fas fa-phone"></i> Call Now
-                            </button>
-                        </div>
+
+                <div class="booking-form" id="bookingForm">
+                    <!-- Booking form will be generated here -->
+                </div>
+
+                <!-- WhatsApp Quick Booking -->
+                <div style="text-align: center; margin-top: 3rem; padding: 3rem; background: linear-gradient(135deg, #25D366, #128C7E); border-radius: var(--radius-lg); color: white;">
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Instant WhatsApp Booking</h3>
+                    <p style="margin-bottom: 2rem;">Get instant quotes and personalized service via WhatsApp</p>
+                    <button class="btn btn-primary" onclick="startWhatsAppBooking()" style="font-size: 1.2rem; padding: 1rem 3rem;">
+                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Share Section -->
+        <section id="share" class="section hidden">
+            <div class="services-section">
+                <div class="section-title">
+                    <h2>Share Our Services</h2>
+                    <p>Help others discover our premium catering services</p>
+                </div>
+
+                <div class="share-options">
+                    <div class="share-option" onclick="shareService('whatsapp')">
+                        <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                        <span>WhatsApp</span>
                     </div>
-                    
-                    <div class="service-card">
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fab fa-whatsapp"></i>
-                            </div>
-                            <h3 class="service-title">WhatsApp Business</h3>
-                            <p class="service-description">Chat with us on WhatsApp</p>
-                            <button class="btn btn-whatsapp" onclick="startWhatsAppBooking()" style="margin: 1.5rem 0; width: 100%;">
-                                <i class="fab fa-whatsapp"></i> Open WhatsApp
-                            </button>
-                        </div>
+                    <div class="share-option" onclick="shareService('facebook')">
+                        <i class="fab fa-facebook" style="color: #1877F2;"></i>
+                        <span>Facebook</span>
                     </div>
-                    
-                    <div class="service-card">
-                        <div class="service-content">
-                            <div class="service-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <h3 class="service-title">Email Us</h3>
-                            <p class="service-description">Send us your requirements</p>
-                            <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
-                                <p style="color: var(--primary); font-weight: 600;">info@bibicatering.com</p>
-                            </div>
-                            <button class="btn btn-outline" onclick="window.location.href='mailto:info@bibicatering.com'">
-                                <i class="fas fa-paper-plane"></i> Send Email
-                            </button>
+                    <div class="share-option" onclick="shareService('instagram')">
+                        <i class="fab fa-instagram" style="color: #E4405F;"></i>
+                        <span>Instagram</span>
+                    </div>
+                    <div class="share-option" onclick="shareService('twitter')">
+                        <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+                        <span>Twitter</span>
+                    </div>
+                    <div class="share-option" onclick="copyShareLink()">
+                        <i class="fas fa-link" style="color: var(--primary);"></i>
+                        <span>Copy Link</span>
+                    </div>
+                    <div class="share-option" onclick="downloadBrochure()">
+                        <i class="fas fa-download" style="color: var(--accent);"></i>
+                        <span>Brochure</span>
+                    </div>
+                </div>
+
+                <!-- QR Code for Sharing -->
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3>Scan to Share</h3>
+                    <div id="qrCodeContainer" style="margin: 2rem auto; width: 200px; height: 200px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section hidden">
+            <div class="services-section">
+                <div class="section-title">
+                    <h2>About BiBi Catering</h2>
+                    <p>Excellence in catering since 2010</p>
+                </div>
+
+                <!-- Testimonials -->
+                <div class="testimonials-section">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper" id="testimonialsContainer">
+                            <!-- Testimonials loaded from Supabase -->
                         </div>
+                        <div class="swiper-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -1081,7 +1095,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>BiBi Catering</h3>
-                <p>Premium catering services for all occasions. Quality, taste, and excellence delivered to your event.</p>
+                <p>Premium catering services with a commitment to quality and excellence.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1093,60 +1107,388 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="#" onclick="showSection('home')">Home</a>
-                <a href="#" onclick="showSection('services')">Our Services</a>
-                <a href="#" onclick="showSection('booking')">Book Now</a>
-                <a href="#" onclick="showSection('share')">Share Profile</a>
-                <a href="#" onclick="showSection('contact')">Contact Us</a>
+                <a href="#" onclick="showSection('services')">Services</a>
+                <a href="#" onclick="showSection('booking')">Booking</a>
+                <a href="#" onclick="showSection('share')">Share</a>
+                <a href="#" onclick="showSection('about')">About</a>
             </div>
             
             <div class="footer-section">
-                <h3>Services</h3>
-                <a href="#" onclick="bookService('Wedding Catering')">Wedding Catering</a>
-                <a href="#" onclick="bookService('Corporate Events')">Corporate Events</a>
-                <a href="#" onclick="bookService('Private Parties')">Private Parties</a>
-                <a href="#" onclick="bookService('Buffet Services')">Buffet Services</a>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Catering Street, Food City</p>
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Catering Street</p>
                 <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
                 <p><i class="fas fa-envelope"></i> info@bibicatering.com</p>
-                <p><i class="fas fa-clock"></i> Mon-Sun: 8:00 AM - 10:00 PM</p>
+                <p><i class="fas fa-clock"></i> 24/7 Service</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe for updates and offers</p>
+                <input type="email" placeholder="Your email" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;">
+                <button class="btn btn-primary" style="width: 100%;">Subscribe</button>
             </div>
         </div>
         
         <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p>© 2024 BiBi Catering Platform. All rights reserved. | <a href="#" style="color: var(--gold);">Privacy Policy</a> | <a href="#" style="color: var(--gold);">Terms of Service</a></p>
+            <p>© 2024 BiBi Catering. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Modals -->
+    <div id="shareModal" class="share-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeShareModal()">&times;</span>
+            <h3>Share Service</h3>
+            <div id="shareModalContent"></div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="booking-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBookingModal()">&times;</span>
+            <h3>Book Service</h3>
+            <div id="bookingModalContent"></div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
     <script>
-        // Global WhatsApp number
-        const WHATSAPP_NUMBER = "+15551234567";
-        const COMPANY_NAME = "BiBi Catering";
-        const PROFILE_LINK = "https://bibicatering.com/profile";
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://your-project.supabase.co';
+        const SUPABASE_ANON_KEY = 'your-anon-key';
         
-        // DOM Content Loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set current year in footer
-            document.querySelector('footer p').innerHTML = `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`;
-            
-            // Initialize animations
+        // Initialize Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // App State
+        let currentUser = null;
+        let services = [];
+        let deferredPrompt = null;
+        
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', async () => {
+            initPWA();
             initAnimations();
+            initStatsCounter();
+            loadServices();
+            loadTestimonials();
+            initSwiper();
+            checkAuth();
             
-            // Start marquee
-            initMarquee();
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('change', toggleTheme);
+            
+            // Set current theme
+            if (localStorage.getItem('theme') === 'dark') {
+                themeToggle.checked = true;
+                document.body.classList.add('dark-theme');
+            }
         });
         
-        // Toggle Mobile Menu
+        // PWA Installation
+        function initPWA() {
+            // Create manifest
+            const manifest = {
+                "name": "BiBi Catering",
+                "short_name": "BiBiCatering",
+                "description": "Premium catering services platform",
+                "start_url": "/",
+                "display": "standalone",
+                "background_color": "#f8f9fa",
+                "theme_color": "#e63946",
+                "icons": [
+                    {
+                        "src": "https://via.placeholder.com/192x192/e63946/ffffff?text=BC",
+                        "sizes": "192x192",
+                        "type": "image/png"
+                    },
+                    {
+                        "src": "https://via.placeholder.com/512x512/e63946/ffffff?text=BC",
+                        "sizes": "512x512",
+                        "type": "image/png"
+                    }
+                ]
+            };
+            
+            // Convert to JSON string and create blob URL
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(manifestBlob);
+            
+            // Create link element
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+            
+            // Handle install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('installBtn').style.display = 'flex';
+            });
+            
+            // Install button click
+            document.getElementById('installBtn').addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        showNotification('App installed successfully!');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installBtn').style.display = 'none';
+                }
+            });
+            
+            // Check if app is already installed
+            window.addEventListener('appinstalled', () => {
+                showNotification('Thank you for installing BiBi Catering!');
+                document.getElementById('installBtn').style.display = 'none';
+            });
+        }
+        
+        // Supabase Database Functions
+        async function loadServices() {
+            try {
+                // In production, fetch from Supabase
+                // For demo, using mock data
+                services = [
+                    {
+                        id: 1,
+                        name: "Wedding Catering",
+                        description: "Make your special day unforgettable with our exquisite wedding catering services.",
+                        price: 45,
+                        image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
+                        features: ["Custom menu", "Tasting sessions", "Wedding cake", "Full service"],
+                        category: "premium"
+                    },
+                    {
+                        id: 2,
+                        name: "Corporate Events",
+                        description: "Professional catering for business meetings and conferences.",
+                        price: 35,
+                        image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
+                        features: ["Conference packages", "Office lunch", "Board meetings", "Gala dinners"],
+                        category: "business"
+                    },
+                    {
+                        id: 3,
+                        name: "Private Parties",
+                        description: "Birthdays, anniversaries, or family gatherings with delicious food.",
+                        price: 30,
+                        image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
+                        features: ["Birthday packages", "Anniversary celebrations", "Family reunions", "Themed parties"],
+                        category: "social"
+                    },
+                    {
+                        id: 4,
+                        name: "Buffet Services",
+                        description: "Perfect for large gatherings with diverse tastes and preferences.",
+                        price: 25,
+                        image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
+                        features: ["Live stations", "International cuisine", "Dessert buffet", "Dietary options"],
+                        category: "buffet"
+                    }
+                ];
+                
+                renderServices();
+                
+            } catch (error) {
+                console.error('Error loading services:', error);
+                showNotification('Error loading services. Please try again.');
+            }
+        }
+        
+        async function loadTestimonials() {
+            try {
+                // Mock testimonials
+                const testimonials = [
+                    {
+                        id: 1,
+                        name: "Sarah Johnson",
+                        text: "BiBi Catering made our wedding absolutely perfect! The food was exquisite.",
+                        rating: 5,
+                        event: "Wedding"
+                    },
+                    {
+                        id: 2,
+                        name: "Michael Chen",
+                        text: "Professional service and delicious food for our corporate event.",
+                        rating: 5,
+                        event: "Corporate"
+                    },
+                    {
+                        id: 3,
+                        name: "Emma Wilson",
+                        text: "The birthday party catering was fantastic! Everyone loved the food.",
+                        rating: 4,
+                        event: "Birthday"
+                    }
+                ];
+                
+                renderTestimonials(testimonials);
+                
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+            }
+        }
+        
+        async function saveBooking(bookingData) {
+            try {
+                // In production, save to Supabase
+                const { data, error } = await supabase
+                    .from('bookings')
+                    .insert([bookingData]);
+                
+                if (error) throw error;
+                
+                showNotification('Booking submitted successfully!');
+                return data;
+                
+            } catch (error) {
+                console.error('Error saving booking:', error);
+                showNotification('Error saving booking. Please try again.');
+            }
+        }
+        
+        // Render Functions
+        function renderServices() {
+            const container = document.getElementById('servicesContainer');
+            container.innerHTML = '';
+            
+            services.forEach((service, index) => {
+                const card = document.createElement('div');
+                card.className = 'service-card animate-slide-up';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div class="service-image">
+                        <img src="${service.image}" alt="${service.name}" loading="lazy">
+                        <div class="service-overlay">
+                            <h3 style="color: white; margin: 0;">${service.name}</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3>${service.name}</h3>
+                        <p>${service.description}</p>
+                        <div class="service-features">
+                            ${service.features.map(feat => `<div><i class="fas fa-check"></i> ${feat}</div>`).join('')}
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                            <button class="btn btn-primary" onclick="openBookingModal(${service.id})">
+                                <i class="fas fa-calendar-check"></i> Book Now
+                            </button>
+                            <button class="btn btn-outline" onclick="shareServiceModal(${service.id})">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        function renderTestimonials(testimonials) {
+            const container = document.getElementById('testimonialsContainer');
+            container.innerHTML = '';
+            
+            testimonials.forEach(testimonial => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `
+                    <div class="testimonial-card">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 1rem;">
+                                ${testimonial.name.charAt(0)}
+                            </div>
+                            <div>
+                                <h4 style="margin: 0;">${testimonial.name}</h4>
+                                <div style="color: var(--gold);">
+                                    ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}
+                                </div>
+                            </div>
+                        </div>
+                        <p>"${testimonial.text}"</p>
+                        <div style="color: var(--gray); font-size: 0.9rem;">${testimonial.event} Event</div>
+                    </div>
+                `;
+                container.appendChild(slide);
+            });
+        }
+        
+        // Animations
+        function initAnimations() {
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
+            
+            // Observe elements
+            document.querySelectorAll('.service-card, .stat-item, .testimonial-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        function initStatsCounter() {
+            const clients = document.getElementById('clientsCount');
+            const events = document.getElementById('eventsCount');
+            const service = document.getElementById('serviceCount');
+            const rating = document.getElementById('ratingCount');
+            
+            animateCounter(clients, 0, 1250, 2000);
+            animateCounter(events, 0, 540, 2000);
+            animateCounter(service, 0, 12, 2000);
+            animateCounter(rating, 0, 4.9, 2000);
+        }
+        
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = start + progress * (end - start);
+                element.textContent = end === 4.9 ? value.toFixed(1) : Math.floor(value);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // Toggle Functions
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('active');
+            const hamburger = document.querySelector('.hamburger i');
+            hamburger.classList.toggle('fa-bars');
+            hamburger.classList.toggle('fa-times');
         }
         
-        // Show/Hide Sections
+        function toggleFAQ() {
+            const content = document.getElementById('faqContent');
+            const icon = document.querySelector('.toggle-header i');
+            content.classList.toggle('active');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+        
+        // Navigation
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
@@ -1162,114 +1504,320 @@
             // Close mobile menu if open
             if (window.innerWidth <= 768) {
                 document.querySelector('.nav-links').classList.remove('active');
+                const hamburger = document.querySelector('.hamburger i');
+                hamburger.classList.remove('fa-times');
+                hamburger.classList.add('fa-bars');
             }
         }
         
-        // Update Navigation Active State
         function updateNavigation(sectionId) {
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
+                if (link.textContent.includes(sectionId.charAt(0).toUpperCase() + sectionId.slice(1))) {
+                    link.classList.add('active');
+                }
             });
-            
-            document.querySelector(`a[href="#"][onclick*="${sectionId}"]`)?.classList.add('active');
-        }
-        
-        // Initialize Animations
-        function initAnimations() {
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in-up');
-                    }
-                });
-            }, observerOptions);
-            
-            document.querySelectorAll('.service-card, .section-title').forEach(el => {
-                observer.observe(el);
-            });
-        }
-        
-        // Initialize Marquee
-        function initMarquee() {
-            const marqueeContent = document.querySelector('.marquee-content');
-            // Clone content for seamless loop
-            const clone = marqueeContent.cloneNode(true);
-            document.querySelector('.marquee-banner').appendChild(clone);
-        }
-        
-        // WhatsApp Booking Function
-        function startWhatsAppBooking() {
-            const message = `Hello ${COMPANY_NAME}! I'm interested in booking your catering services. Can you provide more information?`;
-            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappURL, '_blank');
-        }
-        
-        // Book Specific Service
-        function bookService(serviceName) {
-            const message = `Hello ${COMPANY_NAME}! I'd like to book your "${serviceName}" catering service. Please provide details and pricing.`;
-            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappURL, '_blank');
         }
         
         // Share Functions
-        function shareViaWhatsApp() {
-            const message = `Check out ${COMPANY_NAME}'s amazing catering services! They offer wedding catering, corporate events, private parties and more. Visit: ${PROFILE_LINK}`;
-            const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(whatsappURL, '_blank');
+        async function shareService(platform) {
+            const service = services[0]; // Default to first service
+            const text = `Check out ${service.name} from BiBi Catering! ${service.description}`;
+            const url = window.location.href;
+            const image = service.image;
+            
+            let shareUrl;
+            switch(platform) {
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                    break;
+                case 'instagram':
+                    // Instagram doesn't support direct sharing, show image download
+                    downloadImage(image, 'bibicatering-service.jpg');
+                    return;
+            }
+            
+            window.open(shareUrl, '_blank');
         }
         
-        function shareViaFacebook() {
-            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PROFILE_LINK)}`;
-            window.open(url, '_blank', 'width=600,height=400');
-        }
-        
-        function shareViaTwitter() {
-            const text = `Amazing catering services by ${COMPANY_NAME}!`;
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(PROFILE_LINK)}`;
-            window.open(url, '_blank', 'width=600,height=400');
-        }
-        
-        function copyProfileLink() {
-            navigator.clipboard.writeText(PROFILE_LINK).then(() => {
-                alert('Profile link copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        // Generate QR Code (placeholder - in production use a QR library)
-        function generateQRCode() {
-            // In production, use a QR code library like qrcode.js
-            const qrContainer = document.getElementById('qrcode');
-            qrContainer.innerHTML = `
+        function shareServiceModal(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            const modal = document.getElementById('shareModal');
+            const content = document.getElementById('shareModalContent');
+            
+            content.innerHTML = `
                 <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 10px;">📱</div>
-                    <p style="font-size: 0.9rem;">Scan to visit</p>
-                    <p style="font-size: 0.8rem; color: var(--gray);">${PROFILE_LINK}</p>
+                    <img src="${service.image}" alt="${service.name}" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem;">
+                    <h4>${service.name}</h4>
+                    <p>${service.description}</p>
+                    <div class="share-options">
+                        <button class="btn btn-whatsapp" onclick="shareViaWhatsApp(${serviceId})">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="btn" style="background: #1877F2; color: white;" onclick="shareViaFacebook(${serviceId})">
+                            <i class="fab fa-facebook"></i> Facebook
+                        </button>
+                        <button class="btn" style="background: #1DA1F2; color: white;" onclick="shareViaTwitter(${serviceId})">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </button>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <button class="btn btn-outline" onclick="copyServiceLink(${serviceId})">
+                            <i class="fas fa-copy"></i> Copy Link
+                        </button>
+                    </div>
                 </div>
             `;
-        }
-        
-        // Booking Step Navigation
-        function goToBookingStep(stepNumber) {
-            document.querySelectorAll('.booking-step').forEach(step => {
-                step.classList.remove('active');
-            });
             
-            document.querySelector(`.booking-step:nth-child(${stepNumber})`).classList.add('active');
+            modal.style.display = 'flex';
         }
         
-        // Initialize booking steps
-        setTimeout(() => {
-            goToBookingStep(1);
-            generateQRCode();
-        }, 1000);
+        function shareViaWhatsApp(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            const message = `Check out ${service.name} from BiBi Catering!\n${service.description}\nBook now: ${window.location.origin}?service=${serviceId}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        function shareViaFacebook(serviceId) {
+            const url = `${window.location.origin}?service=${serviceId}`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        }
+        
+        function shareViaTwitter(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            const text = `Check out ${service.name} from BiBi Catering!`;
+            const url = `${window.location.origin}?service=${serviceId}`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+        
+        function copyServiceLink(serviceId) {
+            const url = `${window.location.origin}?service=${serviceId}`;
+            navigator.clipboard.writeText(url).then(() => {
+                showNotification('Link copied to clipboard!');
+            });
+        }
+        
+        function copyShareLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showNotification('Link copied to clipboard!');
+            });
+        }
+        
+        function downloadBrochure() {
+            // Create a simple PDF brochure
+            const brochureContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>BiBi Catering Brochure</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        h1 { color: #e63946; }
+                        .service { margin: 20px 0; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>BiBi Catering Services</h1>
+                    ${services.map(service => `
+                        <div class="service">
+                            <h2>${service.name}</h2>
+                            <p>${service.description}</p>
+                            <p><strong>Starting at: $${service.price}/person</strong></p>
+                        </div>
+                    `).join('')}
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([brochureContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'bibicatering-brochure.html';
+            a.click();
+        }
+        
+        function downloadImage(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+        }
+        
+        // Booking Functions
+        function openBookingModal(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            const modal = document.getElementById('bookingModal');
+            const content = document.getElementById('bookingModalContent');
+            
+            content.innerHTML = `
+                <form id="bookingForm" onsubmit="submitBooking(event, ${serviceId})">
+                    <input type="hidden" name="serviceId" value="${serviceId}">
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Service</label>
+                        <input type="text" value="${service.name}" readonly style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Name *</label>
+                        <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email *</label>
+                        <input type="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone *</label>
+                        <input type="tel" name="phone" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Event Date *</label>
+                        <input type="date" name="eventDate" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Number of Guests *</label>
+                        <input type="number" name="guests" min="1" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Additional Notes</label>
+                        <textarea name="notes" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" class="btn btn-outline" onclick="closeBookingModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Booking
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            modal.style.display = 'flex';
+            
+            // Set minimum date to today
+            const dateInput = content.querySelector('input[name="eventDate"]');
+            dateInput.min = new Date().toISOString().split('T')[0];
+        }
+        
+        async function submitBooking(event, serviceId) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const bookingData = {
+                serviceId,
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                eventDate: formData.get('eventDate'),
+                guests: formData.get('guests'),
+                notes: formData.get('notes'),
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to Supabase
+            await saveBooking(bookingData);
+            
+            // Also send WhatsApp message
+            const service = services.find(s => s.id === serviceId);
+            const whatsappMessage = `New Booking Inquiry:\nService: ${service.name}\nName: ${bookingData.name}\nEmail: ${bookingData.email}\nPhone: ${bookingData.phone}\nDate: ${bookingData.eventDate}\nGuests: ${bookingData.guests}\nNotes: ${bookingData.notes}`;
+            
+            closeBookingModal();
+            
+            // Optionally open WhatsApp for confirmation
+            setTimeout(() => {
+                window.open(`https://wa.me/+15551234567?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+            }, 1000);
+        }
+        
+        function startWhatsAppBooking() {
+            const message = `Hello BiBi Catering! I'm interested in booking your services. Can you provide more information?`;
+            window.open(`https://wa.me/+15551234567?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        function closeBookingModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+        
+        // Notification System
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // QR Code Generator
+        function generateQRCode() {
+            const container = document.getElementById('qrCodeContainer');
+            QRCode.toCanvas(container, window.location.href, { width: 200 }, (error) => {
+                if (error) console.error(error);
+            });
+        }
+        
+        // Swiper Initialization
+        function initSwiper() {
+            setTimeout(() => {
+                new Swiper('.swiper-container', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        }
+                    }
+                });
+            }, 1000);
+        }
+        
+        // Auth Functions
+        async function checkAuth() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                currentUser = user;
+            }
+        }
+        
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                    console.log('ServiceWorker registered');
+                }).catch(error => {
+                    console.log('ServiceWorker registration failed:', error);
+                });
+            });
+        }
+        
+        // Generate QR code when share section loads
+        document.addEventListener('DOMContentLoaded', generateQRCode);
+        
     </script>
 </body>
 </html>
