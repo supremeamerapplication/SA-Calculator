@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiBi Catering Platform</title>
+    <title>BiBi Catering - Premium Catering Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         :root {
@@ -19,6 +19,7 @@
             --accent: #2a9d8f;
             --light: #f1faee;
             --dark: #1d3557;
+            --gold: #FFD700;
             --gray: #6c757d;
             --success: #2a9d8f;
             --warning: #e9c46a;
@@ -26,15 +27,50 @@
         }
 
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Marquee Banner */
+        .marquee-banner {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            position: relative;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 25s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            margin: 0 30px;
+        }
+
+        .marquee-item i {
+            margin-right: 8px;
+            color: var(--gold);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         /* Header & Navigation */
         header {
-            background: white;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -44,22 +80,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
+            padding: 0.8rem 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .logo {
+        .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
+            gap: 15px;
         }
 
-        .logo i {
-            color: var(--accent);
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border: 3px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
         }
 
         .nav-links {
@@ -71,38 +124,80 @@
         .nav-links a {
             text-decoration: none;
             color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--primary);
+            background: rgba(230, 57, 70, 0.1);
         }
 
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(230, 57, 70, 0.1);
         }
 
+        .nav-links a i {
+            margin-right: 8px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Buttons */
         .btn {
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
             border: none;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #c1121f;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #4ecdc4);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.3);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
         }
 
         .btn-outline {
@@ -116,328 +211,352 @@
             color: white;
         }
 
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(29, 53, 87, 0.85), rgba(29, 53, 87, 0.9)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070');
+            background: linear-gradient(rgba(29, 53, 87, 0.85), rgba(29, 53, 87, 0.95)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
-            padding: 5rem 5%;
+            padding: 6rem 5%;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: 3.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
             opacity: 0.9;
+            line-height: 1.8;
         }
 
-        .search-box {
-            background: white;
-            border-radius: 50px;
-            padding: 0.5rem;
-            max-width: 700px;
-            margin: 2rem auto;
+        .hero-buttons {
             display: flex;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
         }
 
-        .search-box input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .search-box button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 5%;
+        /* Catering Services Section */
+        .services-section {
+            padding: 5rem 5%;
+            background: white;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--dark);
             margin-bottom: 1rem;
-        }
-
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .card-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .card-rating {
-            color: var(--warning);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0.5rem 0;
-        }
-
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .tag {
-            background: var(--light);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: var(--dark);
-        }
-
-        /* Forms */
-        .form-container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 600px;
-            margin: 2rem auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 2rem;
-        }
-
-        .tab {
-            padding: 1rem 2rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            font-weight: 600;
-            color: var(--gray);
-        }
-
-        .tab.active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Dashboard */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 2rem;
-            min-height: 600px;
-        }
-
-        .sidebar {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 0.5rem;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            color: var(--dark);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: var(--light);
-            color: var(--primary);
-        }
-
-        /* Booking Steps */
-        .booking-steps {
-            display: flex;
-            justify-content: space-between;
-            margin: 2rem 0;
             position: relative;
+            display: inline-block;
         }
 
-        .booking-steps:before {
+        .section-title h2:after {
             content: '';
             position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #ddd;
-            z-index: 1;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
 
-        .step {
-            text-align: center;
-            position: relative;
-            z-index: 2;
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
             background: white;
-            padding: 0 1rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
         }
 
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: #ddd;
-            color: white;
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+
+        .service-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-content {
+            padding: 2rem;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.5rem;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
             font-weight: 700;
         }
 
-        .step.active .step-number {
+        .service-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--dark);
+        }
+
+        .service-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* Share Profile Section */
+        .share-profile {
+            background: linear-gradient(135deg, var(--light), white);
+            padding: 4rem 5%;
+            text-align: center;
+            border-radius: 20px;
+            margin: 4rem 5%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .share-btn i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .share-btn.whatsapp i { color: #25D366; }
+        .share-btn.facebook i { color: #1877F2; }
+        .share-btn.twitter i { color: #1DA1F2; }
+        .share-btn.link i { color: var(--primary); }
+
+        /* Booking Section */
+        .booking-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .booking-header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .booking-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .booking-steps {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .booking-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--light);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .booking-step.active .step-number {
             background: var(--primary);
+            color: white;
         }
 
-        .step.completed .step-number {
-            background: var(--success);
+        .step-content {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
         }
 
-        /* Messages */
-        .message {
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
+        .whatsapp-booking {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+
+        .whatsapp-booking h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .whatsapp-booking p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .whatsapp-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            background: white;
+            color: #25D366;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Profile Sharing Modal */
+        .modal {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
         }
 
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--gray);
         }
 
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 5%;
+            padding: 4rem 5% 2rem;
             margin-top: 4rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 3rem;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -445,13 +564,14 @@
         .footer-section h3 {
             margin-bottom: 1.5rem;
             color: white;
+            font-size: 1.3rem;
         }
 
-        .footer-section a {
+        .footer-section p, .footer-section a {
             color: #ccc;
-            text-decoration: none;
+            margin-bottom: 0.8rem;
             display: block;
-            margin-bottom: 0.5rem;
+            text-decoration: none;
             transition: color 0.3s;
         }
 
@@ -459,45 +579,132 @@
             color: white;
         }
 
-        /* Responsive */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
+            .hamburger {
+                display: block;
             }
             
             .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                background: white;
                 flex-direction: column;
-                gap: 1rem;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                z-index: 999;
             }
             
-            .dashboard {
-                grid-template-columns: 1fr;
+            .nav-links.active {
+                left: 0;
             }
             
             .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .search-box {
+            .hero-buttons {
                 flex-direction: column;
-                border-radius: 15px;
+                align-items: center;
             }
             
-            .search-box input,
-            .search-box button {
-                border-radius: 15px;
-                width: 100%;
+            .booking-steps {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .share-options {
+                flex-direction: column;
+                align-items: center;
             }
         }
 
-        /* Loader */
+        @media (max-width: 480px) {
+            .logo-container {
+                gap: 10px;
+            }
+            
+            .company-name {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--accent));
+            border-radius: 5px;
+        }
+
+        /* Loading States */
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
             margin: 2rem auto;
         }
@@ -507,241 +714,361 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Hidden class for toggling */
+        /* Hidden Class */
         .hidden {
             display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Marquee Banner -->
+    <div class="marquee-banner">
+        <div class="marquee-content">
+            <div class="marquee-item"><i class="fas fa-star"></i> Premium Catering Services</div>
+            <div class="marquee-item"><i class="fas fa-truck"></i> Free Delivery for Orders Above $500</div>
+            <div class="marquee-item"><i class="fas fa-clock"></i> 24/7 Customer Support Available</div>
+            <div class="marquee-item"><i class="fas fa-gift"></i> Special Discount for First Booking</div>
+            <div class="marquee-item"><i class="fas fa-check-circle"></i> 100% Satisfaction Guaranteed</div>
+            <div class="marquee-item"><i class="fas fa-users"></i> Serving 500+ Happy Clients Monthly</div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
     <header>
         <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-utensils"></i>
-                <span>BiBi Catering</span>
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <span>BC</span>
+                </div>
+                <h1 class="company-name">BiBi Catering</h1>
             </div>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            
             <div class="nav-links">
-                <a href="#" onclick="showSection('home')">Home</a>
-                <a href="#" onclick="showSection('caterers')">Find Caterers</a>
-                <a href="#" onclick="showSection('dashboard')">My Events</a>
-                <div class="auth-buttons" id="authButtons">
-                    <button class="btn btn-outline" onclick="showSection('login')">Login</button>
-                    <button class="btn btn-primary" onclick="showSection('register')">Sign Up</button>
-                </div>
-                <div id="userMenu" class="hidden">
-                    <span id="userName" style="margin-right: 1rem;"></span>
-                    <button class="btn btn-outline" onclick="logout()">Logout</button>
-                </div>
+                <a href="#" class="active" onclick="showSection('home')">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="#" onclick="showSection('services')">
+                    <i class="fas fa-utensils"></i> Services
+                </a>
+                <a href="#" onclick="showSection('booking')">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+                <a href="#" onclick="showSection('share')">
+                    <i class="fas fa-share-alt"></i> Share Profile
+                </a>
+                <a href="#" onclick="showSection('contact')">
+                    <i class="fas fa-phone-alt"></i> Contact
+                </a>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content Sections -->
+    <!-- Main Content -->
     <main id="mainContent">
         <!-- Home Section -->
         <section id="home" class="section">
             <div class="hero">
-                <h1>Exquisite Catering for Your Special Moments</h1>
-                <p>Discover the perfect catering service for weddings, corporate events, and private parties. Custom menus, professional service, unforgettable experiences.</p>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search for caterers, cuisine types, or locations...">
-                    <button onclick="searchCaterers()"><i class="fas fa-search"></i> Search</button>
-                </div>
-                <div style="margin-top: 2rem;">
-                    <button class="btn btn-primary" style="margin-right: 1rem;" onclick="startBooking()">
-                        <i class="fas fa-calendar-plus"></i> Book Now
+                <h1 class="fade-in-up">Exquisite Catering for Every Occasion</h1>
+                <p class="fade-in-up">From intimate gatherings to grand celebrations, BiBi Catering delivers exceptional culinary experiences with personalized service and attention to detail.</p>
+                
+                <div class="hero-buttons fade-in-up">
+                    <button class="btn btn-primary" onclick="showSection('services')">
+                        <i class="fas fa-eye"></i> View Our Services
                     </button>
-                    <button class="btn btn-outline" onclick="showSection('caterers')">
-                        <i class="fas fa-store"></i> Browse Caterers
+                    <button class="btn btn-whatsapp" onclick="startWhatsAppBooking()">
+                        <i class="fab fa-whatsapp"></i> Book via WhatsApp
                     </button>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="section-title">
-                    <h2>Popular Catering Services</h2>
-                    <p>Top-rated caterers for your next event</p>
-                </div>
-                <div id="featuredCaterers" class="cards-grid">
-                    <!-- Featured caterers will load here -->
                 </div>
             </div>
         </section>
 
-        <!-- Caterers Section -->
-        <section id="caterers" class="section hidden">
-            <div class="container">
+        <!-- Services Section -->
+        <section id="services" class="section hidden">
+            <div class="services-section">
                 <div class="section-title">
-                    <h2>Available Caterers</h2>
-                    <p>Filter and find the perfect catering service</p>
+                    <h2>Our Catering Services</h2>
+                    <p>Explore our wide range of professional catering services tailored to your needs</p>
                 </div>
-                
-                <div class="search-box" style="max-width: 100%; margin-bottom: 2rem;">
-                    <input type="text" id="catererSearch" placeholder="Search caterers by name, cuisine, or location..." onkeyup="filterCaterers()">
-                    <select id="cuisineFilter" onchange="filterCaterers()">
-                        <option value="">All Cuisines</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Indian">Indian</option>
-                        <option value="Mexican">Mexican</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="Mediterranean">Mediterranean</option>
-                        <option value="American">American</option>
-                    </select>
-                </div>
-                
-                <div id="caterersList" class="cards-grid">
-                    <!-- Caterers will load here -->
+
+                <div class="services-grid">
+                    <!-- Wedding Catering -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Wedding Catering">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-ring"></i>
+                            </div>
+                            <h3 class="service-title">Wedding Catering</h3>
+                            <p class="service-description">Make your special day unforgettable with our exquisite wedding catering services. Custom menus, elegant presentation, and professional service.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Custom wedding menu design</li>
+                                <li><i class="fas fa-check"></i> Tasting sessions available</li>
+                                <li><i class="fas fa-check"></i> Wedding cake coordination</li>
+                                <li><i class="fas fa-check"></i> Full-service catering staff</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Wedding Catering')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Corporate Events -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Corporate Events">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="service-title">Corporate Events</h3>
+                            <p class="service-description">Professional catering for business meetings, conferences, and corporate gatherings. Impress your clients and employees.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Conference catering packages</li>
+                                <li><i class="fas fa-check"></i> Office lunch delivery</li>
+                                <li><i class="fas fa-check"></i> Board meeting services</li>
+                                <li><i class="fas fa-check"></i> Corporate gala dinners</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Corporate Events')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Private Parties -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Private Parties">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-birthday-cake"></i>
+                            </div>
+                            <h3 class="service-title">Private Parties</h3>
+                            <p class="service-description">Birthdays, anniversaries, or family gatherings - we make every celebration special with delicious food and impeccable service.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Birthday party packages</li>
+                                <li><i class="fas fa-check"></i> Anniversary celebrations</li>
+                                <li><i class="fas fa-check"></i> Family reunion catering</li>
+                                <li><i class="fas fa-check"></i> Themed party menus</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Private Parties')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Buffet Services -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Buffet Services">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3 class="service-title">Buffet Services</h3>
+                            <p class="service-description">Perfect for large gatherings with diverse tastes. Our buffet services offer variety and flexibility for all your guests.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Live cooking stations</li>
+                                <li><i class="fas fa-check"></i> International cuisine buffet</li>
+                                <li><i class="fas fa-check"></i> Dessert buffet options</li>
+                                <li><i class="fas fa-check"></i> Dietary requirement accommodations</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Buffet Services')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Premium Dining -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Premium Dining">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3 class="service-title">Premium Dining</h3>
+                            <p class="service-description">Exclusive fine dining experience with gourmet menus, wine pairing, and personalized table service for the most discerning clients.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Gourmet multi-course meals</li>
+                                <li><i class="fas fa-check"></i> Wine and cocktail pairing</li>
+                                <li><i class="fas fa-check"></i> Private chef services</li>
+                                <li><i class="fas fa-check"></i> Luxury table setup</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Premium Dining')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Food Truck Catering -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Food Truck">
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3 class="service-title">Food Truck Catering</h3>
+                            <p class="service-description">Fun and casual catering option perfect for outdoor events, festivals, and casual gatherings with unique street food flavors.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check"></i> Mobile food truck service</li>
+                                <li><i class="fas fa-check"></i> Festival and fair catering</li>
+                                <li><i class="fas fa-check"></i> Street food favorites</li>
+                                <li><i class="fas fa-check"></i> Quick service setup</li>
+                            </ul>
+                            <button class="btn btn-whatsapp" onclick="bookService('Food Truck Catering')">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Booking Section -->
         <section id="booking" class="section hidden">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Book Your Event</h2>
-                    <p>Fill in your event details</p>
-                </div>
-                
-                <div class="booking-steps">
-                    <div class="step active" id="step1">
-                        <div class="step-number">1</div>
-                        <div>Event Details</div>
-                    </div>
-                    <div class="step" id="step2">
-                        <div class="step-number">2</div>
-                        <div>Select Caterer</div>
-                    </div>
-                    <div class="step" id="step3">
-                        <div class="step-number">3</div>
-                        <div>Menu Selection</div>
-                    </div>
-                    <div class="step" id="step4">
-                        <div class="step-number">4</div>
-                        <div>Confirmation</div>
-                    </div>
-                </div>
-                
-                <div id="step1Content" class="form-container">
-                    <h3>Event Information</h3>
-                    <div class="form-group">
-                        <label>Event Type</label>
-                        <select id="eventType">
-                            <option value="Wedding">Wedding</option>
-                            <option value="Corporate">Corporate Event</option>
-                            <option value="Birthday">Birthday Party</option>
-                            <option value="Anniversary">Anniversary</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Guests</label>
-                        <input type="number" id="guestCount" min="10" max="1000" value="50">
-                    </div>
-                    <div class="form-group">
-                        <label>Event Date</label>
-                        <input type="date" id="eventDate">
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" id="eventLocation" placeholder="Enter event address">
-                    </div>
-                    <button class="btn btn-primary" onclick="nextStep(2)">Next: Select Caterer</button>
-                </div>
-                
-                <div id="step2Content" class="form-container hidden">
-                    <h3>Choose Your Caterer</h3>
-                    <div id="availableCaterers" class="cards-grid">
-                        <!-- Available caterers will load here -->
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-                        <button class="btn btn-outline" onclick="prevStep(1)">Back</button>
-                        <button class="btn btn-primary" onclick="nextStep(3)">Next: Menu Selection</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Login Section -->
-        <section id="login" class="section hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 2rem;">Login to Your Account</h2>
-                <div id="loginMessage" class="message"></div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="login()">Login</button>
-                <p style="text-align: center; margin-top: 1rem;">
-                    Don't have an account? <a href="#" onclick="showSection('register')" style="color: var(--primary);">Sign up here</a>
-                </p>
-            </div>
-        </section>
-
-        <!-- Register Section -->
-        <section id="register" class="section hidden">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h2>
-                <div id="registerMessage" class="message"></div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="registerName" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="registerEmail" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="registerPhone" placeholder="Enter your phone number">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="registerPassword" placeholder="Create a password">
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="register()">Create Account</button>
-                <p style="text-align: center; margin-top: 1rem;">
-                    Already have an account? <a href="#" onclick="showSection('login')" style="color: var(--primary);">Login here</a>
-                </p>
-            </div>
-        </section>
-
-        <!-- Dashboard Section -->
-        <section id="dashboard" class="section hidden">
-            <div class="container">
-                <h2 style="margin-bottom: 2rem;">My Dashboard</h2>
-                <div class="dashboard">
-                    <div class="sidebar">
-                        <ul class="sidebar-menu">
-                            <li><a href="#" class="active" onclick="showDashboardTab('events')"><i class="fas fa-calendar"></i> My Events</a></li>
-                            <li><a href="#" onclick="showDashboardTab('profile')"><i class="fas fa-user"></i> Profile</a></li>
-                            <li><a href="#" onclick="showDashboardTab('messages')"><i class="fas fa-envelope"></i> Messages</a></li>
-                            <li><a href="#" onclick="showDashboardTab('reviews')"><i class="fas fa-star"></i> Reviews</a></li>
-                        </ul>
+            <div class="booking-section">
+                <div class="booking-container">
+                    <div class="booking-header">
+                        <h2>Book Your Event</h2>
+                        <p>Simple 3-step process to book our catering services</p>
                     </div>
                     
-                    <div class="dashboard-content">
-                        <div id="eventsTab" class="tab-content active">
-                            <h3>My Events</h3>
-                            <div id="userEvents">
-                                <!-- User's events will load here -->
-                            </div>
+                    <div class="booking-steps">
+                        <div class="booking-step active">
+                            <div class="step-number">1</div>
+                            <h3>Choose Service</h3>
+                            <p>Select from our range of catering services</p>
                         </div>
                         
-                        <div id="profileTab" class="tab-content">
-                            <h3>My Profile</h3>
-                            <div id="profileInfo">
-                                <!-- Profile info will load here -->
+                        <div class="booking-step">
+                            <div class="step-number">2</div>
+                            <h3>Customize Menu</h3>
+                            <p>Tailor the menu to your preferences</p>
+                        </div>
+                        
+                        <div class="booking-step">
+                            <div class="step-number">3</div>
+                            <h3>Confirm Booking</h3>
+                            <p>Finalize details and confirm</p>
+                        </div>
+                    </div>
+                    
+                    <div class="whatsapp-booking">
+                        <h3>Book Directly via WhatsApp</h3>
+                        <p>Get instant response, quick quotes, and personalized service</p>
+                        <div class="whatsapp-number">+1 (555) 123-4567</div>
+                        <button class="btn btn-primary" onclick="startWhatsAppBooking()" style="font-size: 1.2rem; padding: 1rem 2.5rem;">
+                            <i class="fab fa-whatsapp"></i> Start WhatsApp Chat
+                        </button>
+                        <p style="margin-top: 1.5rem; font-size: 0.9rem;">Available 24/7 for inquiries and bookings</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Share Profile Section -->
+        <section id="share" class="section hidden">
+            <div class="share-profile">
+                <div class="section-title">
+                    <h2>Share Our Profile</h2>
+                    <p>Help others discover BiBi Catering's exceptional services</p>
+                </div>
+                
+                <div class="share-options">
+                    <div class="share-btn whatsapp" onclick="shareViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </div>
+                    
+                    <div class="share-btn facebook" onclick="shareViaFacebook()">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </div>
+                    
+                    <div class="share-btn twitter" onclick="shareViaTwitter()">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </div>
+                    
+                    <div class="share-btn link" onclick="copyProfileLink()">
+                        <i class="fas fa-link"></i>
+                        <span>Copy Link</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <h3>QR Code for Quick Sharing</h3>
+                    <div id="qrcode" style="margin: 2rem auto; width: 200px; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 15px;">
+                        <span>QR Code Generator Placeholder</span>
+                    </div>
+                    <p>Scan to visit our catering profile</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section hidden">
+            <div class="services-section">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>Get in touch for inquiries and bookings</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-phone"></i>
                             </div>
+                            <h3 class="service-title">Phone Support</h3>
+                            <p class="service-description">Call us for immediate assistance</p>
+                            <div class="whatsapp-number" style="background: var(--light); color: var(--dark); margin: 1.5rem 0;">
+                                +1 (555) 123-4567
+                            </div>
+                            <button class="btn btn-primary" onclick="window.location.href='tel:+15551234567'">
+                                <i class="fas fa-phone"></i> Call Now
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <h3 class="service-title">WhatsApp Business</h3>
+                            <p class="service-description">Chat with us on WhatsApp</p>
+                            <button class="btn btn-whatsapp" onclick="startWhatsAppBooking()" style="margin: 1.5rem 0; width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Open WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3 class="service-title">Email Us</h3>
+                            <p class="service-description">Send us your requirements</p>
+                            <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                                <p style="color: var(--primary); font-weight: 600;">info@bibicatering.com</p>
+                            </div>
+                            <button class="btn btn-outline" onclick="window.location.href='mailto:info@bibicatering.com'">
+                                <i class="fas fa-paper-plane"></i> Send Email
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -754,66 +1081,69 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>BiBi Catering</h3>
-                <p>Professional catering services for all your events. Quality food, exceptional service, unforgettable experiences.</p>
+                <p>Premium catering services for all occasions. Quality, taste, and excellence delivered to your event.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
+            
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="#" onclick="showSection('home')">Home</a>
-                <a href="#" onclick="showSection('caterers')">Find Caterers</a>
-                <a href="#" onclick="showSection('dashboard')">My Dashboard</a>
-                <a href="#" onclick="startBooking()">Book an Event</a>
+                <a href="#" onclick="showSection('services')">Our Services</a>
+                <a href="#" onclick="showSection('booking')">Book Now</a>
+                <a href="#" onclick="showSection('share')">Share Profile</a>
+                <a href="#" onclick="showSection('contact')">Contact Us</a>
             </div>
+            
             <div class="footer-section">
-                <h3>Contact Us</h3>
+                <h3>Services</h3>
+                <a href="#" onclick="bookService('Wedding Catering')">Wedding Catering</a>
+                <a href="#" onclick="bookService('Corporate Events')">Corporate Events</a>
+                <a href="#" onclick="bookService('Private Parties')">Private Parties</a>
+                <a href="#" onclick="bookService('Buffet Services')">Buffet Services</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Catering Street, Food City</p>
                 <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
                 <p><i class="fas fa-envelope"></i> info@bibicatering.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Event Street, Catering City</p>
+                <p><i class="fas fa-clock"></i> Mon-Sun: 8:00 AM - 10:00 PM</p>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            © 2024 BiBi Catering Platform. All rights reserved.
-        </p>
+        
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p>© 2024 BiBi Catering Platform. All rights reserved. | <a href="#" style="color: var(--gold);">Privacy Policy</a> | <a href="#" style="color: var(--gold);">Terms of Service</a></p>
+        </div>
     </footer>
 
-    <!-- Supabase Configuration and JavaScript -->
+    <!-- JavaScript -->
     <script>
-        // Supabase Configuration - REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
-        const SUPABASE_URL = 'https://your-project.supabase.co';
-        const SUPABASE_ANON_KEY = 'your-anon-key';
-        
-        // Initialize Supabase client
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        // Global state
-        let currentUser = null;
-        let caterers = [];
-        let currentEventData = {};
+        // Global WhatsApp number
+        const WHATSAPP_NUMBER = "+15551234567";
+        const COMPANY_NAME = "BiBi Catering";
+        const PROFILE_LINK = "https://bibicatering.com/profile";
         
         // DOM Content Loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('eventDate').min = today;
-            document.getElementById('eventDate').value = today;
+            // Set current year in footer
+            document.querySelector('footer p').innerHTML = `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`;
             
-            // Check if user is already logged in
-            checkAuth();
+            // Initialize animations
+            initAnimations();
             
-            // Load featured caterers
-            loadFeaturedCaterers();
-            
-            // Load all caterers
-            loadCaterers();
+            // Start marquee
+            initMarquee();
         });
         
-        // Check Authentication
-        async function checkAuth() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            if (user) {
-                currentUser = user;
-                showUserMenu();
-                loadUserEvents();
-            }
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
         }
         
         // Show/Hide Sections
@@ -828,498 +1158,118 @@
             
             // Update navigation
             updateNavigation(sectionId);
+            
+            // Close mobile menu if open
+            if (window.innerWidth <= 768) {
+                document.querySelector('.nav-links').classList.remove('active');
+            }
         }
         
+        // Update Navigation Active State
         function updateNavigation(sectionId) {
-            // Update active states in navigation
             document.querySelectorAll('.nav-links a').forEach(link => {
-                link.style.color = '';
+                link.classList.remove('active');
+            });
+            
+            document.querySelector(`a[href="#"][onclick*="${sectionId}"]`)?.classList.add('active');
+        }
+        
+        // Initialize Animations
+        function initAnimations() {
+            // Add scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.service-card, .section-title').forEach(el => {
+                observer.observe(el);
             });
         }
         
-        // Show user menu when logged in
-        function showUserMenu() {
-            document.getElementById('authButtons').classList.add('hidden');
-            document.getElementById('userMenu').classList.remove('hidden');
-            document.getElementById('userName').textContent = currentUser.email;
+        // Initialize Marquee
+        function initMarquee() {
+            const marqueeContent = document.querySelector('.marquee-content');
+            // Clone content for seamless loop
+            const clone = marqueeContent.cloneNode(true);
+            document.querySelector('.marquee-banner').appendChild(clone);
         }
         
-        // Show auth buttons when logged out
-        function showAuthButtons() {
-            document.getElementById('authButtons').classList.remove('hidden');
-            document.getElementById('userMenu').classList.add('hidden');
+        // WhatsApp Booking Function
+        function startWhatsAppBooking() {
+            const message = `Hello ${COMPANY_NAME}! I'm interested in booking your catering services. Can you provide more information?`;
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
         }
         
-        // Load Featured Caterers
-        async function loadFeaturedCaterers() {
-            const featuredContainer = document.getElementById('featuredCaterers');
-            featuredContainer.innerHTML = '<div class="loader"></div>';
-            
-            // In a real app, this would fetch from Supabase
-            // For demo, we'll use mock data
-            const mockCaterers = [
-                {
-                    id: 1,
-                    name: "Elegant Events Catering",
-                    description: "Premium catering for weddings and corporate events",
-                    price: 45,
-                    rating: 4.8,
-                    cuisine: "Mediterranean",
-                    image: "https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 2,
-                    name: "Spice Route Indian Cuisine",
-                    description: "Authentic Indian catering with customizable menus",
-                    price: 35,
-                    rating: 4.9,
-                    cuisine: "Indian",
-                    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w-800"
-                },
-                {
-                    id: 3,
-                    name: "La Bella Italian Kitchen",
-                    description: "Traditional Italian catering for all occasions",
-                    price: 40,
-                    rating: 4.7,
-                    cuisine: "Italian",
-                    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w-800"
-                }
-            ];
-            
-            // Render caterers
-            featuredContainer.innerHTML = '';
-            mockCaterers.forEach(caterer => {
-                featuredContainer.innerHTML += createCatererCard(caterer);
+        // Book Specific Service
+        function bookService(serviceName) {
+            const message = `Hello ${COMPANY_NAME}! I'd like to book your "${serviceName}" catering service. Please provide details and pricing.`;
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        }
+        
+        // Share Functions
+        function shareViaWhatsApp() {
+            const message = `Check out ${COMPANY_NAME}'s amazing catering services! They offer wedding catering, corporate events, private parties and more. Visit: ${PROFILE_LINK}`;
+            const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        }
+        
+        function shareViaFacebook() {
+            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PROFILE_LINK)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+        
+        function shareViaTwitter() {
+            const text = `Amazing catering services by ${COMPANY_NAME}!`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(PROFILE_LINK)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+        
+        function copyProfileLink() {
+            navigator.clipboard.writeText(PROFILE_LINK).then(() => {
+                alert('Profile link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
             });
-            
-            caterers = mockCaterers;
         }
         
-        // Load All Caterers
-        async function loadCaterers() {
-            const caterersContainer = document.getElementById('caterersList');
-            
-            // In a real app, this would fetch from Supabase
-            // For demo, we'll use mock data
-            const allCaterers = [
-                {
-                    id: 1,
-                    name: "Elegant Events Catering",
-                    description: "Premium catering for weddings and corporate events",
-                    price: 45,
-                    rating: 4.8,
-                    cuisine: "Mediterranean",
-                    tags: ["Wedding", "Corporate", "Vegetarian", "Vegan"],
-                    image: "https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 2,
-                    name: "Spice Route Indian Cuisine",
-                    description: "Authentic Indian catering with customizable menus",
-                    price: 35,
-                    rating: 4.9,
-                    cuisine: "Indian",
-                    tags: ["Spicy", "Vegetarian", "Halal", "Family Style"],
-                    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 3,
-                    name: "La Bella Italian Kitchen",
-                    description: "Traditional Italian catering for all occasions",
-                    price: 40,
-                    rating: 4.7,
-                    cuisine: "Italian",
-                    tags: ["Pasta", "Pizza", "Vegetarian", "Wine Pairing"],
-                    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 4,
-                    name: "Dragon Palace Chinese",
-                    description: "Authentic Chinese catering with banquet options",
-                    price: 30,
-                    rating: 4.5,
-                    cuisine: "Chinese",
-                    tags: ["Banquet", "Vegetarian", "Takeout", "Buffet"],
-                    image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 5,
-                    name: "Taco Fiesta Mexican",
-                    description: "Festive Mexican catering with taco bars",
-                    price: 25,
-                    rating: 4.6,
-                    cuisine: "Mexican",
-                    tags: ["Taco Bar", "Spicy", "Vegetarian", "Festive"],
-                    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                },
-                {
-                    id: 6,
-                    name: "BBQ Masters",
-                    description: "Southern-style BBQ catering",
-                    price: 38,
-                    rating: 4.8,
-                    cuisine: "American",
-                    tags: ["BBQ", "Outdoor", "Meat Lovers", "Catering"],
-                    image: "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
-                }
-            ];
-            
-            // Render caterers
-            caterersContainer.innerHTML = '';
-            allCaterers.forEach(caterer => {
-                caterersContainer.innerHTML += createCatererCard(caterer);
-            });
-            
-            caterers = allCaterers;
-        }
-        
-        // Create Caterer Card HTML
-        function createCatererCard(caterer) {
-            const stars = '★'.repeat(Math.floor(caterer.rating)) + '☆'.repeat(5 - Math.floor(caterer.rating));
-            
-            return `
-                <div class="card">
-                    <img src="${caterer.image}" alt="${caterer.name}" class="card-img">
-                    <div class="card-content">
-                        <h3 class="card-title">${caterer.name}</h3>
-                        <div class="card-rating">${stars} (${caterer.rating})</div>
-                        <p>${caterer.description}</p>
-                        <div class="card-tags">
-                            <span class="tag">${caterer.cuisine}</span>
-                            ${caterer.tags ? caterer.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
-                        </div>
-                        <div class="card-price">From $${caterer.price}/person</div>
-                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="selectCaterer(${caterer.id})">
-                            <i class="fas fa-calendar-check"></i> Book Now
-                        </button>
-                    </div>
+        // Generate QR Code (placeholder - in production use a QR library)
+        function generateQRCode() {
+            // In production, use a QR code library like qrcode.js
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">📱</div>
+                    <p style="font-size: 0.9rem;">Scan to visit</p>
+                    <p style="font-size: 0.8rem; color: var(--gray);">${PROFILE_LINK}</p>
                 </div>
             `;
         }
         
-        // Filter Caterers
-        function filterCaterers() {
-            const searchTerm = document.getElementById('catererSearch').value.toLowerCase();
-            const cuisineFilter = document.getElementById('cuisineFilter').value;
-            
-            const filtered = caterers.filter(caterer => {
-                const matchesSearch = caterer.name.toLowerCase().includes(searchTerm) ||
-                                    caterer.description.toLowerCase().includes(searchTerm) ||
-                                    caterer.cuisine.toLowerCase().includes(searchTerm);
-                
-                const matchesCuisine = !cuisineFilter || caterer.cuisine === cuisineFilter;
-                
-                return matchesSearch && matchesCuisine;
+        // Booking Step Navigation
+        function goToBookingStep(stepNumber) {
+            document.querySelectorAll('.booking-step').forEach(step => {
+                step.classList.remove('active');
             });
             
-            const container = document.getElementById('caterersList');
-            container.innerHTML = '';
-            filtered.forEach(caterer => {
-                container.innerHTML += createCatererCard(caterer);
-            });
+            document.querySelector(`.booking-step:nth-child(${stepNumber})`).classList.add('active');
         }
         
-        // Start Booking Process
-        function startBooking() {
-            if (!currentUser) {
-                alert('Please login to book an event');
-                showSection('login');
-                return;
-            }
-            
-            currentEventData = {};
-            showSection('booking');
-            resetBookingSteps();
-        }
-        
-        // Reset Booking Steps
-        function resetBookingSteps() {
-            // Reset all steps
-            for (let i = 1; i <= 4; i++) {
-                const step = document.getElementById(`step${i}`);
-                step.classList.remove('active', 'completed');
-                if (i === 1) step.classList.add('active');
-            }
-            
-            // Show step 1 content
-            document.getElementById('step1Content').classList.remove('hidden');
-            document.getElementById('step2Content').classList.add('hidden');
-        }
-        
-        // Next Step in Booking
-        function nextStep(stepNumber) {
-            if (stepNumber === 2) {
-                // Save step 1 data
-                currentEventData.type = document.getElementById('eventType').value;
-                currentEventData.guests = document.getElementById('guestCount').value;
-                currentEventData.date = document.getElementById('eventDate').value;
-                currentEventData.location = document.getElementById('eventLocation').value;
-                
-                // Validate
-                if (!currentEventData.location) {
-                    alert('Please enter event location');
-                    return;
-                }
-                
-                // Update steps
-                document.getElementById('step1').classList.remove('active');
-                document.getElementById('step1').classList.add('completed');
-                document.getElementById('step2').classList.add('active');
-                
-                // Show step 2 content
-                document.getElementById('step1Content').classList.add('hidden');
-                document.getElementById('step2Content').classList.remove('hidden');
-                
-                // Load available caterers for step 2
-                loadAvailableCaterers();
-            }
-        }
-        
-        // Previous Step in Booking
-        function prevStep(stepNumber) {
-            if (stepNumber === 1) {
-                // Update steps
-                document.getElementById('step2').classList.remove('active');
-                document.getElementById('step1').classList.add('active');
-                
-                // Show step 1 content
-                document.getElementById('step2Content').classList.add('hidden');
-                document.getElementById('step1Content').classList.remove('hidden');
-            }
-        }
-        
-        // Load Available Caterers for Booking
-        function loadAvailableCaterers() {
-            const container = document.getElementById('availableCaterers');
-            container.innerHTML = '';
-            
-            // Filter caterers based on event type
-            caterers.forEach(caterer => {
-                container.innerHTML += createCatererCard(caterer);
-            });
-        }
-        
-        // Select Caterer for Booking
-        function selectCaterer(catererId) {
-            const selectedCaterer = caterers.find(c => c.id === catererId);
-            currentEventData.catererId = catererId;
-            currentEventData.catererName = selectedCaterer.name;
-            currentEventData.pricePerPerson = selectedCaterer.price;
-            
-            // Calculate total
-            const total = selectedCaterer.price * currentEventData.guests;
-            
-            // In a real app, this would proceed to menu selection
-            // For demo, we'll create a booking directly
-            createBooking(selectedCaterer, total);
-        }
-        
-        // Create Booking
-        async function createBooking(caterer, total) {
-            if (!currentUser) return;
-            
-            try {
-                // In a real app, this would save to Supabase
-                // For demo, we'll show a confirmation
-                alert(`Booking confirmed with ${caterer.name} for ${currentEventData.guests} guests on ${currentEventData.date}. Total: $${total}`);
-                
-                // Add to user events
-                const event = {
-                    id: Date.now(),
-                    caterer: caterer.name,
-                    type: currentEventData.type,
-                    date: currentEventData.date,
-                    guests: currentEventData.guests,
-                    location: currentEventData.location,
-                    total: total,
-                    status: 'Confirmed'
-                };
-                
-                // Save to localStorage for demo
-                let userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
-                userEvents.push(event);
-                localStorage.setItem('userEvents', JSON.stringify(userEvents));
-                
-                // Reload user events
-                loadUserEvents();
-                
-                // Return to dashboard
-                showSection('dashboard');
-            } catch (error) {
-                console.error('Booking error:', error);
-                alert('Error creating booking. Please try again.');
-            }
-        }
-        
-        // Login Function
-        async function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const messageDiv = document.getElementById('loginMessage');
-            
-            if (!email || !password) {
-                messageDiv.textContent = 'Please fill in all fields';
-                messageDiv.className = 'message error';
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email,
-                    password
-                });
-                
-                if (error) throw error;
-                
-                currentUser = data.user;
-                showUserMenu();
-                messageDiv.textContent = 'Login successful!';
-                messageDiv.className = 'message success';
-                
-                // Redirect to dashboard after 1 second
-                setTimeout(() => {
-                    showSection('dashboard');
-                }, 1000);
-                
-            } catch (error) {
-                messageDiv.textContent = error.message;
-                messageDiv.className = 'message error';
-            }
-        }
-        
-        // Register Function
-        async function register() {
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const phone = document.getElementById('registerPhone').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            const messageDiv = document.getElementById('registerMessage');
-            
-            // Validation
-            if (!name || !email || !password || !confirmPassword) {
-                messageDiv.textContent = 'Please fill in all required fields';
-                messageDiv.className = 'message error';
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                messageDiv.textContent = 'Passwords do not match';
-                messageDiv.className = 'message error';
-                return;
-            }
-            
-            if (password.length < 6) {
-                messageDiv.textContent = 'Password must be at least 6 characters';
-                messageDiv.className = 'message error';
-                return;
-            }
-            
-            try {
-                // Register user with Supabase Auth
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            full_name: name,
-                            phone: phone
-                        }
-                    }
-                });
-                
-                if (error) throw error;
-                
-                messageDiv.textContent = 'Registration successful! Please check your email for confirmation.';
-                messageDiv.className = 'message success';
-                
-                // Clear form
-                document.getElementById('registerName').value = '';
-                document.getElementById('registerEmail').value = '';
-                document.getElementById('registerPhone').value = '';
-                document.getElementById('registerPassword').value = '';
-                document.getElementById('registerConfirmPassword').value = '';
-                
-                // Auto login after registration
-                setTimeout(() => {
-                    login();
-                }, 2000);
-                
-            } catch (error) {
-                messageDiv.textContent = error.message;
-                messageDiv.className = 'message error';
-            }
-        }
-        
-        // Logout Function
-        async function logout() {
-            await supabaseClient.auth.signOut();
-            currentUser = null;
-            showAuthButtons();
-            showSection('home');
-        }
-        
-        // Load User Events
-        function loadUserEvents() {
-            const eventsContainer = document.getElementById('userEvents');
-            
-            // For demo, use localStorage
-            const userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
-            
-            if (userEvents.length === 0) {
-                eventsContainer.innerHTML = '<p>No events booked yet.</p>';
-                return;
-            }
-            
-            eventsContainer.innerHTML = '';
-            userEvents.forEach(event => {
-                eventsContainer.innerHTML += `
-                    <div class="card" style="margin-bottom: 1rem;">
-                        <div class="card-content">
-                            <h3 class="card-title">${event.type} - ${event.caterer}</h3>
-                            <p><strong>Date:</strong> ${event.date}</p>
-                            <p><strong>Location:</strong> ${event.location}</p>
-                            <p><strong>Guests:</strong> ${event.guests}</p>
-                            <p><strong>Total:</strong> $${event.total}</p>
-                            <div class="tag" style="background: var(--success); color: white;">${event.status}</div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-        
-        // Show Dashboard Tab
-        function showDashboardTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all menu items
-            document.querySelectorAll('.sidebar-menu a').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabId + 'Tab').classList.add('active');
-            
-            // Add active class to clicked menu item
-            event.target.classList.add('active');
-        }
-        
-        // Search Caterers
-        function searchCaterers() {
-            const searchTerm = document.getElementById('searchInput').value;
-            if (searchTerm) {
-                showSection('caterers');
-                document.getElementById('catererSearch').value = searchTerm;
-                filterCaterers();
-            }
-        }
+        // Initialize booking steps
+        setTimeout(() => {
+            goToBookingStep(1);
+            generateQRCode();
+        }, 1000);
     </script>
-    
-    <!-- Include Supabase JS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
