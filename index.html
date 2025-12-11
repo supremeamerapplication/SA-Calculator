@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Platform | Real-time Trading</title>
+    <title>BiBi Catering Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -18,247 +14,492 @@
         }
 
         :root {
-            --primary: #1e3a8a;
-            --primary-dark: #172554;
-            --secondary: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --light-bg: #f8fafc;
-            --dark-text: #1e293b;
-            --light-text: #64748b;
-            --border: #e2e8f0;
-            --card-bg: #ffffff;
-            --green: #10b981;
-            --red: #ef4444;
+            --primary: #e63946;
+            --secondary: #457b9d;
+            --accent: #2a9d8f;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --gray: #6c757d;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e63946;
         }
 
         body {
-            background-color: #f1f5f9;
-            color: var(--dark-text);
+            background-color: #f8f9fa;
+            color: #333;
             line-height: 1.6;
         }
 
-        .container {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            grid-template-rows: 70px 1fr;
-            min-height: 100vh;
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* Header Styles */
-        header {
-            grid-column: 1 / -1;
-            background-color: var(--card-bg);
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.8rem;
             font-weight: 700;
-            font-size: 1.5rem;
             color: var(--primary);
         }
 
         .logo i {
-            color: var(--secondary);
+            color: var(--accent);
         }
 
-        .user-info {
+        .nav-links {
             display: flex;
+            gap: 2rem;
             align-items: center;
-            gap: 15px;
         }
 
-        .balance {
-            background-color: var(--light-bg);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
             color: var(--primary);
         }
 
         .auth-buttons {
             display: flex;
-            gap: 10px;
+            gap: 1rem;
         }
 
-        .btn-auth {
-            padding: 8px 16px;
-            border-radius: 5px;
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
             border: none;
-            cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-login {
-            background-color: var(--light-bg);
-            color: var(--primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-signup {
-            background-color: var(--primary);
+        .btn-primary {
+            background: var(--primary);
             color: white;
         }
 
-        /* Auth Modal */
-        .auth-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+        .btn-primary:hover {
+            background: #c1121f;
+            transform: translateY(-2px);
         }
 
-        .auth-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
         }
 
-        .auth-tabs {
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(29, 53, 87, 0.85), rgba(29, 53, 87, 0.9)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            max-width: 700px;
+            margin: 2rem auto;
             display: flex;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .auth-tab {
-            padding: 10px 20px;
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
             cursor: pointer;
             font-weight: 600;
-            color: var(--light-text);
-            border-bottom: 3px solid transparent;
-        }
-
-        .auth-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
         }
 
         /* Main Content */
-        .main-content {
-            padding: 1.5rem;
-            overflow-y: auto;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5%;
         }
 
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Cards Grid */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
         .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border);
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        /* Trading Panel */
-        .trading-panel {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .card-rating {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tag {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--dark);
+        }
+
+        /* Forms */
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
             margin-bottom: 2rem;
         }
 
-        /* Market Data Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background-color: var(--light-bg);
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
             font-weight: 600;
+            color: var(--gray);
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
             color: var(--primary);
         }
 
-        .positive {
-            color: var(--green);
-            font-weight: 600;
+        .tab-content {
+            display: none;
         }
 
-        .negative {
-            color: var(--red);
-            font-weight: 600;
+        .tab-content.active {
+            display: block;
         }
 
-        /* Positions & Orders */
-        .positions, .orders {
-            margin-top: 2rem;
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        /* Booking Steps */
+        .booking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .booking-steps:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ddd;
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 0 1rem;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 700;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .trading-panel {
-                grid-template-columns: 1fr;
-            }
-        }
-
         @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-                grid-template-rows: 70px auto 1fr;
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
             }
             
-            .sidebar {
-                display: none;
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
             }
             
-            .cards-grid {
+            .dashboard {
                 grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .search-box input,
+            .search-box button {
+                border-radius: 15px;
+                width: 100%;
             }
         }
 
-        /* Loading States */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            border: 3px solid var(--light-bg);
-            border-top: 3px solid var(--primary);
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin: 2rem auto;
         }
 
         @keyframes spin {
@@ -266,1104 +507,819 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 5px;
-            color: white;
-            font-weight: 600;
-            z-index: 1001;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        .notification.success {
-            background-color: var(--green);
-        }
-
-        .notification.error {
-            background-color: var(--red);
-        }
-
-        .notification.info {
-            background-color: var(--primary);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        /* Hidden class for toggling */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Notification System -->
-    <div id="notification" class="notification"></div>
-
-    <!-- Auth Modal -->
-    <div id="authModal" class="auth-modal">
-        <div class="auth-content">
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Login</div>
-                <div class="auth-tab" data-tab="signup">Sign Up</div>
-            </div>
-            
-            <form id="loginForm" class="auth-form active">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn btn-buy" style="width: 100%; margin-top: 20px;">Login</button>
-            </form>
-            
-            <form id="signupForm" class="auth-form">
-                <div class="form-group">
-                    <label for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupFullName">Full Name</label>
-                    <input type="text" id="signupFullName" required>
-                </div>
-                <button type="submit" class="btn btn-buy" style="width: 100%; margin-top: 20px;">Sign Up</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- Header -->
-        <header>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
             <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <span>TradePro Live</span>
+                <i class="fas fa-utensils"></i>
+                <span>BiBi Catering</span>
             </div>
-            <div class="user-info">
-                <div class="balance" id="accountBalance">
-                    <i class="fas fa-wallet"></i>
-                    <span id="balanceAmount">Loading...</span>
+            <div class="nav-links">
+                <a href="#" onclick="showSection('home')">Home</a>
+                <a href="#" onclick="showSection('caterers')">Find Caterers</a>
+                <a href="#" onclick="showSection('dashboard')">My Events</a>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" onclick="showSection('login')">Login</button>
+                    <button class="btn btn-primary" onclick="showSection('register')">Sign Up</button>
                 </div>
-                <div id="userAvatar" class="avatar" style="display: none;"></div>
-                <div id="authButtons" class="auth-buttons">
-                    <button class="btn-auth btn-login" id="loginBtn">Login</button>
-                    <button class="btn-auth btn-signup" id="signupBtn">Sign Up</button>
+                <div id="userMenu" class="hidden">
+                    <span id="userName" style="margin-right: 1rem;"></span>
+                    <button class="btn btn-outline" onclick="logout()">Logout</button>
                 </div>
             </div>
-        </header>
-
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <ul class="nav-links">
-                <li class="active"><i class="fas fa-home"></i> Dashboard</li>
-                <li><i class="fas fa-chart-bar"></i> Markets</li>
-                <li><i class="fas fa-exchange-alt"></i> Trade</li>
-                <li><i class="fas fa-list"></i> Orders</li>
-                <li><i class="fas fa-history"></i> History</li>
-                <li><i class="fas fa-cog"></i> Settings</li>
-                <li id="logoutBtn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</li>
-            </ul>
         </nav>
+    </header>
 
-        <!-- Main Content -->
-        <main class="main-content" id="mainContent">
-            <!-- Loading State -->
-            <div id="loadingState" class="loading-spinner"></div>
+    <!-- Main Content Sections -->
+    <main id="mainContent">
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <div class="hero">
+                <h1>Exquisite Catering for Your Special Moments</h1>
+                <p>Discover the perfect catering service for weddings, corporate events, and private parties. Custom menus, professional service, unforgettable experiences.</p>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for caterers, cuisine types, or locations...">
+                    <button onclick="searchCaterers()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <button class="btn btn-primary" style="margin-right: 1rem;" onclick="startBooking()">
+                        <i class="fas fa-calendar-plus"></i> Book Now
+                    </button>
+                    <button class="btn btn-outline" onclick="showSection('caterers')">
+                        <i class="fas fa-store"></i> Browse Caterers
+                    </button>
+                </div>
+            </div>
 
-            <!-- Trading Interface (shown after auth) -->
-            <div id="tradingInterface" style="display: none;">
-                <!-- Market Summary Cards -->
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Account Value</span>
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <div class="card-content">
-                            <h2 id="totalValue">$0.00</h2>
-                            <p id="dailyChange">Loading...</p>
-                        </div>
+            <div class="container">
+                <div class="section-title">
+                    <h2>Popular Catering Services</h2>
+                    <p>Top-rated caterers for your next event</p>
+                </div>
+                <div id="featuredCaterers" class="cards-grid">
+                    <!-- Featured caterers will load here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Caterers Section -->
+        <section id="caterers" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Available Caterers</h2>
+                    <p>Filter and find the perfect catering service</p>
+                </div>
+                
+                <div class="search-box" style="max-width: 100%; margin-bottom: 2rem;">
+                    <input type="text" id="catererSearch" placeholder="Search caterers by name, cuisine, or location..." onkeyup="filterCaterers()">
+                    <select id="cuisineFilter" onchange="filterCaterers()">
+                        <option value="">All Cuisines</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="American">American</option>
+                    </select>
+                </div>
+                
+                <div id="caterersList" class="cards-grid">
+                    <!-- Caterers will load here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Book Your Event</h2>
+                    <p>Fill in your event details</p>
+                </div>
+                
+                <div class="booking-steps">
+                    <div class="step active" id="step1">
+                        <div class="step-number">1</div>
+                        <div>Event Details</div>
                     </div>
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Buying Power</span>
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="card-content">
-                            <h2 id="buyingPower">$0.00</h2>
-                            <p>Available for trading</p>
-                        </div>
+                    <div class="step" id="step2">
+                        <div class="step-number">2</div>
+                        <div>Select Caterer</div>
                     </div>
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Open Positions</span>
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <div class="card-content">
-                            <h2 id="openPositions">0</h2>
-                            <p id="positionsValue">Total value: $0.00</p>
-                        </div>
+                    <div class="step" id="step3">
+                        <div class="step-number">3</div>
+                        <div>Menu Selection</div>
+                    </div>
+                    <div class="step" id="step4">
+                        <div class="step-number">4</div>
+                        <div>Confirmation</div>
                     </div>
                 </div>
-
-                <!-- Trading Panel -->
-                <div class="trading-panel">
-                    <!-- Chart -->
-                    <div class="chart-container card">
-                        <div class="chart-header">
-                            <div class="asset-info">
-                                <h3 id="selectedSymbol">AAPL - Apple Inc.</h3>
-                                <div class="current-price" id="currentPrice">
-                                    $0.00 <span id="priceChange">+0.00%</span>
-                                </div>
-                            </div>
-                            <div class="timeframe-selector">
-                                <select id="timeframe">
-                                    <option value="1D">1D</option>
-                                    <option value="1W">1W</option>
-                                    <option value="1M">1M</option>
-                                </select>
-                            </div>
-                        </div>
-                        <canvas id="priceChart"></canvas>
+                
+                <div id="step1Content" class="form-container">
+                    <h3>Event Information</h3>
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select id="eventType">
+                            <option value="Wedding">Wedding</option>
+                            <option value="Corporate">Corporate Event</option>
+                            <option value="Birthday">Birthday Party</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
+                    <div class="form-group">
+                        <label>Number of Guests</label>
+                        <input type="number" id="guestCount" min="10" max="1000" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Date</label>
+                        <input type="date" id="eventDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="eventLocation" placeholder="Enter event address">
+                    </div>
+                    <button class="btn btn-primary" onclick="nextStep(2)">Next: Select Caterer</button>
+                </div>
+                
+                <div id="step2Content" class="form-container hidden">
+                    <h3>Choose Your Caterer</h3>
+                    <div id="availableCaterers" class="cards-grid">
+                        <!-- Available caterers will load here -->
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                        <button class="btn btn-outline" onclick="prevStep(1)">Back</button>
+                        <button class="btn btn-primary" onclick="nextStep(3)">Next: Menu Selection</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Order Form -->
-                    <div class="order-form-container card">
-                        <div class="card-title">
-                            <span>Place Order</span>
-                            <i class="fas fa-exchange-alt"></i>
+        <!-- Login Section -->
+        <section id="login" class="section hidden">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Login to Your Account</h2>
+                <div id="loginMessage" class="message"></div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="login()">Login</button>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Don't have an account? <a href="#" onclick="showSection('register')" style="color: var(--primary);">Sign up here</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="register" class="section hidden">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h2>
+                <div id="registerMessage" class="message"></div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="register()">Create Account</button>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Already have an account? <a href="#" onclick="showSection('login')" style="color: var(--primary);">Login here</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section hidden">
+            <div class="container">
+                <h2 style="margin-bottom: 2rem;">My Dashboard</h2>
+                <div class="dashboard">
+                    <div class="sidebar">
+                        <ul class="sidebar-menu">
+                            <li><a href="#" class="active" onclick="showDashboardTab('events')"><i class="fas fa-calendar"></i> My Events</a></li>
+                            <li><a href="#" onclick="showDashboardTab('profile')"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a href="#" onclick="showDashboardTab('messages')"><i class="fas fa-envelope"></i> Messages</a></li>
+                            <li><a href="#" onclick="showDashboardTab('reviews')"><i class="fas fa-star"></i> Reviews</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dashboard-content">
+                        <div id="eventsTab" class="tab-content active">
+                            <h3>My Events</h3>
+                            <div id="userEvents">
+                                <!-- User's events will load here -->
+                            </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="orderSymbol">Symbol</label>
-                            <select id="orderSymbol">
-                                <!-- Symbols will be populated dynamically -->
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="orderType">Order Type</label>
-                            <select id="orderType">
-                                <option value="market">Market</option>
-                                <option value="limit">Limit</option>
-                                <option value="stop">Stop</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="orderSide">Side</label>
-                            <select id="orderSide">
-                                <option value="buy">Buy</option>
-                                <option value="sell">Sell</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="orderQuantity">Quantity</label>
-                            <input type="number" id="orderQuantity" value="1" min="1">
-                        </div>
-
-                        <div class="form-group" id="limitPriceGroup" style="display: none;">
-                            <label for="limitPrice">Limit Price ($)</label>
-                            <input type="number" id="limitPrice" step="0.01" placeholder="Enter limit price">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Estimated Cost</label>
-                            <div id="estimatedCost">$0.00</div>
-                        </div>
-
-                        <div class="btn-group" style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button class="btn btn-buy" id="placeOrderBtn" style="flex: 1;">Place Order</button>
-                            <button class="btn btn-secondary" id="resetOrderBtn" style="flex: 1;">Reset</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Market Data -->
-                <div class="market-data">
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Market Watch</span>
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="table-container">
-                            <table id="marketTable">
-                                <thead>
-                                    <tr>
-                                        <th>Symbol</th>
-                                        <th>Price</th>
-                                        <th>Change</th>
-                                        <th>Change %</th>
-                                        <th>Volume</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="marketTableBody">
-                                    <!-- Market data will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Positions & Orders -->
-                <div class="positions">
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Open Positions</span>
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <div class="positions-table">
-                            <table id="positionsTable">
-                                <thead>
-                                    <tr>
-                                        <th>Symbol</th>
-                                        <th>Quantity</th>
-                                        <th>Avg. Price</th>
-                                        <th>Current Price</th>
-                                        <th>Market Value</th>
-                                        <th>P/L</th>
-                                        <th>P/L %</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="positionsBody">
-                                    <!-- Positions will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="orders">
-                    <div class="card">
-                        <div class="card-title">
-                            <span>Recent Orders</span>
-                            <i class="fas fa-list"></i>
-                        </div>
-                        <div class="orders-table">
-                            <table id="ordersTable">
-                                <thead>
-                                    <tr>
-                                        <th>Date/Time</th>
-                                        <th>Symbol</th>
-                                        <th>Side</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ordersBody">
-                                    <!-- Orders will be populated dynamically -->
-                                </tbody>
-                            </table>
+                        <div id="profileTab" class="tab-content">
+                            <h3>My Profile</h3>
+                            <div id="profileInfo">
+                                <!-- Profile info will load here -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </section>
+    </main>
 
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>BiBi Catering</h3>
+                <p>Professional catering services for all your events. Quality food, exceptional service, unforgettable experiences.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#" onclick="showSection('home')">Home</a>
+                <a href="#" onclick="showSection('caterers')">Find Caterers</a>
+                <a href="#" onclick="showSection('dashboard')">My Dashboard</a>
+                <a href="#" onclick="startBooking()">Book an Event</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> info@bibicatering.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Event Street, Catering City</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            © 2024 BiBi Catering Platform. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Supabase Configuration and JavaScript -->
     <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        // Supabase Configuration - REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://your-project.supabase.co';
+        const SUPABASE_ANON_KEY = 'your-anon-key';
         
         // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         // Global state
         let currentUser = null;
-        let accountData = null;
-        let marketData = [];
-        let positions = [];
-        let orders = [];
-        let selectedSymbol = 'AAPL';
-        let chart = null;
+        let caterers = [];
+        let currentEventData = {};
         
-        // DOM Elements
-        const authModal = document.getElementById('authModal');
-        const loginBtn = document.getElementById('loginBtn');
-        const signupBtn = document.getElementById('signupBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const authButtons = document.getElementById('authButtons');
-        const userAvatar = document.getElementById('userAvatar');
-        const mainContent = document.getElementById('mainContent');
-        const loadingState = document.getElementById('loadingState');
-        const tradingInterface = document.getElementById('tradingInterface');
-        const notification = document.getElementById('notification');
-        
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', async () => {
-            setupEventListeners();
-            await checkAuth();
-            await initializeMarketData();
-            setupWebSocket();
+        // DOM Content Loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').min = today;
+            document.getElementById('eventDate').value = today;
+            
+            // Check if user is already logged in
+            checkAuth();
+            
+            // Load featured caterers
+            loadFeaturedCaterers();
+            
+            // Load all caterers
+            loadCaterers();
         });
         
-        // Check authentication status
+        // Check Authentication
         async function checkAuth() {
-            const { data: { session } } = await supabase.auth.getSession();
-            
-            if (session) {
-                currentUser = session.user;
-                showNotification('Welcome back!', 'success');
-                await loadUserData();
-                showTradingInterface();
-            } else {
-                showAuthInterface();
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (user) {
+                currentUser = user;
+                showUserMenu();
+                loadUserEvents();
             }
         }
         
-        // Load user data from Supabase
-        async function loadUserData() {
-            try {
-                // Load account data
-                const { data: account, error: accountError } = await supabase
-                    .from('accounts')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .single();
-                
-                if (accountError && accountError.code === 'PGRST116') {
-                    // Create account if doesn't exist
-                    await createUserAccount();
-                    accountData = {
-                        balance: 100000,
-                        buying_power: 100000,
-                        total_value: 100000,
-                        daily_change: 0
-                    };
-                } else {
-                    accountData = account;
+        // Show/Hide Sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update navigation
+            updateNavigation(sectionId);
+        }
+        
+        function updateNavigation(sectionId) {
+            // Update active states in navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.style.color = '';
+            });
+        }
+        
+        // Show user menu when logged in
+        function showUserMenu() {
+            document.getElementById('authButtons').classList.add('hidden');
+            document.getElementById('userMenu').classList.remove('hidden');
+            document.getElementById('userName').textContent = currentUser.email;
+        }
+        
+        // Show auth buttons when logged out
+        function showAuthButtons() {
+            document.getElementById('authButtons').classList.remove('hidden');
+            document.getElementById('userMenu').classList.add('hidden');
+        }
+        
+        // Load Featured Caterers
+        async function loadFeaturedCaterers() {
+            const featuredContainer = document.getElementById('featuredCaterers');
+            featuredContainer.innerHTML = '<div class="loader"></div>';
+            
+            // In a real app, this would fetch from Supabase
+            // For demo, we'll use mock data
+            const mockCaterers = [
+                {
+                    id: 1,
+                    name: "Elegant Events Catering",
+                    description: "Premium catering for weddings and corporate events",
+                    price: 45,
+                    rating: 4.8,
+                    cuisine: "Mediterranean",
+                    image: "https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
+                },
+                {
+                    id: 2,
+                    name: "Spice Route Indian Cuisine",
+                    description: "Authentic Indian catering with customizable menus",
+                    price: 35,
+                    rating: 4.9,
+                    cuisine: "Indian",
+                    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w-800"
+                },
+                {
+                    id: 3,
+                    name: "La Bella Italian Kitchen",
+                    description: "Traditional Italian catering for all occasions",
+                    price: 40,
+                    rating: 4.7,
+                    cuisine: "Italian",
+                    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w-800"
                 }
-                
-                // Load positions
-                const { data: positionsData } = await supabase
-                    .from('positions')
-                    .select('*')
-                    .eq('user_id', currentUser.id);
-                
-                positions = positionsData || [];
-                
-                // Load orders
-                const { data: ordersData } = await supabase
-                    .from('orders')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false })
-                    .limit(20);
-                
-                orders = ordersData || [];
-                
-                updateUI();
-                
-            } catch (error) {
-                console.error('Error loading user data:', error);
-                showNotification('Error loading data', 'error');
-            }
-        }
-        
-        // Create user account in Supabase
-        async function createUserAccount() {
-            const { error } = await supabase
-                .from('accounts')
-                .insert({
-                    user_id: currentUser.id,
-                    balance: 100000,
-                    buying_power: 100000,
-                    total_value: 100000,
-                    daily_change: 0,
-                    created_at: new Date().toISOString()
-                });
-            
-            if (error) {
-                console.error('Error creating account:', error);
-                showNotification('Error creating account', 'error');
-            }
-        }
-        
-        // Initialize market data
-        async function initializeMarketData() {
-            // For demo purposes, we'll use mock data
-            // In production, connect to a real market data API
-            marketData = [
-                { symbol: 'AAPL', name: 'Apple Inc.', price: 172.35, change: 2.11, changePercent: 1.24, volume: '45.2M' },
-                { symbol: 'MSFT', name: 'Microsoft Corp.', price: 330.12, change: -1.25, changePercent: -0.38, volume: '28.7M' },
-                { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 138.45, change: 0.85, changePercent: 0.62, volume: '32.1M' },
-                { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 178.21, change: 3.42, changePercent: 1.96, volume: '52.3M' },
-                { symbol: 'TSLA', name: 'Tesla Inc.', price: 245.33, change: -5.21, changePercent: -2.08, volume: '102.5M' },
-                { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 950.02, change: 25.45, changePercent: 2.75, volume: '48.7M' },
-                { symbol: 'META', name: 'Meta Platforms Inc.', price: 310.25, change: 4.12, changePercent: 1.35, volume: '18.9M' },
-                { symbol: 'JPM', name: 'JPMorgan Chase & Co.', price: 195.67, change: 0.45, changePercent: 0.23, volume: '12.3M' }
             ];
             
-            // Populate symbol dropdown
-            const symbolSelect = document.getElementById('orderSymbol');
-            symbolSelect.innerHTML = '';
-            marketData.forEach(stock => {
-                const option = document.createElement('option');
-                option.value = stock.symbol;
-                option.textContent = `${stock.symbol} - ${stock.name}`;
-                symbolSelect.appendChild(option);
+            // Render caterers
+            featuredContainer.innerHTML = '';
+            mockCaterers.forEach(caterer => {
+                featuredContainer.innerHTML += createCatererCard(caterer);
             });
             
-            updateMarketTable();
+            caterers = mockCaterers;
         }
         
-        // Setup WebSocket for real-time updates
-        function setupWebSocket() {
-            // In production, connect to your WebSocket server
-            // This is a mock implementation for demo purposes
+        // Load All Caterers
+        async function loadCaterers() {
+            const caterersContainer = document.getElementById('caterersList');
             
-            // Simulate real-time price updates
-            setInterval(() => {
-                if (currentUser && marketData.length > 0) {
-                    updatePrices();
-                    updateUI();
-                }
-            }, 3000);
-        }
-        
-        // Update stock prices (mock)
-        function updatePrices() {
-            marketData.forEach(stock => {
-                const change = (Math.random() - 0.5) * 2;
-                const newPrice = stock.price + change;
-                stock.change = newPrice - stock.price;
-                stock.changePercent = (stock.change / stock.price) * 100;
-                stock.price = newPrice;
-                
-                // Update positions with current stock
-                positions.forEach(position => {
-                    if (position.symbol === stock.symbol) {
-                        position.current_price = stock.price;
-                        position.unrealized_pl = (stock.price - position.avg_price) * position.quantity;
-                        position.unrealized_pl_percent = ((stock.price - position.avg_price) / position.avg_price) * 100;
-                    }
-                });
-            });
-            
-            updateMarketTable();
-            updatePositionsTable();
-        }
-        
-        // Place order
-        async function placeOrder() {
-            const symbol = document.getElementById('orderSymbol').value;
-            const side = document.getElementById('orderSide').value;
-            const quantity = parseInt(document.getElementById('orderQuantity').value);
-            const orderType = document.getElementById('orderType').value;
-            const limitPrice = parseFloat(document.getElementById('limitPrice').value) || 0;
-            
-            if (!symbol || quantity <= 0) {
-                showNotification('Invalid order parameters', 'error');
-                return;
-            }
-            
-            const stock = marketData.find(s => s.symbol === symbol);
-            if (!stock) {
-                showNotification('Invalid symbol', 'error');
-                return;
-            }
-            
-            // Calculate order price
-            let orderPrice = stock.price;
-            if (orderType === 'limit') {
-                if (limitPrice <= 0) {
-                    showNotification('Please enter a valid limit price', 'error');
-                    return;
-                }
-                orderPrice = limitPrice;
-            }
-            
-            const totalCost = orderPrice * quantity;
-            
-            // Check buying power for buy orders
-            if (side === 'buy' && totalCost > accountData.buying_power) {
-                showNotification('Insufficient buying power', 'error');
-                return;
-            }
-            
-            // Check position for sell orders
-            if (side === 'sell') {
-                const position = positions.find(p => p.symbol === symbol);
-                if (!position || position.quantity < quantity) {
-                    showNotification('Insufficient shares to sell', 'error');
-                    return;
-                }
-            }
-            
-            // Create order in Supabase
-            const order = {
-                user_id: currentUser.id,
-                symbol: symbol,
-                side: side,
-                quantity: quantity,
-                price: orderPrice,
-                order_type: orderType,
-                status: 'filled',
-                total_amount: totalCost,
-                created_at: new Date().toISOString()
-            };
-            
-            const { data, error } = await supabase
-                .from('orders')
-                .insert(order)
-                .select()
-                .single();
-            
-            if (error) {
-                console.error('Error placing order:', error);
-                showNotification('Error placing order', 'error');
-                return;
-            }
-            
-            // Update account and positions
-            await executeOrder(order);
-            
-            // Add to orders list
-            orders.unshift(data);
-            
-            // Update UI
-            updateUI();
-            updateOrdersTable();
-            
-            showNotification(`Order ${side.toUpperCase()} ${quantity} ${symbol} at $${orderPrice.toFixed(2)}`, 'success');
-            
-            // Reset order form
-            resetOrderForm();
-        }
-        
-        // Execute order and update positions
-        async function executeOrder(order) {
-            const { symbol, side, quantity, price } = order;
-            
-            if (side === 'buy') {
-                // Update account balance
-                accountData.balance -= price * quantity;
-                accountData.buying_power -= price * quantity;
-                
-                // Update or create position
-                const existingPosition = positions.find(p => p.symbol === symbol);
-                
-                if (existingPosition) {
-                    // Update existing position
-                    const newQuantity = existingPosition.quantity + quantity;
-                    const newAvgPrice = ((existingPosition.avg_price * existingPosition.quantity) + (price * quantity)) / newQuantity;
-                    
-                    existingPosition.quantity = newQuantity;
-                    existingPosition.avg_price = newAvgPrice;
-                    existingPosition.current_price = price;
-                    existingPosition.unrealized_pl = (price - newAvgPrice) * newQuantity;
-                    existingPosition.unrealized_pl_percent = ((price - newAvgPrice) / newAvgPrice) * 100;
-                    
-                    // Update in Supabase
-                    await supabase
-                        .from('positions')
-                        .update({
-                            quantity: newQuantity,
-                            avg_price: newAvgPrice,
-                            updated_at: new Date().toISOString()
-                        })
-                        .eq('id', existingPosition.id);
-                } else {
-                    // Create new position
-                    const newPosition = {
-                        user_id: currentUser.id,
-                        symbol: symbol,
-                        quantity: quantity,
-                        avg_price: price,
-                        current_price: price,
-                        unrealized_pl: 0,
-                        unrealized_pl_percent: 0,
-                        created_at: new Date().toISOString()
-                    };
-                    
-                    const { data, error } = await supabase
-                        .from('positions')
-                        .insert(newPosition)
-                        .select()
-                        .single();
-                    
-                    if (!error) {
-                        positions.push(data);
-                    }
-                }
-            } else {
-                // Sell order
-                const position = positions.find(p => p.symbol === symbol);
-                
-                // Update account balance
-                accountData.balance += price * quantity;
-                accountData.buying_power += price * quantity;
-                
-                if (position.quantity === quantity) {
-                    // Remove position
-                    await supabase
-                        .from('positions')
-                        .delete()
-                        .eq('id', position.id);
-                    
-                    positions = positions.filter(p => p.id !== position.id);
-                } else {
-                    // Reduce position
-                    position.quantity -= quantity;
-                    
-                    await supabase
-                        .from('positions')
-                        .update({
-                            quantity: position.quantity,
-                            updated_at: new Date().toISOString()
-                        })
-                        .eq('id', position.id);
-                }
-            }
-            
-            // Update account in Supabase
-            await supabase
-                .from('accounts')
-                .update({
-                    balance: accountData.balance,
-                    buying_power: accountData.buying_power,
-                    total_value: calculateTotalValue(),
-                    updated_at: new Date().toISOString()
-                })
-                .eq('user_id', currentUser.id);
-        }
-        
-        // Close position
-        async function closePosition(positionId) {
-            const position = positions.find(p => p.id === positionId);
-            if (!position) return;
-            
-            const stock = marketData.find(s => s.symbol === position.symbol);
-            if (!stock) return;
-            
-            // Create sell order
-            const order = {
-                user_id: currentUser.id,
-                symbol: position.symbol,
-                side: 'sell',
-                quantity: position.quantity,
-                price: stock.price,
-                order_type: 'market',
-                status: 'filled',
-                total_amount: stock.price * position.quantity,
-                created_at: new Date().toISOString()
-            };
-            
-            // Save order
-            const { data, error } = await supabase
-                .from('orders')
-                .insert(order)
-                .select()
-                .single();
-            
-            if (error) {
-                console.error('Error closing position:', error);
-                showNotification('Error closing position', 'error');
-                return;
-            }
-            
-            // Execute order
-            await executeOrder(order);
-            
-            // Add to orders list
-            orders.unshift(data);
-            
-            // Update UI
-            updateUI();
-            updateOrdersTable();
-            
-            showNotification(`Closed position ${position.symbol}`, 'success');
-        }
-        
-        // Calculate total account value
-        function calculateTotalValue() {
-            let positionsValue = 0;
-            positions.forEach(position => {
-                positionsValue += position.current_price * position.quantity;
-            });
-            
-            return accountData.balance + positionsValue;
-        }
-        
-        // Update UI with current data
-        function updateUI() {
-            if (!accountData) return;
-            
-            // Update account info
-            document.getElementById('balanceAmount').textContent = `$${accountData.balance.toFixed(2)}`;
-            document.getElementById('totalValue').textContent = `$${calculateTotalValue().toFixed(2)}`;
-            document.getElementById('buyingPower').textContent = `$${accountData.buying_power.toFixed(2)}`;
-            document.getElementById('openPositions').textContent = positions.length;
-            
-            const positionsValue = positions.reduce((sum, pos) => 
-                sum + (pos.current_price * pos.quantity), 0);
-            document.getElementById('positionsValue').textContent = `Total value: $${positionsValue.toFixed(2)}`;
-            
-            // Update selected symbol
-            const stock = marketData.find(s => s.symbol === selectedSymbol);
-            if (stock) {
-                document.getElementById('selectedSymbol').textContent = `${stock.symbol} - ${stock.name}`;
-                document.getElementById('currentPrice').innerHTML = 
-                    `$${stock.price.toFixed(2)} <span class="${stock.change >= 0 ? 'positive' : 'negative'}" id="priceChange">
-                        ${stock.change >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%
-                    </span>`;
-            }
-            
-            updateEstimatedCost();
-            updateMarketTable();
-            updatePositionsTable();
-        }
-        
-        // Update market table
-        function updateMarketTable() {
-            const tbody = document.getElementById('marketTableBody');
-            tbody.innerHTML = '';
-            
-            marketData.forEach(stock => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${stock.symbol}</strong><br><small>${stock.name}</small></td>
-                    <td>$${stock.price.toFixed(2)}</td>
-                    <td class="${stock.change >= 0 ? 'positive' : 'negative'}">
-                        ${stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)}
-                    </td>
-                    <td class="${stock.changePercent >= 0 ? 'positive' : 'negative'}">
-                        ${stock.changePercent >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%
-                    </td>
-                    <td>${stock.volume}</td>
-                    <td><button class="btn btn-secondary" onclick="selectSymbol('${stock.symbol}')">Trade</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Update positions table
-        function updatePositionsTable() {
-            const tbody = document.getElementById('positionsBody');
-            tbody.innerHTML = '';
-            
-            positions.forEach(position => {
-                const stock = marketData.find(s => s.symbol === position.symbol);
-                if (!stock) return;
-                
-                const marketValue = position.current_price * position.quantity;
-                const plClass = position.unrealized_pl >= 0 ? 'positive' : 'negative';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${position.symbol}</strong></td>
-                    <td>${position.quantity}</td>
-                    <td>$${position.avg_price.toFixed(2)}</td>
-                    <td>$${position.current_price.toFixed(2)}</td>
-                    <td>$${marketValue.toFixed(2)}</td>
-                    <td class="${plClass}">$${position.unrealized_pl.toFixed(2)}</td>
-                    <td class="${plClass}">${position.unrealized_pl_percent >= 0 ? '+' : ''}${position.unrealized_pl_percent.toFixed(2)}%</td>
-                    <td><button class="btn btn-secondary" onclick="closePosition('${position.id}')">Close</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Update orders table
-        function updateOrdersTable() {
-            const tbody = document.getElementById('ordersBody');
-            tbody.innerHTML = '';
-            
-            orders.slice(0, 10).forEach(order => {
-                const date = new Date(order.created_at);
-                const formattedDate = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
-                const sideClass = order.side === 'buy' ? 'positive' : 'negative';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td><strong>${order.symbol}</strong></td>
-                    <td class="${sideClass}">${order.side.toUpperCase()}</td>
-                    <td>${order.quantity}</td>
-                    <td>$${order.price.toFixed(2)}</td>
-                    <td><span class="positive">${order.status}</span></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Update estimated cost
-        function updateEstimatedCost() {
-            const symbol = document.getElementById('orderSymbol').value;
-            const quantity = parseInt(document.getElementById('orderQuantity').value) || 0;
-            const side = document.getElementById('orderSide').value;
-            
-            const stock = marketData.find(s => s.symbol === symbol);
-            if (!stock) return;
-            
-            const estimatedCost = stock.price * quantity;
-            document.getElementById('estimatedCost').textContent = 
-                `$${estimatedCost.toFixed(2)} ${side === 'buy' ? 'to buy' : 'from selling'}`;
-        }
-        
-        // Select symbol for trading
-        window.selectSymbol = function(symbol) {
-            selectedSymbol = symbol;
-            document.getElementById('orderSymbol').value = symbol;
-            updateUI();
-            updateChart();
-        };
-        
-        // Close position (global function)
-        window.closePosition = async function(positionId) {
-            await closePosition(positionId);
-        };
-        
-        // Reset order form
-        function resetOrderForm() {
-            document.getElementById('orderQuantity').value = '1';
-            document.getElementById('limitPrice').value = '';
-            document.getElementById('orderType').value = 'market';
-            document.getElementById('limitPriceGroup').style.display = 'none';
-            updateEstimatedCost();
-        }
-        
-        // Show trading interface
-        function showTradingInterface() {
-            loadingState.style.display = 'none';
-            tradingInterface.style.display = 'block';
-            authButtons.style.display = 'none';
-            userAvatar.style.display = 'flex';
-            userAvatar.textContent = currentUser.email[0].toUpperCase();
-            logoutBtn.style.display = 'block';
-            updateUI();
-            updateOrdersTable();
-            initializeChart();
-        }
-        
-        // Show auth interface
-        function showAuthInterface() {
-            loadingState.style.display = 'none';
-            tradingInterface.style.display = 'none';
-            authButtons.style.display = 'flex';
-            userAvatar.style.display = 'none';
-            logoutBtn.style.display = 'none';
-        }
-        
-        // Initialize chart
-        function initializeChart() {
-            const ctx = document.getElementById('priceChart').getContext('2d');
-            
-            // Generate sample data
-            const labels = [];
-            const data = [];
-            let price = 170;
-            
-            for (let i = 30; i >= 0; i--) {
-                labels.push(`Day ${i}`);
-                price += (Math.random() - 0.5) * 3;
-                data.push(price);
-            }
-            
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Price',
-                        data: data,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
+            // In a real app, this would fetch from Supabase
+            // For demo, we'll use mock data
+            const allCaterers = [
+                {
+                    id: 1,
+                    name: "Elegant Events Catering",
+                    description: "Premium catering for weddings and corporate events",
+                    price: 45,
+                    rating: 4.8,
+                    cuisine: "Mediterranean",
+                    tags: ["Wedding", "Corporate", "Vegetarian", "Vegan"],
+                    image: "https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    }
+                {
+                    id: 2,
+                    name: "Spice Route Indian Cuisine",
+                    description: "Authentic Indian catering with customizable menus",
+                    price: 35,
+                    rating: 4.9,
+                    cuisine: "Indian",
+                    tags: ["Spicy", "Vegetarian", "Halal", "Family Style"],
+                    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
+                },
+                {
+                    id: 3,
+                    name: "La Bella Italian Kitchen",
+                    description: "Traditional Italian catering for all occasions",
+                    price: 40,
+                    rating: 4.7,
+                    cuisine: "Italian",
+                    tags: ["Pasta", "Pizza", "Vegetarian", "Wine Pairing"],
+                    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
+                },
+                {
+                    id: 4,
+                    name: "Dragon Palace Chinese",
+                    description: "Authentic Chinese catering with banquet options",
+                    price: 30,
+                    rating: 4.5,
+                    cuisine: "Chinese",
+                    tags: ["Banquet", "Vegetarian", "Takeout", "Buffet"],
+                    image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
+                },
+                {
+                    id: 5,
+                    name: "Taco Fiesta Mexican",
+                    description: "Festive Mexican catering with taco bars",
+                    price: 25,
+                    rating: 4.6,
+                    cuisine: "Mexican",
+                    tags: ["Taco Bar", "Spicy", "Vegetarian", "Festive"],
+                    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
+                },
+                {
+                    id: 6,
+                    name: "BBQ Masters",
+                    description: "Southern-style BBQ catering",
+                    price: 38,
+                    rating: 4.8,
+                    cuisine: "American",
+                    tags: ["BBQ", "Outdoor", "Meat Lovers", "Catering"],
+                    image: "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=800"
                 }
+            ];
+            
+            // Render caterers
+            caterersContainer.innerHTML = '';
+            allCaterers.forEach(caterer => {
+                caterersContainer.innerHTML += createCatererCard(caterer);
+            });
+            
+            caterers = allCaterers;
+        }
+        
+        // Create Caterer Card HTML
+        function createCatererCard(caterer) {
+            const stars = '★'.repeat(Math.floor(caterer.rating)) + '☆'.repeat(5 - Math.floor(caterer.rating));
+            
+            return `
+                <div class="card">
+                    <img src="${caterer.image}" alt="${caterer.name}" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">${caterer.name}</h3>
+                        <div class="card-rating">${stars} (${caterer.rating})</div>
+                        <p>${caterer.description}</p>
+                        <div class="card-tags">
+                            <span class="tag">${caterer.cuisine}</span>
+                            ${caterer.tags ? caterer.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                        </div>
+                        <div class="card-price">From $${caterer.price}/person</div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="selectCaterer(${caterer.id})">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Filter Caterers
+        function filterCaterers() {
+            const searchTerm = document.getElementById('catererSearch').value.toLowerCase();
+            const cuisineFilter = document.getElementById('cuisineFilter').value;
+            
+            const filtered = caterers.filter(caterer => {
+                const matchesSearch = caterer.name.toLowerCase().includes(searchTerm) ||
+                                    caterer.description.toLowerCase().includes(searchTerm) ||
+                                    caterer.cuisine.toLowerCase().includes(searchTerm);
+                
+                const matchesCuisine = !cuisineFilter || caterer.cuisine === cuisineFilter;
+                
+                return matchesSearch && matchesCuisine;
+            });
+            
+            const container = document.getElementById('caterersList');
+            container.innerHTML = '';
+            filtered.forEach(caterer => {
+                container.innerHTML += createCatererCard(caterer);
             });
         }
         
-        // Update chart
-        function updateChart() {
-            if (!chart) return;
-            
-            const stock = marketData.find(s => s.symbol === selectedSymbol);
-            if (!stock) return;
-            
-            // Update chart with new data based on selected symbol
-            let price = stock.price - 10;
-            const newData = [];
-            
-            for (let i = 0; i < 31; i++) {
-                price += (Math.random() - 0.5) * 3;
-                newData.push(price);
+        // Start Booking Process
+        function startBooking() {
+            if (!currentUser) {
+                alert('Please login to book an event');
+                showSection('login');
+                return;
             }
             
-            chart.data.datasets[0].data = newData;
-            chart.update();
+            currentEventData = {};
+            showSection('booking');
+            resetBookingSteps();
         }
         
-        // Show notification
-        function showNotification(message, type = 'info') {
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.style.display = 'block';
+        // Reset Booking Steps
+        function resetBookingSteps() {
+            // Reset all steps
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('active', 'completed');
+                if (i === 1) step.classList.add('active');
+            }
             
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+            // Show step 1 content
+            document.getElementById('step1Content').classList.remove('hidden');
+            document.getElementById('step2Content').classList.add('hidden');
         }
         
-        // Setup event listeners
-        function setupEventListeners() {
-            // Auth buttons
-            loginBtn.addEventListener('click', () => {
-                authModal.style.display = 'flex';
-                document.getElementById('loginForm').classList.add('active');
-                document.getElementById('signupForm').classList.remove('active');
-                document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
-                document.querySelector('.auth-tab[data-tab="signup"]').classList.remove('active');
-            });
-            
-            signupBtn.addEventListener('click', () => {
-                authModal.style.display = 'flex';
-                document.getElementById('signupForm').classList.add('active');
-                document.getElementById('loginForm').classList.remove('active');
-                document.querySelector('.auth-tab[data-tab="signup"]').classList.add('active');
-                document.querySelector('.auth-tab[data-tab="login"]').classList.remove('active');
-            });
-            
-            // Auth tabs
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabName = tab.getAttribute('data-tab');
-                    
-                    // Update tabs
-                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    // Update forms
-                    document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
-                    document.getElementById(`${tabName}Form`).classList.add('active');
-                });
-            });
-            
-            // Login form
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
+        // Next Step in Booking
+        function nextStep(stepNumber) {
+            if (stepNumber === 2) {
+                // Save step 1 data
+                currentEventData.type = document.getElementById('eventType').value;
+                currentEventData.guests = document.getElementById('guestCount').value;
+                currentEventData.date = document.getElementById('eventDate').value;
+                currentEventData.location = document.getElementById('eventLocation').value;
                 
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
+                // Validate
+                if (!currentEventData.location) {
+                    alert('Please enter event location');
+                    return;
+                }
                 
-                const { data, error } = await supabase.auth.signInWithPassword({
+                // Update steps
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step1').classList.add('completed');
+                document.getElementById('step2').classList.add('active');
+                
+                // Show step 2 content
+                document.getElementById('step1Content').classList.add('hidden');
+                document.getElementById('step2Content').classList.remove('hidden');
+                
+                // Load available caterers for step 2
+                loadAvailableCaterers();
+            }
+        }
+        
+        // Previous Step in Booking
+        function prevStep(stepNumber) {
+            if (stepNumber === 1) {
+                // Update steps
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step1').classList.add('active');
+                
+                // Show step 1 content
+                document.getElementById('step2Content').classList.add('hidden');
+                document.getElementById('step1Content').classList.remove('hidden');
+            }
+        }
+        
+        // Load Available Caterers for Booking
+        function loadAvailableCaterers() {
+            const container = document.getElementById('availableCaterers');
+            container.innerHTML = '';
+            
+            // Filter caterers based on event type
+            caterers.forEach(caterer => {
+                container.innerHTML += createCatererCard(caterer);
+            });
+        }
+        
+        // Select Caterer for Booking
+        function selectCaterer(catererId) {
+            const selectedCaterer = caterers.find(c => c.id === catererId);
+            currentEventData.catererId = catererId;
+            currentEventData.catererName = selectedCaterer.name;
+            currentEventData.pricePerPerson = selectedCaterer.price;
+            
+            // Calculate total
+            const total = selectedCaterer.price * currentEventData.guests;
+            
+            // In a real app, this would proceed to menu selection
+            // For demo, we'll create a booking directly
+            createBooking(selectedCaterer, total);
+        }
+        
+        // Create Booking
+        async function createBooking(caterer, total) {
+            if (!currentUser) return;
+            
+            try {
+                // In a real app, this would save to Supabase
+                // For demo, we'll show a confirmation
+                alert(`Booking confirmed with ${caterer.name} for ${currentEventData.guests} guests on ${currentEventData.date}. Total: $${total}`);
+                
+                // Add to user events
+                const event = {
+                    id: Date.now(),
+                    caterer: caterer.name,
+                    type: currentEventData.type,
+                    date: currentEventData.date,
+                    guests: currentEventData.guests,
+                    location: currentEventData.location,
+                    total: total,
+                    status: 'Confirmed'
+                };
+                
+                // Save to localStorage for demo
+                let userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
+                userEvents.push(event);
+                localStorage.setItem('userEvents', JSON.stringify(userEvents));
+                
+                // Reload user events
+                loadUserEvents();
+                
+                // Return to dashboard
+                showSection('dashboard');
+            } catch (error) {
+                console.error('Booking error:', error);
+                alert('Error creating booking. Please try again.');
+            }
+        }
+        
+        // Login Function
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+            
+            if (!email || !password) {
+                messageDiv.textContent = 'Please fill in all fields';
+                messageDiv.className = 'message error';
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email,
                     password
                 });
                 
-                if (error) {
-                    showNotification(error.message, 'error');
-                    return;
-                }
+                if (error) throw error;
                 
                 currentUser = data.user;
-                authModal.style.display = 'none';
-                showNotification('Login successful!', 'success');
-                await loadUserData();
-                showTradingInterface();
-            });
+                showUserMenu();
+                messageDiv.textContent = 'Login successful!';
+                messageDiv.className = 'message success';
+                
+                // Redirect to dashboard after 1 second
+                setTimeout(() => {
+                    showSection('dashboard');
+                }, 1000);
+                
+            } catch (error) {
+                messageDiv.textContent = error.message;
+                messageDiv.className = 'message error';
+            }
+        }
+        
+        // Register Function
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const messageDiv = document.getElementById('registerMessage');
             
-            // Signup form
-            document.getElementById('signupForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('signupEmail').value;
-                const password = document.getElementById('signupPassword').value;
-                const fullName = document.getElementById('signupFullName').value;
-                
-                const { data, error } = await supabase.auth.signUp({
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                messageDiv.textContent = 'Please fill in all required fields';
+                messageDiv.className = 'message error';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                messageDiv.textContent = 'Passwords do not match';
+                messageDiv.className = 'message error';
+                return;
+            }
+            
+            if (password.length < 6) {
+                messageDiv.textContent = 'Password must be at least 6 characters';
+                messageDiv.className = 'message error';
+                return;
+            }
+            
+            try {
+                // Register user with Supabase Auth
+                const { data, error } = await supabaseClient.auth.signUp({
                     email,
                     password,
                     options: {
                         data: {
-                            full_name: fullName
+                            full_name: name,
+                            phone: phone
                         }
                     }
                 });
                 
-                if (error) {
-                    showNotification(error.message, 'error');
-                    return;
-                }
+                if (error) throw error;
                 
-                showNotification('Account created! Please check your email for verification.', 'success');
-                authModal.style.display = 'none';
+                messageDiv.textContent = 'Registration successful! Please check your email for confirmation.';
+                messageDiv.className = 'message success';
+                
+                // Clear form
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPhone').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerConfirmPassword').value = '';
+                
+                // Auto login after registration
+                setTimeout(() => {
+                    login();
+                }, 2000);
+                
+            } catch (error) {
+                messageDiv.textContent = error.message;
+                messageDiv.className = 'message error';
+            }
+        }
+        
+        // Logout Function
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            currentUser = null;
+            showAuthButtons();
+            showSection('home');
+        }
+        
+        // Load User Events
+        function loadUserEvents() {
+            const eventsContainer = document.getElementById('userEvents');
+            
+            // For demo, use localStorage
+            const userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
+            
+            if (userEvents.length === 0) {
+                eventsContainer.innerHTML = '<p>No events booked yet.</p>';
+                return;
+            }
+            
+            eventsContainer.innerHTML = '';
+            userEvents.forEach(event => {
+                eventsContainer.innerHTML += `
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <div class="card-content">
+                            <h3 class="card-title">${event.type} - ${event.caterer}</h3>
+                            <p><strong>Date:</strong> ${event.date}</p>
+                            <p><strong>Location:</strong> ${event.location}</p>
+                            <p><strong>Guests:</strong> ${event.guests}</p>
+                            <p><strong>Total:</strong> $${event.total}</p>
+                            <div class="tag" style="background: var(--success); color: white;">${event.status}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Show Dashboard Tab
+        function showDashboardTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
             });
             
-            // Logout
-            logoutBtn.addEventListener('click', async () => {
-                await supabase.auth.signOut();
-                currentUser = null;
-                accountData = null;
-                positions = [];
-                orders = [];
-                showAuthInterface();
-                showNotification('Logged out successfully', 'info');
+            // Remove active class from all menu items
+            document.querySelectorAll('.sidebar-menu a').forEach(item => {
+                item.classList.remove('active');
             });
             
-            // Close modal when clicking outside
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    authModal.style.display = 'none';
-                }
-            });
+            // Show selected tab
+            document.getElementById(tabId + 'Tab').classList.add('active');
             
-            // Order form events
-            document.getElementById('orderType').addEventListener('change', function() {
-                if (this.value === 'limit' || this.value === 'stop') {
-                    document.getElementById('limitPriceGroup').style.display = 'block';
-                } else {
-                    document.getElementById('limitPriceGroup').style.display = 'none';
-                }
-                updateEstimatedCost();
-            });
-            
-            document.getElementById('orderSymbol').addEventListener('change', updateEstimatedCost);
-            document.getElementById('orderSide').addEventListener('change', updateEstimatedCost);
-            document.getElementById('orderQuantity').addEventListener('input', updateEstimatedCost);
-            document.getElementById('limitPrice').addEventListener('input', updateEstimatedCost);
-            
-            // Place order button
-            document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-                await placeOrder();
-            });
-            
-            // Reset order button
-            document.getElementById('resetOrderBtn').addEventListener('click', resetOrderForm);
-            
-            // Timeframe selector
-            document.getElementById('timeframe').addEventListener('change', updateChart);
+            // Add active class to clicked menu item
+            event.target.classList.add('active');
+        }
+        
+        // Search Caterers
+        function searchCaterers() {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm) {
+                showSection('caterers');
+                document.getElementById('catererSearch').value = searchTerm;
+                filterCaterers();
+            }
         }
     </script>
+    
+    <!-- Include Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
